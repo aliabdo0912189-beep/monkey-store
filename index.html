@@ -2,246 +2,186 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111111">
-  <meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
-  <title>MONKEY | متجر القرود</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
+<title>MONKEY | متجر قطع غيار السيارات</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+body {
+  margin: 0;
+  background: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+}
 
-    body {
-      margin: 0;
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+header {
+  background: #1b1b1b;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ff8500;
+}
 
-    header {
-      background: #1b1b1b;
-      padding: 15px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      border-bottom: 2px solid #ff8500;
-    }
+.logo {
+  color: #ff8500;
+  font-size: 27px;
+  font-weight: bold;
+}
 
-    .logo {
-      color: #ff8500;
-      font-size: 27px;
-      font-weight: bold;
-    }
+.tagline { color: #ddd; font-size: 12px; }
 
-    .tagline {
-      color: #ddd;
-      font-size: 12px;
-    }
+.hero {
+  text-align: center;
+  padding: 30px 15px;
+  background: linear-gradient(140deg,#242424,#111);
+}
 
-    .header-link {
-      color: #ffae42;
-      text-decoration: none;
-      border: 1px solid #ff8500;
-      padding: 9px 13px;
-      border-radius: 9px;
-      font-size: 13px;
-    }
+.hero h1 { color: #ff8500; font-size: 27px; }
+.hero p { color: #ccc; line-height: 1.8; }
 
-    .header-link:hover {
-      background: #ff8500;
-      color: #111;
-    }
+.search {
+  width: 90%;
+  max-width: 500px;
+  padding: 14px;
+  border: 1px solid #ff8500;
+  border-radius: 12px;
+  background: #222;
+  color: white;
+  font-size: 16px;
+}
 
-    .hero {
-      text-align: center;
-      padding: 35px 15px;
-      background: linear-gradient(140deg,#242424,#111);
-    }
+.section { padding: 15px; }
+.section h2 { color: #ffae42; }
 
-    .hero h1 {
-      color: #ff8500;
-      font-size: 30px;
-    }
+.products {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
+}
 
-    .hero p {
-      color: #ccc;
-      line-height: 1.8;
-    }
+.product {
+  background: #202020;
+  border: 1px solid #383838;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  min-width: 0;
+  overflow: hidden;
+}
 
-    .search {
-      width: 90%;
-      max-width: 500px;
-      padding: 14px;
-      border: 1px solid #ff8500;
-      border-radius: 12px;
-      background: #222;
-      color: white;
-      font-size: 16px;
-    }
+.product img {
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+}
 
-    .section {
-      padding: 20px;
-    }
+.product h3 {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
 
-    .section h2 {
-      color: #ffae42;
-    }
+.product p {
+  color: #aaa;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: stretch;
-      gap: 12px;
-    }
+.product strong {
+  color: #ffae42;
+  overflow-wrap: anywhere;
+}
 
-    .product {
-      min-width: 0;
-      overflow: hidden;
-      background: #202020;
-      border: 1px solid #383838;
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-    }
+.empty {
+  grid-column: 1 / -1;
+  padding: 30px 12px;
+  text-align: center;
+  color: #bbb;
+  border: 1px dashed #555;
+  border-radius: 12px;
+  line-height: 1.9;
+}
 
-    .product-photo {
-      width: 100%;
-      max-width: 100%;
-      overflow: hidden;
-      border-radius: 8px;
-    }
+footer {
+  padding: 18px;
+  text-align: center;
+  color: #aaa;
+  background: #1b1b1b;
+  margin-top: 30px;
+  font-size: 13px;
+}
 
-    .product-photo img {
-      max-width: 100%;
-    }
+.about-button {
+  background: transparent;
+  color: #ffae42;
+  border: 1px solid #ff8500;
+  border-radius: 20px;
+  padding: 9px 22px;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-    .product h3 {
-      font-size: 15px;
-      overflow-wrap: anywhere;
-    }
+dialog {
+  background: #202020;
+  color: white;
+  border: 1px solid #ff8500;
+  border-radius: 15px;
+  width: calc(100% - 35px);
+  max-width: 420px;
+  padding: 22px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
 
-    .product p {
-      color: #aaa;
-      font-size: 12px;
-      line-height: 1.7;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
+dialog::backdrop {
+  background: rgba(0,0,0,.8);
+}
 
-    /* منع الوصف الطويل من الخروج من البطاقة */
-    .product p {
-      max-width: 100%;
-    }
+.about-title {
+  color: #ff8500;
+  text-align: center;
+}
 
-    .product .placeholder {
-      height: 105px;
-      display: grid;
-      place-items: center;
-      background: #292929;
-      border-radius: 8px;
-      color: #ff8500;
-      font-size: 35px;
-    }
+.about-text {
+  color: #ddd;
+  line-height: 1.9;
+  text-align: center;
+}
 
-    .product strong {
-      overflow-wrap: anywhere;
-      line-height: 1.8;
-    }
+.about-info {
+  background: #292929;
+  padding: 12px;
+  border-radius: 10px;
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
 
-    .product a {
-      overflow-wrap: anywhere;
-    }
+.about-info a {
+  color: #ffae42;
+  text-decoration: none;
+}
 
-    .empty {
-      grid-column: 1 / -1;
-      padding: 30px 12px;
-      text-align: center;
-      color: #bbb;
-      border: 1px dashed #555;
-      border-radius: 12px;
-      line-height: 1.9;
-    }
+.close-button {
+  background: #ff8500;
+  color: #111;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 25px;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  margin: 18px auto 0;
+}
 
-    /* قسم حول المتجر */
-    .about {
-      margin: 20px;
-      padding: 22px;
-      background: #202020;
-      border: 1px solid #ff8500;
-      border-radius: 14px;
-      line-height: 2;
-      scroll-margin-top: 20px;
-    }
-
-    .about h2 {
-      color: #ffae42;
-      text-align: center;
-      margin-top: 0;
-    }
-
-    .about-intro {
-      color: #ccc;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .about p {
-      color: #ddd;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .about a {
-      color: #ffae42;
-      text-decoration: none;
-      direction: ltr;
-      display: inline-block;
-    }
-
-    .about a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      padding: 20px;
-      text-align: center;
-      color: #aaa;
-      background: #1b1b1b;
-      margin-top: 35px;
-      font-size: 13px;
-      line-height: 2;
-      border-top: 1px solid #383838;
-    }
-
-    footer h3 {
-      color: #ff8500;
-    }
-
-    @media (max-width: 360px) {
-      .products {
-        gap: 8px;
-      }
-
-      .product {
-        padding: 8px;
-      }
-
-      .logo {
-        font-size: 23px;
-      }
-    }
-  </style>
+@media (max-width: 350px) {
+  .products { gap: 7px; }
+  .product { padding: 8px; }
+}
+</style>
 </head>
 
 <body>
@@ -251,29 +191,21 @@
     <div class="logo">🐵 MONKEY</div>
     <div class="tagline">متجر قطع غيار السيارات</div>
   </div>
-
-  <a class="header-link" href="#about">حول المتجر</a>
+  <div>🛠️</div>
 </header>
 
 <section class="hero">
   <h1>مرحباً بك في MONKEY</h1>
-
   <p>
     قطع غيار السيارات الجديدة والمستعملة<br>
     الجودة والاختيار المناسب في مكان واحد
   </p>
-
-  <input
-    class="search"
-    id="search"
-    type="search"
-    placeholder="ابحث عن قطعة الغيار..."
-  >
+  <input class="search" id="search"
+    type="search" placeholder="ابحث عن قطعة الغيار...">
 </section>
 
 <section class="section">
   <h2>🛒 منتجاتنا</h2>
-
   <div class="products" id="products">
     <div class="empty">
       <div style="font-size:40px">🔧</div>
@@ -284,58 +216,69 @@
   </div>
 </section>
 
-<!-- حول المتجر -->
-<section class="about" id="about">
+<footer>
+  <button class="about-button"
+    onclick="document.getElementById('aboutDialog').showModal()">
+    حول المتجر
+  </button>
+  <p>جميع الحقوق محفوظة © MONKEY</p>
+</footer>
 
-  <h2>🐵 حول متجر MONKEY</h2>
+<dialog id="aboutDialog">
+  <h2 class="about-title">🐵 حول متجر MONKEY</h2>
 
-  <p class="about-intro">
+  <p class="about-text">
     متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة.
     نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.
   </p>
 
-  <p>
-    <strong>صاحب المتجر:</strong><br>
-    مهندس علي عبد المنعم أحمد ابراهيم
-  </p>
+  <div class="about-info">
+    <strong>مهندس علي عبد المنعم أحمد ابراهيم</strong>
 
-  <p>
-    📧 <strong>البريد الإلكتروني:</strong><br>
-    <a href="mailto:ali.abdo0912189@gmail.com">
-      ali.abdo0912189@gmail.com
-    </a>
-  </p>
+    <p>
+      📧 البريد الإلكتروني:<br>
+      <a href="mailto:ali.abdo0912189@gmail.com">
+        ali.abdo0912189@gmail.com
+      </a>
+    </p>
 
-  <p>
-    🇸🇩 <strong>واتساب السودان:</strong><br>
-    <a href="https://wa.me/249912189332" target="_blank">
-      00249912189332
-    </a>
-  </p>
+    <p>
+      🇸🇩 واتساب السودان:<br>
+      <a href="https://wa.me/249912189332">
+        00249912189332
+      </a>
+    </p>
 
-  <p>
-    🇸🇦 <strong>واتساب السعودية:</strong><br>
-    <a href="https://wa.me/966551093268" target="_blank">
-      00966551093268
-    </a>
-  </p>
+    <p>
+      🇸🇦 واتساب السعودية:<br>
+      <a href="https://wa.me/966551093268">
+        00966551093268
+      </a>
+    </p>
 
-  <p>
-    📞 <strong>هاتف السعودية:</strong><br>
-    <a href="tel:+966533040960">
-      00966533040960
-    </a>
-  </p>
+    <p>
+      📞 هاتف السعودية:<br>
+      <a href="tel:+966533040960">
+        00966533040960
+      </a>
+    </p>
+  </div>
 
-</section>
+  <form method="dialog">
+    <button class="close-button">إغلاق ✕</button>
+  </form>
+</dialog>
 
-<footer>
-  <h3>🐵 MONKEY</h3>
-  <p>متجر القرود لقطع غيار السيارات</p>
-  <p>جميع الحقوق محفوظة © MONKEY</p>
-</footer>
+<script>
+const aboutDialog = document.getElementById("aboutDialog");
+
+aboutDialog.addEventListener("click", function(event) {
+  if (event.target === aboutDialog) {
+    aboutDialog.close();
+  }
+});
+</script>
 
 <script src="app.js"></script>
-
 </body>
 </html>
