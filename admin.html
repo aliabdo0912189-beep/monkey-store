@@ -22,18 +22,27 @@ border-radius:8px;font-size:15px
 button{
 width:100%;padding:14px;background:#ff8500;color:#111;
 border:0;border-radius:9px;font-size:16px;font-weight:bold;
-margin-top:8px
+margin-top:8px;cursor:pointer
 }
 .secondary{background:#444;color:white}
+.danger{background:#a92828;color:white}
+.small{width:auto;padding:9px 13px;font-size:13px;margin:4px}
 .hidden{display:none}
 .message{color:#ffae42;line-height:1.8;white-space:pre-wrap}
+.product-item{padding:13px 0;border-bottom:1px solid #555;line-height:1.8}
+.product-images{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
+.product-images img{width:75px;height:75px;object-fit:cover;border-radius:8px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.actions button{flex:1;min-width:90px}
 </style>
 </head>
 <body>
+
 <header>
 <h2>🐵 MONKEY</h2>
 <p>لوحة إدارة المتجر</p>
 </header>
+
 <main>
 
 <div class="panel" id="loginPanel">
@@ -47,6 +56,7 @@ margin-top:8px
 </div>
 
 <div id="adminPanel" class="hidden">
+
 <div class="panel">
 <h3>إعدادات الأسعار</h3>
 <label>سعر صرف الريال السعودي بالجنيه السوداني</label>
@@ -57,30 +67,43 @@ margin-top:8px
 </div>
 
 <div class="panel">
-<h3>إضافة قطعة غيار</h3>
+<h3 id="formTitle">إضافة قطعة غيار</h3>
+
 <label>اسم القطعة</label>
 <input id="name" placeholder="اسم القطعة">
+
 <label>الوصف</label>
 <textarea id="description" placeholder="تفاصيل القطعة"></textarea>
+
 <label>حالة القطعة</label>
 <select id="condition">
 <option value="new">جديدة</option>
 <option value="used">مستعملة</option>
 </select>
+
 <label>التكلفة بالريال السعودي</label>
 <input id="cost" type="number" min="0">
+
 <label>السعر اليدوي بالجنيه السوداني (اختياري)</label>
 <input id="manualPrice" type="number" min="0">
+
 <label>صور القطعة</label>
 <input id="images" type="file" accept="image/*" multiple>
-<label><input id="available" type="checkbox" checked style="width:auto"> متوفر للبيع</label>
+<div class="message">عند التعديل، اختيار صور جديدة يستبدل الصور القديمة.</div>
+
+<label>
+<input id="available" type="checkbox" checked style="width:auto">
+متوفر للبيع
+</label>
+
 <button id="addProduct">إضافة المنتج</button>
+<button id="cancelEdit" class="secondary hidden">إلغاء التعديل</button>
 <div id="productMessage" class="message"></div>
 </div>
 
 <div class="panel">
 <h3>المنتجات المسجلة</h3>
-<div id="productList">لا توجد منتجات بعد</div>
+<div id="productList">جارٍ تحميل المنتجات...</div>
 </div>
 
 <button class="secondary" id="logoutBtn">تسجيل الخروج</button>
@@ -99,15 +122,16 @@ const db = createClient(URL, KEY);
 const $ = id => document.getElementById(id);
 const msg = (id, text) => { $(id).textContent = text; };
 
+let editingId = null;
+
 async function isAdmin() {
   const { data: { user }, error: userError } = await db.auth.getUser();
-
   if (userError || !user) return false;
 
   const { data, error } = await db.rpc('is_store_admin');
 
   if (error) {
-    msg('loginMessage', 'خطأ التحقق من صلاحية المدير: ' + error.message);
+    msg('loginMessage','خطأ التحقق من صلاحية المدير: '+error.message);
     return false;
   }
 
@@ -129,14 +153,17 @@ async function openPanel() {
 
 $('loginBtn').onclick = async () => {
   msg('loginMessage','جارٍ تسجيل الدخول...');
+
   const {error} = await db.auth.signInWithPassword({
     email:$('email').value.trim(),
     password:$('password').value
   });
+
   if(error) {
     msg('loginMessage','خطأ: '+error.message);
     return;
   }
+
   await openPanel();
 };
 
@@ -149,8 +176,8 @@ async function loadSettings() {
     return;
   }
 
-  $('exchangeRate').value = data.exchange_rate || '';
-  $('profitPercent').value = data.profit_percent || '';
+  $('exchangeRate').value = data.exchange_rate ?? '';
+  $('profitPercent').value = data.profit_percent ?? '';
 }
 
 $('saveSettings').onclick = async () => {
@@ -170,14 +197,58 @@ $('saveSettings').onclick = async () => {
   msg('generalMessage',error ? error.message : 'تم حفظ الإعدادات بنجاح.');
 };
 
+async function uploadImages(files) {
+  const urls = [];
+
+  for(const file of files) {
+    if(!file.type.startsWith('image/')) {
+      throw new Error('الملف المختار ليس صورة.');
+    }
+
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const path = Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+safeName;
+
+    const {error} = await db.storage
+      .from('product-images').upload(path,file);
+
+    if(error) throw error;
+
+    const {data} = db.storage.from('product-images').getPublicUrl(path);
+    urls.push(data.publicUrl);
+  }
+
+  return urls;
+}
+
+function resetForm() {
+  editingId = null;
+  $('formTitle').textContent = 'إضافة قطعة غيار';
+  $('addProduct').textContent = 'إضافة المنتج';
+  $('cancelEdit').classList.add('hidden');
+
+  $('name').value = '';
+  $('description').value = '';
+  $('condition').value = 'new';
+  $('cost').value = '';
+  $('manualPrice').value = '';
+  $('images').value = '';
+  $('available').checked = true;
+}
+
+$('cancelEdit').onclick = () => {
+  resetForm();
+  msg('productMessage','تم إلغاء التعديل.');
+};
+
 $('addProduct').onclick = async () => {
-  msg('productMessage','جارٍ إضافة المنتج...');
+  msg('productMessage','جارٍ حفظ المنتج...');
 
   const name = $('name').value.trim();
-  const cost = Number($('cost').value);
+  const costText = $('cost').value.trim();
+  const cost = Number(costText);
   const manual = $('manualPrice').value.trim();
 
-  if(!name || cost < 0 || !Number.isFinite(cost)) {
+  if(!name || costText === '' || !Number.isFinite(cost) || cost < 0) {
     msg('productMessage','أدخل اسم القطعة والتكلفة بشكل صحيح.');
     return;
   }
@@ -194,88 +265,181 @@ $('addProduct').onclick = async () => {
   const price = fixed ? Number(manual) :
     Math.round(cost * rate * (1 + profit / 100));
 
-  if(price <= 0 || !Number.isFinite(price)) {
+  if(!Number.isFinite(price) || price <= 0) {
     msg('productMessage','السعر غير صحيح.');
     return;
   }
 
-  const files = Array.from($('images').files);
-  const urls = [];
+  try {
+    const files = Array.from($('images').files);
+    let imageUrls = [];
 
-  for(const file of files) {
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-    const path = Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+safeName;
+    if(editingId) {
+      const {data:oldProduct,error:readError} = await db.from('products')
+        .select('image_urls').eq('id',editingId).single();
 
-    const {error:uploadError} = await db.storage
-      .from('product-images').upload(path,file);
+      if(readError) throw readError;
 
-    if(uploadError) {
-      msg('productMessage','خطأ رفع الصورة: '+uploadError.message);
-      return;
+      imageUrls = oldProduct.image_urls || [];
+
+      if(files.length) {
+        imageUrls = await uploadImages(files);
+      }
+    } else {
+      imageUrls = await uploadImages(files);
     }
 
-    const {data} = db.storage.from('product-images').getPublicUrl(path);
-    urls.push(data.publicUrl);
-  }
+    const productData = {
+      name,
+      description:$('description').value.trim(),
+      condition:$('condition').value,
+      cost_sar:cost,
+      exchange_rate:rate,
+      profit_percent:profit,
+      price_sdg:price,
+      fixed_price:fixed,
+      image_urls:imageUrls,
+      available:$('available').checked
+    };
 
-  const {error} = await db.from('products').insert({
-    name:name,
-    description:$('description').value.trim(),
-    condition:$('condition').value,
-    cost_sar:cost,
-    exchange_rate:rate,
-    profit_percent:profit,
-    price_sdg:price,
-    fixed_price:fixed,
-    image_urls:urls,
-    available:$('available').checked
-  });
+    let error;
+
+    if(editingId) {
+      ({error} = await db.from('products')
+        .update(productData).eq('id',editingId));
+    } else {
+      ({error} = await db.from('products').insert(productData));
+    }
+
+    if(error) throw error;
+
+    msg('productMessage',editingId ?
+      'تم تعديل المنتج بنجاح.' : 'تمت إضافة المنتج بنجاح.');
+
+    resetForm();
+    await loadProducts();
+
+  } catch(error) {
+    msg('productMessage','حدث خطأ: '+error.message);
+  }
+};
+
+async function editProduct(id) {
+  const {data,error} = await db.from('products')
+    .select('*').eq('id',id).single();
 
   if(error) {
-    msg('productMessage','خطأ إضافة المنتج: '+error.message);
+    msg('productMessage','خطأ تحميل المنتج: '+error.message);
     return;
   }
 
-  msg('productMessage','تمت إضافة المنتج بنجاح.');
-  $('name').value='';
-  $('description').value='';
-  $('cost').value='';
-  $('manualPrice').value='';
-  $('images').value='';
+  editingId = id;
+
+  $('formTitle').textContent = 'تعديل قطعة الغيار';
+  $('addProduct').textContent = 'حفظ التعديلات';
+  $('cancelEdit').classList.remove('hidden');
+
+  $('name').value = data.name || '';
+  $('description').value = data.description || '';
+  $('condition').value = data.condition || 'new';
+  $('cost').value = data.cost_sar ?? '';
+  $('manualPrice').value = data.fixed_price ? data.price_sdg : '';
+  $('available').checked = data.available;
+  $('images').value = '';
+
+  $('productMessage').textContent =
+    'يمكنك تعديل البيانات. اترك الصور دون اختيار للاحتفاظ بالصور الحالية.';
+
+  $('formTitle').scrollIntoView({behavior:'smooth'});
+}
+
+async function deleteProduct(id) {
+  const confirmed = confirm('هل أنت متأكد أنك تريد حذف هذه القطعة؟');
+  if(!confirmed) return;
+
+  msg('productMessage','جارٍ حذف المنتج...');
+
+  const {error} = await db.from('products').delete().eq('id',id);
+
+  if(error) {
+    msg('productMessage','خطأ الحذف: '+error.message);
+    return;
+  }
+
+  if(editingId === id) resetForm();
+
+  msg('productMessage','تم حذف المنتج بنجاح.');
   await loadProducts();
-};
+}
 
 async function loadProducts() {
   const {data,error} = await db.from('products')
-    .select('id,name,price_sdg,available')
+    .select('id,name,description,condition,cost_sar,exchange_rate,profit_percent,price_sdg,fixed_price,image_urls,available')
     .order('created_at',{ascending:false});
 
   if(error) {
-    msg('productList','خطأ: '+error.message);
+    msg('productList','خطأ تحميل المنتجات: '+error.message);
     return;
   }
+
+  $('productList').replaceChildren();
 
   if(!data.length) {
     msg('productList','لا توجد منتجات مسجلة.');
     return;
   }
 
-  $('productList').replaceChildren();
-
   data.forEach(product => {
     const item = document.createElement('div');
-    item.style.cssText='padding:12px;border-bottom:1px solid #555;line-height:1.8';
+    item.className = 'product-item';
 
     const name = document.createElement('strong');
     name.textContent = product.name;
 
     const price = document.createElement('div');
-    price.textContent = Number(product.price_sdg).toLocaleString('ar')+' جنيه سوداني';
+    price.textContent =
+      Number(product.price_sdg).toLocaleString('ar')+' جنيه سوداني';
+
+    const condition = document.createElement('div');
+    condition.textContent =
+      product.condition === 'new' ? 'الحالة: جديدة' : 'الحالة: مستعملة';
 
     const status = document.createElement('div');
-    status.textContent = product.available ? 'متوفر' : 'غير متوفر';
+    status.textContent = product.available ? 'متوفر للبيع' : 'غير متوفر';
 
-    item.append(name,price,status);
+    item.append(name,price,condition,status);
+
+    if(product.image_urls && product.image_urls.length) {
+      const images = document.createElement('div');
+      images.className = 'product-images';
+
+      product.image_urls.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = product.name;
+        img.loading = 'lazy';
+        images.append(img);
+      });
+
+      item.append(images);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+
+    const editButton = document.createElement('button');
+    editButton.className = 'small';
+    editButton.textContent = '✏️ تعديل';
+    editButton.onclick = () => editProduct(product.id);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'small danger';
+    deleteButton.textContent = '🗑️ حذف';
+    deleteButton.onclick = () => deleteProduct(product.id);
+
+    actions.append(editButton,deleteButton);
+    item.append(actions);
+
     $('productList').append(item);
   });
 }
@@ -284,8 +448,16 @@ $('logoutBtn').onclick = async () => {
   await db.auth.signOut();
   $('adminPanel').classList.add('hidden');
   $('loginPanel').classList.remove('hidden');
+  resetForm();
   msg('loginMessage','تم تسجيل الخروج.');
 };
+
+db.auth.getSession().then(async ({data}) => {
+  if(data.session) await openPanel();
+});
 </script>
 </body>
 </html>
+
+
+  
