@@ -1,0 +1,29 @@
+
+{
+  "id": "/",
+  "name": "MONKEY - متجر قطع غيار السيارات",
+  "short_name": "MONKEY",
+  "description": "متجر قطع غيار السيارات الجديدة والمستعملة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/monkey-iconpng.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/monkey-iconpng.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
