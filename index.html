@@ -44,15 +44,36 @@ header {
 .hero h1 { color: #ff8500; font-size: 27px; }
 .hero p { color: #ccc; line-height: 1.8; }
 
-.search {
+.search-box {
+  position: relative;
   width: 90%;
   max-width: 500px;
-  padding: 14px;
+  margin: auto;
+}
+
+.search {
+  width: 100%;
+  padding: 14px 43px 14px 14px;
   border: 1px solid #ff8500;
   border-radius: 12px;
   background: #222;
   color: white;
   font-size: 16px;
+  outline: none;
+}
+
+.search:focus {
+  border-color: #ffae42;
+  box-shadow: 0 0 7px #ff850055;
+}
+
+.search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 19px;
+  pointer-events: none;
 }
 
 .section { padding: 15px; }
@@ -200,12 +221,19 @@ dialog::backdrop {
     قطع غيار السيارات الجديدة والمستعملة<br>
     الجودة والاختيار المناسب في مكان واحد
   </p>
-  <input class="search" id="search"
-    type="search" placeholder="ابحث عن قطعة الغيار...">
+
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input class="search" id="search"
+      type="search"
+      placeholder="ابحث عن قطعة الغيار..."
+      autocomplete="off">
+  </div>
 </section>
 
 <section class="section">
   <h2>🛒 منتجاتنا</h2>
+
   <div class="products" id="products">
     <div class="empty">
       <div style="font-size:40px">🔧</div>
@@ -276,6 +304,51 @@ aboutDialog.addEventListener("click", function(event) {
   if (event.target === aboutDialog) {
     aboutDialog.close();
   }
+});
+
+/* البحث داخل المنتجات المعروضة */
+const searchInput = document.getElementById("search");
+const productsContainer = document.getElementById("products");
+
+function filterProducts() {
+  const query = searchInput.value.trim().toLocaleLowerCase("ar");
+
+  const cards = productsContainer.querySelectorAll(".product");
+  let visible = 0;
+
+  cards.forEach(card => {
+    const text = card.textContent.toLocaleLowerCase("ar");
+    const match = text.includes(query);
+
+    card.style.display = match ? "" : "none";
+
+    if (match) visible++;
+  });
+
+  let message = productsContainer.querySelector(".search-no-results");
+
+  if (query && cards.length > 0 && visible === 0) {
+    if (!message) {
+      message = document.createElement("div");
+      message.className = "empty search-no-results";
+      message.textContent = "لم نجد قطعة بهذا الاسم.";
+      productsContainer.appendChild(message);
+    }
+  } else if (message) {
+    message.remove();
+  }
+}
+
+searchInput.addEventListener("input", filterProducts);
+
+/* إعادة تطبيق البحث عند تحميل المنتجات أو تحديثها */
+const productsObserver = new MutationObserver(() => {
+  filterProducts();
+});
+
+productsObserver.observe(productsContainer, {
+  childList: true,
+  subtree: true
 });
 </script>
 
