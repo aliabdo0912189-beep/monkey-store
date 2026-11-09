@@ -27,6 +27,19 @@ header {
   border-bottom: 2px solid #ff8500;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-image {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
 .logo {
   color: #ff8500;
   font-size: 27px;
@@ -201,6 +214,8 @@ dialog::backdrop {
 @media (max-width: 350px) {
   .products { gap: 7px; }
   .product { padding: 8px; }
+  .logo-image { width: 50px; height: 50px; }
+  .logo { font-size: 23px; }
 }
 </style>
 </head>
@@ -208,9 +223,12 @@ dialog::backdrop {
 <body>
 
 <header>
-  <div>
-    <div class="logo">🐵 MONKEY</div>
-    <div class="tagline">متجر قطع غيار السيارات</div>
+  <div class="brand">
+    <img class="logo-image" src="monkey-logo.png" alt="شعار MONKEY">
+    <div>
+      <div class="logo">MONKEY</div>
+      <div class="tagline">متجر قطع غيار السيارات</div>
+    </div>
   </div>
   <div>🛠️</div>
 </header>
@@ -306,7 +324,6 @@ aboutDialog.addEventListener("click", function(event) {
   }
 });
 
-/* البحث داخل المنتجات المعروضة */
 const searchInput = document.getElementById("search");
 const productsContainer = document.getElementById("products");
 
@@ -341,7 +358,6 @@ function filterProducts() {
 
 searchInput.addEventListener("input", filterProducts);
 
-/* إعادة تطبيق البحث عند تحميل المنتجات أو تحديثها */
 const productsObserver = new MutationObserver(() => {
   filterProducts();
 });
