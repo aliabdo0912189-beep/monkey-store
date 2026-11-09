@@ -6,6 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
 <meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
+
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" href="/monkey-iconpng.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MONKEY">
+
 <title>MONKEY | متجر قطع غيار السيارات</title>
 
 <style>
@@ -372,5 +379,16 @@ productsObserver.observe(productsContainer, {
 </script>
 
 <script src="app.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js")
+      .then(() => console.log("MONKEY App Ready"))
+      .catch(error => console.error("Service Worker Error:", error));
+  });
+}
+</script>
+
 </body>
 </html>
