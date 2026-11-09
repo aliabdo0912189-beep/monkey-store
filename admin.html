@@ -100,17 +100,18 @@ const $ = id => document.getElementById(id);
 const msg = (id, text) => { $(id).textContent = text; };
 
 async function isAdmin() {
-  const {data:{user}} = await db.auth.getUser();
-  if (!user) return false;
+  const { data: { user }, error: userError } = await db.auth.getUser();
 
-  const {data,error} = await db.from('store_admins')
-    .select('user_id').eq('user_id',user.id).maybeSingle();
+  if (userError || !user) return false;
 
-  if(error) {
-    msg('loginMessage','خطأ التحقق: '+error.message);
+  const { data, error } = await db.rpc('is_store_admin');
+
+  if (error) {
+    msg('loginMessage', 'خطأ التحقق من صلاحية المدير: ' + error.message);
     return false;
   }
-  return !!data;
+
+  return data === true;
 }
 
 async function openPanel() {
