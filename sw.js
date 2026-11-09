@@ -1,18 +1,17 @@
 
-const CACHE_NAME = "monkey-store-v1";
+const CACHE_NAME = "monkey-store-v2";
 
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/monkey-iconpng.png"
+  "/monkey-icon.png"
 ];
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(FILES_TO_CACHE))
   );
 
   self.skipWaiting();
@@ -38,12 +37,17 @@ self.addEventListener("fetch", event => {
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        if (response.ok && new URL(event.request.url).origin === self.location.origin) {
+        if (
+          response.ok &&
+          new URL(event.request.url).origin === self.location.origin
+        ) {
           const copy = response.clone();
+
           caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, copy);
           });
         }
+
         return response;
       })
       .catch(() => caches.match(event.request))
