@@ -1,87 +1,343 @@
 
-const CACHE_NAME = "monkey-store-v3";
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
+  <link rel="icon" type="image/png" href="./monkey-icon.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <title>MONKEY | متجر القرود</title>
 
-const FILES_TO_CACHE = [
-  "./",
-  "./index.html",
-  "./manifest.webmanifest",
-  "./monkey-icon.png"
-];
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-// تثبيت النسخة الجديدة
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(FILES_TO_CACHE))
-      .then(() => self.skipWaiting())
-  );
-});
+    html {
+      scroll-behavior: smooth;
+    }
 
-// تفعيل النسخة الجديدة وحذف النسخ القديمة
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys =>
-        Promise.all(
-          keys
-            .filter(key =>
-              key.startsWith("monkey-store-") &&
-              key !== CACHE_NAME
-            )
-            .map(key => caches.delete(key))
-        )
-      )
-      .then(() => self.clients.claim())
-  );
-});
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
 
-// جلب الملفات من الإنترنت وتحديث التخزين المؤقت
-self.addEventListener("fetch", event => {
-  const request = event.request;
+    header {
+      background: #1b1b1b;
+      padding: 15px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 2px solid #ff8500;
+    }
 
-  if (request.method !== "GET") return;
+    .logo {
+      color: #ff8500;
+      font-size: 27px;
+      font-weight: bold;
+    }
 
-  const url = new URL(request.url);
+    .tagline {
+      color: #ddd;
+      font-size: 12px;
+    }
 
-  // تجاهل المواقع الخارجية
-  if (url.origin !== self.location.origin) return;
+    .header-link {
+      color: #ffae42;
+      text-decoration: none;
+      border: 1px solid #ff8500;
+      padding: 9px 13px;
+      border-radius: 9px;
+      font-size: 13px;
+    }
 
-  event.respondWith(
-    fetch(request)
-      .then(response => {
-        if (response && response.ok) {
-          const copy = response.clone();
+    .header-link:hover {
+      background: #ff8500;
+      color: #111;
+    }
 
-          event.waitUntil(
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(request, copy))
-          );
-        }
+    .hero {
+      text-align: center;
+      padding: 35px 15px;
+      background: linear-gradient(140deg,#242424,#111);
+    }
 
-        return response;
-      })
-      .catch(async () => {
-        // استخدام النسخة المخزنة عند انقطاع الإنترنت
-        const cached = await caches.match(request);
+    .hero h1 {
+      color: #ff8500;
+      font-size: 30px;
+    }
 
-        if (cached) return cached;
+    .hero p {
+      color: #ccc;
+      line-height: 1.8;
+    }
 
-        // فتح الصفحة الرئيسية عند انقطاع الإنترنت
-        if (request.mode === "navigate") {
-          const home = await caches.match("./index.html");
+    .search {
+      width: 90%;
+      max-width: 500px;
+      padding: 14px;
+      border: 1px solid #ff8500;
+      border-radius: 12px;
+      background: #222;
+      color: white;
+      font-size: 16px;
+    }
 
-          if (home) return home;
-        }
+    .section {
+      padding: 20px;
+    }
 
-        return new Response(
-          "لا يوجد اتصال بالإنترنت. يرجى المحاولة مرة أخرى.",
-          {
-            status: 503,
-            headers: {
-              "Content-Type": "text/plain; charset=utf-8"
-            }
-          }
-        );
-      })
-  );
-});
+    .section h2 {
+      color: #ffae42;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .product {
+      min-width: 0;
+      overflow: hidden;
+      background: #202020;
+      border: 1px solid #383838;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .product-photo {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .product-photo img {
+      max-width: 100%;
+    }
+
+    .product h3 {
+      font-size: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    .product p {
+      color: #aaa;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      max-width: 100%;
+    }
+
+    .product .placeholder {
+      height: 105px;
+      display: grid;
+      place-items: center;
+      background: #292929;
+      border-radius: 8px;
+      color: #ff8500;
+      font-size: 35px;
+    }
+
+    .product strong {
+      overflow-wrap: anywhere;
+      line-height: 1.8;
+    }
+
+    .product a {
+      overflow-wrap: anywhere;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 30px 12px;
+      text-align: center;
+      color: #bbb;
+      border: 1px dashed #555;
+      border-radius: 12px;
+      line-height: 1.9;
+    }
+
+    .about {
+      margin: 20px;
+      padding: 22px;
+      background: #202020;
+      border: 1px solid #ff8500;
+      border-radius: 14px;
+      line-height: 2;
+      scroll-margin-top: 20px;
+    }
+
+    .about h2 {
+      color: #ffae42;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .about-intro {
+      color: #ccc;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .about p {
+      color: #ddd;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .about a {
+      color: #ffae42;
+      text-decoration: none;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .about a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: #aaa;
+      background: #1b1b1b;
+      margin-top: 35px;
+      font-size: 13px;
+      line-height: 2;
+      border-top: 1px solid #383838;
+    }
+
+    footer h3 {
+      color: #ff8500;
+    }
+
+    @media (max-width: 360px) {
+      .products {
+        gap: 8px;
+      }
+
+      .product {
+        padding: 8px;
+      }
+
+      .logo {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div>
+    <div class="logo">🐵 MONKEY</div>
+    <div class="tagline">متجر قطع غيار السيارات</div>
+  </div>
+
+  <a class="header-link" href="#about">حول المتجر</a>
+</header>
+
+<section class="hero">
+  <h1>مرحباً بك في MONKEY</h1>
+
+  <p>
+    قطع غيار السيارات الجديدة والمستعملة<br>
+    الجودة والاختيار المناسب في مكان واحد
+  </p>
+
+  <input
+    class="search"
+    id="search"
+    type="search"
+    placeholder="ابحث عن قطعة الغيار..."
+  >
+</section>
+
+<section class="section">
+  <h2>🛒 منتجاتنا</h2>
+
+  <div class="products" id="products">
+    <div class="empty">
+      <div style="font-size:40px">🔧</div>
+      <strong>قريباً ستتوفر المنتجات</strong>
+      <br>
+      سيتم إضافة صور قطع الغيار والأسعار من لوحة المدير.
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <h2>🐵 حول متجر MONKEY</h2>
+
+  <p class="about-intro">
+    متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة.
+    نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.
+  </p>
+
+  <p>
+    <strong>صاحب المتجر:</strong><br>
+    مهندس علي عبد المنعم أحمد ابراهيم
+  </p>
+
+  <p>
+    📧 <strong>البريد الإلكتروني:</strong><br>
+    <a href="mailto:ali.abdo0912189@gmail.com">
+      ali.abdo0912189@gmail.com
+    </a>
+  </p>
+
+  <p>
+    🇸🇩 <strong>واتساب السودان:</strong><br>
+    <a href="https://wa.me/249912189332" target="_blank">
+      00249912189332
+    </a>
+  </p>
+
+  <p>
+    🇸🇦 <strong>واتساب السعودية:</strong><br>
+    <a href="https://wa.me/966551093268" target="_blank">
+      00966551093268
+    </a>
+  </p>
+
+  <p>
+    📞 <strong>هاتف السعودية:</strong><br>
+    <a href="tel:+966533040960">
+      00966533040960
+    </a>
+  </p>
+</section>
+
+<footer>
+  <h3>🐵 MONKEY</h3>
+  <p>متجر القرود لقطع غيار السيارات</p>
+  <p>جميع الحقوق محفوظة © MONKEY</p>
+</footer>
+
+<script src="./app.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .catch(error => console.error("Service Worker:", error));
+    });
+  }
+</script>
+
+</body>
+</html>
