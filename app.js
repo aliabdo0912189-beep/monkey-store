@@ -115,64 +115,66 @@ function matchesChoice(value, choice) {
   return normalizedChoices.includes(normalizedValue);
 }
 
-// إنشاء قائمة شركات السيارات والموديلات
+// إنشاء قائمة شركات السيارات داخل السهم في شريط البحث
 function createCarBrowser() {
-  if ($("carBrowser")) return;
+  if ($("carFilterPanel")) return;
 
   const search = $("search");
-  if (!search) {
-    console.error("لم يتم العثور على عنصر البحث id=search");
+  const toggle = $("carFilterToggle");
+  const wrapper = search?.parentElement;
+
+  if (!search || !toggle || !wrapper) {
+    console.error("تعذر تجهيز قائمة السيارات داخل شريط البحث");
     return;
   }
 
-  const browser = document.createElement("div");
-  browser.id = "carBrowser";
-  browser.style.cssText = `
-    background:#181818;
-    border:1px solid #ff9d24;
-    border-radius:12px;
-    padding:14px;
-    margin:12px 0 20px;
-    color:white;
-  `;
+  const panel = document.createElement("div");
+  panel.id = "carFilterPanel";
+  panel.className = "car-filter-panel";
+  panel.hidden = true;
 
-  browser.innerHTML = `
-    <div style="color:#ffae42;font-weight:bold;margin-bottom:10px;">
+  panel.innerHTML = `
+    <div style="color:#ffae42;font-weight:bold;margin-bottom:8px;">
       🚘 اختر شركة السيارة
     </div>
 
-    <select id="carMakeSelect" style="
-      width:100%;padding:12px;margin-bottom:10px;
-      border:1px solid #ff9d24;border-radius:8px;
-      background:#222;color:white;font-size:15px;">
+    <select id="carMakeSelect">
       <option value="">جميع شركات السيارات</option>
       ${CAR_CATALOG.map((car, index) => `
         <option value="${index}">
-          ${escapeHTML(car.name)} - ${escapeHTML(car.ar)}
+          ${escapeHTML(car.ar)} - ${escapeHTML(car.name)}
         </option>
       `).join("")}
     </select>
 
-    <select id="carModelSelect" disabled style="
-      width:100%;padding:12px;
-      border:1px solid #555;border-radius:8px;
-      background:#222;color:white;font-size:15px;">
-      <option value="">اختر الموديل بعد اختيار الشركة</option>
+    <select id="carModelSelect" disabled>
+      <option value="">اختر الشركة أولاً</option>
     </select>
 
-    <button id="clearCarFilter" type="button" style="
-      width:100%;padding:10px;margin-top:10px;
-      border:0;border-radius:8px;
-      background:#ff9d24;color:#111;font-weight:bold;">
+    <button id="clearCarFilter" type="button">
       عرض جميع السيارات
     </button>
   `;
 
-  search.insertAdjacentElement("afterend", browser);
+  wrapper.appendChild(panel);
 
+  // فتح وإغلاق القائمة
+  toggle.addEventListener("click", () => {
+    const opening = panel.hidden;
+
+    panel.hidden = !opening;
+    toggle.textContent = opening ? "▴" : "▾";
+    toggle.setAttribute("aria-expanded", String(opening));
+  });
+
+  // اختيار شركة السيارة
   $("carMakeSelect").addEventListener("change", event => {
     const value = event.target.value;
-    selectedMake = value === "" ? "" : CAR_CATALOG[Number(value)].name;
+
+    selectedMake = value === ""
+      ? ""
+      : CAR_CATALOG[Number(value)].name;
+
     selectedModel = "";
 
     const modelSelect = $("carModelSelect");
@@ -180,14 +182,22 @@ function createCarBrowser() {
 
     if (value === "") {
       modelSelect.disabled = true;
-      modelSelect.innerHTML = `<option value="">اختر الشركة أولاً</option>`;
+      modelSelect.innerHTML =
+        '<option value="">اختر الشركة أولاً</option>';
     } else {
       const car = CAR_CATALOG[Number(value)];
+
       modelSelect.disabled = false;
+
       modelSelect.innerHTML = `
-        <option value="">جميع موديلات ${escapeHTML(car.ar)}</option>
+        <option value="">
+          جميع موديلات ${escapeHTML(car.ar)}
+        </option>
+
         ${car.models.map(model => `
-          <option value="${escapeHTML(model)}">${escapeHTML(model)}</option>
+          <option value="${escapeHTML(model)}">
+            ${escapeHTML(model)}
+          </option>
         `).join("")}
       `;
     }
@@ -195,22 +205,43 @@ function createCarBrowser() {
     renderProducts();
   });
 
+  // اختيار موديل السيارة
   $("carModelSelect").addEventListener("change", event => {
     selectedModel = event.target.value;
     renderProducts();
   });
 
+  // إلغاء الفلترة
   $("clearCarFilter").addEventListener("click", () => {
     selectedMake = "";
     selectedModel = "";
+
     $("carMakeSelect").value = "";
+
     $("carModelSelect").innerHTML =
-      `<option value="">اختر الشركة أولاً</option>`;
+      '<option value="">اختر الشركة أولاً</option>';
+
     $("carModelSelect").disabled = true;
+    search.value = "";
+
     renderProducts();
+
+    panel.hidden = true;
+    toggle.textContent = "▾";
+    toggle.setAttribute("aria-expanded", "false");
   });
 
+  // البحث عن المنتجات
   search.addEventListener("input", renderProducts);
+
+  // إغلاق القائمة عند الضغط خارج شريط البحث
+  document.addEventListener("click", event => {
+    if (!wrapper.contains(event.target)) {
+      panel.hidden = true;
+      toggle.textContent = "▾";
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
 }
 
 // معرض الصور
@@ -261,6 +292,7 @@ function createGallery() {
   `);
 
   $("galleryClose").onclick = closeGallery;
+
   $("imageGallery").addEventListener("click", event => {
     if (event.target.id === "imageGallery") closeGallery();
   });
@@ -300,6 +332,7 @@ function createGallery() {
   stage.addEventListener("touchend", event => {
     if (zoom <= 1 && event.changedTouches.length === 1) {
       const difference = event.changedTouches[0].clientX - touchStartX;
+
       if (Math.abs(difference) > 70) {
         showGalleryImage(galleryIndex + (difference < 0 ? 1 : -1));
       }
@@ -318,6 +351,7 @@ function openGallery(images, index = 0) {
 
 function closeGallery() {
   if (!$("imageGallery")) return;
+
   $("imageGallery").style.display = "none";
   document.body.style.overflow = "";
   resetZoom();
@@ -332,6 +366,7 @@ function resetZoom() {
 
 function updateZoom() {
   if (!$("galleryImage")) return;
+
   $("galleryImage").style.transform =
     `translate(${moveX}px,${moveY}px) scale(${zoom})`;
 }
@@ -339,6 +374,7 @@ function updateZoom() {
 function touchDistance(touches) {
   const dx = touches[0].clientX - touches[1].clientX;
   const dy = touches[0].clientY - touches[1].clientY;
+
   return Math.hypot(dx, dy);
 }
 
@@ -349,6 +385,7 @@ function showGalleryImage(index) {
   resetZoom();
 
   $("galleryImage").src = galleryImages[index];
+
   $("galleryCounter").textContent =
     `${index + 1} / ${galleryImages.length}`;
 
@@ -365,7 +402,9 @@ function showGalleryImage(index) {
     img.onclick = () => showGalleryImage(Number(img.dataset.index));
   });
 
-  $("galleryPrev").style.visibility = index === 0 ? "hidden" : "visible";
+  $("galleryPrev").style.visibility =
+    index === 0 ? "hidden" : "visible";
+
   $("galleryNext").style.visibility =
     index === galleryImages.length - 1 ? "hidden" : "visible";
 }
@@ -398,6 +437,7 @@ function renderProducts() {
 
     if (selectedMake) {
       const car = CAR_CATALOG.find(item => item.name === selectedMake);
+
       if (!matchesChoice(product.car_make, car)) return false;
     }
 
@@ -415,6 +455,7 @@ function renderProducts() {
       <div class="empty" style="padding:20px;text-align:center;">
         🔎 لا توجد منتجات مطابقة لاختيارك حالياً.
       </div>`;
+
     return;
   }
 
@@ -489,6 +530,7 @@ function renderProducts() {
   container.querySelectorAll(".product-photo").forEach(photo => {
     photo.onclick = () => {
       const images = JSON.parse(photo.dataset.images || "[]");
+
       if (images.length) openGallery(images);
     };
   });
@@ -529,6 +571,7 @@ async function loadProducts() {
       <div class="empty" style="padding:20px;text-align:center;">
         تعذر تحميل المنتجات حاليا. حاول مرة أخرى لاحقاً.
       </div>`;
+
     console.error("MONKEY:", error);
   }
 }
