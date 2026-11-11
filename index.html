@@ -1,394 +1,87 @@
 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111111">
-<meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
+const CACHE_NAME = "monkey-store-v3";
 
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" type="image/png" href="/monkey-iconpng.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="MONKEY">
+const FILES_TO_CACHE = [
+  "./",
+  "./index.html",
+  "./manifest.webmanifest",
+  "./monkey-icon.png"
+];
 
-<title>MONKEY | متجر قطع غيار السيارات</title>
-
-<style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: #111;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-
-header {
-  background: #1b1b1b;
-  padding: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid #ff8500;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-image {
-  width: 62px;
-  height: 62px;
-  object-fit: contain;
-  border-radius: 10px;
-}
-
-.logo {
-  color: #ff8500;
-  font-size: 27px;
-  font-weight: bold;
-}
-
-.tagline { color: #ddd; font-size: 12px; }
-
-.hero {
-  text-align: center;
-  padding: 30px 15px;
-  background: linear-gradient(140deg,#242424,#111);
-}
-
-.hero h1 { color: #ff8500; font-size: 27px; }
-.hero p { color: #ccc; line-height: 1.8; }
-
-.search-box {
-  position: relative;
-  width: 90%;
-  max-width: 500px;
-  margin: auto;
-}
-
-.search {
-  width: 100%;
-  padding: 14px 43px 14px 14px;
-  border: 1px solid #ff8500;
-  border-radius: 12px;
-  background: #222;
-  color: white;
-  font-size: 16px;
-  outline: none;
-}
-
-.search:focus {
-  border-color: #ffae42;
-  box-shadow: 0 0 7px #ff850055;
-}
-
-.search-icon {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 19px;
-  pointer-events: none;
-}
-
-.section { padding: 15px; }
-.section h2 { color: #ffae42; }
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 12px;
-}
-
-.product {
-  background: #202020;
-  border: 1px solid #383838;
-  border-radius: 12px;
-  padding: 12px;
-  text-align: center;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.product img {
-  max-width: 100%;
-  border-radius: 8px;
-  object-fit: contain;
-}
-
-.product h3 {
-  font-size: 15px;
-  overflow-wrap: anywhere;
-}
-
-.product p {
-  color: #aaa;
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-
-.product strong {
-  color: #ffae42;
-  overflow-wrap: anywhere;
-}
-
-.empty {
-  grid-column: 1 / -1;
-  padding: 30px 12px;
-  text-align: center;
-  color: #bbb;
-  border: 1px dashed #555;
-  border-radius: 12px;
-  line-height: 1.9;
-}
-
-footer {
-  padding: 18px;
-  text-align: center;
-  color: #aaa;
-  background: #1b1b1b;
-  margin-top: 30px;
-  font-size: 13px;
-}
-
-.about-button {
-  background: transparent;
-  color: #ffae42;
-  border: 1px solid #ff8500;
-  border-radius: 20px;
-  padding: 9px 22px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-dialog {
-  background: #202020;
-  color: white;
-  border: 1px solid #ff8500;
-  border-radius: 15px;
-  width: calc(100% - 35px);
-  max-width: 420px;
-  padding: 22px;
-  max-height: 85vh;
-  overflow-y: auto;
-}
-
-dialog::backdrop {
-  background: rgba(0,0,0,.8);
-}
-
-.about-title {
-  color: #ff8500;
-  text-align: center;
-}
-
-.about-text {
-  color: #ddd;
-  line-height: 1.9;
-  text-align: center;
-}
-
-.about-info {
-  background: #292929;
-  padding: 12px;
-  border-radius: 10px;
-  line-height: 2;
-  overflow-wrap: anywhere;
-}
-
-.about-info a {
-  color: #ffae42;
-  text-decoration: none;
-}
-
-.close-button {
-  background: #ff8500;
-  color: #111;
-  border: 0;
-  border-radius: 8px;
-  padding: 10px 25px;
-  font-weight: bold;
-  cursor: pointer;
-  display: block;
-  margin: 18px auto 0;
-}
-
-@media (max-width: 350px) {
-  .products { gap: 7px; }
-  .product { padding: 8px; }
-  .logo-image { width: 50px; height: 50px; }
-  .logo { font-size: 23px; }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="brand">
-    <img class="logo-image"
-     src="./monkey-logo.png"
-     alt=""
-     onerror="this.style.display='none'">
-    <div>
-      <div class="logo">MONKEY</div>
-      <div class="tagline">متجر قطع غيار السيارات</div>
-    </div>
-  </div>
-  <div>🛠️</div>
-</header>
-
-<section class="hero">
-  <h1>مرحباً بك في MONKEY</h1>
-  <p>
-    قطع غيار السيارات الجديدة والمستعملة<br>
-    الجودة والاختيار المناسب في مكان واحد
-  </p>
-
-  <div class="search-box">
-    <span class="search-icon">🔍</span>
-    <input class="search" id="search"
-      type="search"
-      placeholder="ابحث عن قطعة الغيار..."
-      autocomplete="off">
-  </div>
-</section>
-
-<section class="section">
-  <h2>🛒 منتجاتنا</h2>
-
-  <div class="products" id="products">
-    <div class="empty">
-      <div style="font-size:40px">🔧</div>
-      <strong>قريباً ستتوفر المنتجات</strong>
-      <br>
-      سيتم إضافة صور قطع الغيار والأسعار من لوحة المدير.
-    </div>
-  </div>
-</section>
-
-<footer>
-  <button class="about-button"
-    onclick="document.getElementById('aboutDialog').showModal()">
-    حول المتجر
-  </button>
-  <p>جميع الحقوق محفوظة © MONKEY</p>
-</footer>
-
-<dialog id="aboutDialog">
-  <h2 class="about-title">🐵 حول متجر MONKEY</h2>
-
-  <p class="about-text">
-    متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة.
-    نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.
-  </p>
-
-  <div class="about-info">
-    <strong>مهندس علي عبد المنعم أحمد ابراهيم</strong>
-
-    <p>
-      📧 البريد الإلكتروني:<br>
-      <a href="mailto:ali.abdo0912189@gmail.com">
-        ali.abdo0912189@gmail.com
-      </a>
-    </p>
-
-    <p>
-      🇸🇩 واتساب السودان:<br>
-      <a href="https://wa.me/249912189332">
-        00249912189332
-      </a>
-    </p>
-
-    <p>
-      🇸🇦 واتساب السعودية:<br>
-      <a href="https://wa.me/966551093268">
-        00966551093268
-      </a>
-    </p>
-
-    <p>
-      📞 هاتف السعودية:<br>
-      <a href="tel:+966533040960">
-        00966533040960
-      </a>
-    </p>
-  </div>
-
-  <form method="dialog">
-    <button class="close-button">إغلاق ✕</button>
-  </form>
-</dialog>
-
-<script>
-const aboutDialog = document.getElementById("aboutDialog");
-
-aboutDialog.addEventListener("click", function(event) {
-  if (event.target === aboutDialog) {
-    aboutDialog.close();
-  }
+// تثبيت النسخة الجديدة
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(FILES_TO_CACHE))
+      .then(() => self.skipWaiting())
+  );
 });
 
-const searchInput = document.getElementById("search");
-const productsContainer = document.getElementById("products");
-
-function filterProducts() {
-  const query = searchInput.value.trim().toLocaleLowerCase("ar");
-
-  const cards = productsContainer.querySelectorAll(".product");
-  let visible = 0;
-
-  cards.forEach(card => {
-    const text = card.textContent.toLocaleLowerCase("ar");
-    const match = text.includes(query);
-
-    card.style.display = match ? "" : "none";
-
-    if (match) visible++;
-  });
-
-  let message = productsContainer.querySelector(".search-no-results");
-
-  if (query && cards.length > 0 && visible === 0) {
-    if (!message) {
-      message = document.createElement("div");
-      message.className = "empty search-no-results";
-      message.textContent = "لم نجد قطعة بهذا الاسم.";
-      productsContainer.appendChild(message);
-    }
-  } else if (message) {
-    message.remove();
-  }
-}
-
-searchInput.addEventListener("input", filterProducts);
-
-const productsObserver = new MutationObserver(() => {
-  filterProducts();
+// تفعيل النسخة الجديدة وحذف النسخ القديمة
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys =>
+        Promise.all(
+          keys
+            .filter(key =>
+              key.startsWith("monkey-store-") &&
+              key !== CACHE_NAME
+            )
+            .map(key => caches.delete(key))
+        )
+      )
+      .then(() => self.clients.claim())
+  );
 });
 
-productsObserver.observe(productsContainer, {
-  childList: true,
-  subtree: true
+// جلب الملفات من الإنترنت وتحديث التخزين المؤقت
+self.addEventListener("fetch", event => {
+  const request = event.request;
+
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+
+  // تجاهل المواقع الخارجية
+  if (url.origin !== self.location.origin) return;
+
+  event.respondWith(
+    fetch(request)
+      .then(response => {
+        if (response && response.ok) {
+          const copy = response.clone();
+
+          event.waitUntil(
+            caches.open(CACHE_NAME)
+              .then(cache => cache.put(request, copy))
+          );
+        }
+
+        return response;
+      })
+      .catch(async () => {
+        // استخدام النسخة المخزنة عند انقطاع الإنترنت
+        const cached = await caches.match(request);
+
+        if (cached) return cached;
+
+        // فتح الصفحة الرئيسية عند انقطاع الإنترنت
+        if (request.mode === "navigate") {
+          const home = await caches.match("./index.html");
+
+          if (home) return home;
+        }
+
+        return new Response(
+          "لا يوجد اتصال بالإنترنت. يرجى المحاولة مرة أخرى.",
+          {
+            status: 503,
+            headers: {
+              "Content-Type": "text/plain; charset=utf-8"
+            }
+          }
+        );
+      })
+  );
 });
-</script>
-
-<script src="app.js"></script>
-
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js")
-      .then(() => console.log("MONKEY App Ready"))
-      .catch(error => console.error("Service Worker Error:", error));
-  });
-}
-</script>
-
-</body>
-</html>
