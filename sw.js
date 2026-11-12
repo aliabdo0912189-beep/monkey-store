@@ -1,4 +1,4 @@
-const CACHE_NAME = "monkey-store-v5";
+const CACHE_NAME = "monkey-store-v6";
 const FILES_TO_CACHE = ["./", "./index.html", "./app.js", "./admin.html", "./manifest.webmanifest", "./monkey-icon.png"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE)).then(() => self.skipWaiting()));
