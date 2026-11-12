@@ -410,7 +410,7 @@ loadProducts();
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("./service-worker.js")
+.register("./sw.js")
       .catch(console.warn);
   });
 }
