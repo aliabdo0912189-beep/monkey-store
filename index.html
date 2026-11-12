@@ -1,14 +1,200 @@
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111111"><meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة"><title>MONKEY | متجر قطع غيار السيارات</title>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
+<title>MONKEY | متجر قطع غيار السيارات</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#111;color:#fff;font-family:Arial,sans-serif}button,input,select{font:inherit}header{background:#1b1b1b;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid #ff8500}.logo{color:#ff8500;font-size:25px;font-weight:bold}.tagline{color:#bbb;font-size:12px;margin-top:4px}.header-actions{display:flex;align-items:center;gap:8px}.header-link,.cart-open{border:1px solid #ff8500;color:#ffae42;background:transparent;padding:8px 10px;border-radius:9px;text-decoration:none;font-size:12px}.cart-open{position:relative;color:#111;background:#ff8500;font-size:17px}#cartCount{position:absolute;top:-7px;left:-7px;background:#fff;color:#111;border-radius:50%;min-width:18px;height:18px;font-size:10px;display:grid;place-items:center;font-weight:bold}.hidden{display:none!important}.hero{text-align:center;padding:25px 12px;background:linear-gradient(140deg,#252525,#111)}.hero h1{color:#ff8500;font-size:26px}.hero p{color:#ccc;line-height:1.8}.search{width:92%;max-width:520px;padding:12px;border:1px solid #ff8500;border-radius:10px;background:#222;color:white}.section{padding:16px}.section h2{color:#ffae42;font-size:19px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.filter{padding:8px 14px;border:1px solid #ff8500;background:#222;color:#ffae42;border-radius:20px}.filter.active{background:#ff8500;color:#111;font-weight:bold}.car-filters{display:flex;gap:8px;margin:12px 0}.car-filters select{min-width:0;flex:1;padding:10px;border:1px solid #555;border-radius:9px;background:#222;color:white}.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.product{min-width:0;background:#202020;border:1px solid #383838;border-radius:11px;overflow:hidden}.product-photo{display:block;width:100%;height:116px;padding:5px;border:0;border-radius:0;background:#292929;cursor:zoom-in}.product-photo img{width:100%;height:100%;object-fit:contain}.product-body{padding:8px}.product h3{font-size:14px;margin:3px 0 5px;overflow-wrap:anywhere}.product p{color:#aaa;font-size:11px;line-height:1.5;min-height:24px;margin:3px 0}.product-meta{color:#999;font-size:10px;min-height:12px}.condition{display:inline-block;color:#ffae42;font-size:10px;margin:4px 0}.product-bottom{display:flex;flex-direction:column;gap:7px;margin-top:7px}.price{color:#ff8500;font-size:13px;font-weight:bold}.order-btn{width:100%;padding:8px;border:0;border-radius:7px;background:#ff8500;color:#111;font-size:12px;font-weight:bold}.image-count{display:block;color:#999;font-size:10px;margin-top:5px}.empty{grid-column:1/-1;padding:25px 10px;text-align:center;color:#bbb;border:1px dashed #555;border-radius:12px;line-height:1.8}.shipping-note,.about{margin:16px;padding:14px;background:#202020;border-right:3px solid #ff8500;color:#ccc;line-height:1.8;border-radius:8px}.about{border:1px solid #ff8500}.about summary{text-align:center;color:#ffae42;font-weight:bold;cursor:pointer}.about a{color:#ffae42;text-decoration:none;direction:ltr;display:inline-block}footer{padding:18px;text-align:center;color:#aaa;background:#1b1b1b;margin-top:25px;font-size:12px;line-height:1.8}footer h3{color:#ff8500}.modal{position:fixed;inset:0;z-index:2000;background:#000c;display:flex;align-items:center;justify-content:center;padding:12px}.modal-box{width:100%;max-width:480px;max-height:90vh;overflow-y:auto;background:#1c1c1c;border:1px solid #ff8500;border-radius:14px;padding:15px}.modal-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #444;padding-bottom:8px}.modal-head h2{color:#ffae42}.close-btn{background:transparent;color:white;border:0;font-size:25px}.cart-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #383838}.cart-thumb{width:55px;height:55px;object-fit:contain;background:#292929;border-radius:7px;cursor:zoom-in}.cart-info{flex:1;min-width:0}.cart-info b{font-size:12px}.cart-row small{display:block;color:#aaa;margin-top:4px;font-size:10px}.qty{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.qty button{border:1px solid #ff8500;background:#292929;color:#ffae42;border-radius:6px;padding:4px 7px;font-size:12px}.qty .remove{color:#ff7777;border-color:#a44}.total{display:flex;justify-content:space-between;padding:13px 0;color:#ffae42;font-size:17px;font-weight:bold}.customer-form input{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #555;border-radius:8px;background:#292929;color:white}#checkoutBtn{width:100%;padding:13px;margin-top:8px;border:0;border-radius:9px;background:#ff8500;color:#111;font-weight:bold}#checkoutBtn:disabled{opacity:.5}#checkoutMessage{color:#ffae42;font-size:12px;line-height:1.8;overflow-wrap:anywhere}#checkoutMessage a{color:#ffae42}#toast{display:none;position:fixed;bottom:18px;right:50%;transform:translateX(50%);z-index:3000;background:#ff8500;color:#111;padding:10px 16px;border-radius:9px;font-weight:bold}#imageModal{z-index:4000}.image-viewer{width:min(96vw,700px);background:#171717;border:1px solid #ff8500;border-radius:12px;padding:10px;text-align:center}.image-viewer img{max-width:100%;max-height:72vh;object-fit:contain}.image-viewer p{color:#ffae42;margin:8px}.image-viewer .close-btn{float:left}@media(max-width:360px){.products{gap:7px}.product-photo{height:100px}.product-body{padding:7px}.logo{font-size:21px}.header-link{padding:7px}}
-</style></head><body>
-<header><div><div class="logo">🐵 MONKEY</div><div class="tagline">متجر قطع غيار السيارات</div></div><div class="header-actions"><a class="header-link" href="#about">حول المتجر</a><button class="cart-open" id="cartOpen" type="button" aria-label="سلة المشتريات">🛒<span id="cartCount" class="hidden">0</span></button></div></header>
-<section class="hero"><h1>مرحباً بك في MONKEY</h1><p>قطع غيار السيارات الجديدة والمستعملة<br>الجودة والاختيار المناسب في مكان واحد</p><input class="search" id="search" type="search" placeholder="ابحث عن قطعة الغيار أو السيارة..."></section>
-<section class="section"><h2>🛒 منتجاتنا</h2><div class="filters"><button class="filter active" data-filter="all">الكل</button><button class="filter" data-filter="new">قطع جديدة</button><button class="filter" data-filter="used">مستعملة نظيفة</button></div><div class="car-filters"><select id="carMakeFilter"><option value="all">كل الشركات</option></select><select id="carModelFilter"><option value="all">كل الموديلات</option></select></div><div class="products" id="productGrid"><div class="empty">جارٍ تحميل المنتجات...</div></div></section>
-<div class="shipping-note">🚚 لطلب قطع الغيار والاستفسار عن التوفر والشحن، أضف القطع إلى السلة وأرسل طلبك عبر واتساب.</div>
-<details class="about" id="about"><summary>🐵 حول متجر MONKEY</summary><p>متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة. نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.</p><p><strong>إشراف:</strong><br>مهندس علي عبد المنعم أحمد إبراهيم</p><p>📧 البريد الإلكتروني:<br><a href="mailto:ali.abdo0912189@gmail.com">ali.abdo0912189@gmail.com</a></p><p>🇸🇩 واتساب السودان:<br><a href="https://wa.me/249912189332" target="_blank" rel="noopener">00249912189332</a></p><p>🇸🇦 واتساب السعودية:<br><a href="https://wa.me/966551093268" target="_blank" rel="noopener">00966551093268</a></p><p>📞 هاتف السعودية:<br><a href="tel:+966533040960">00966533040960</a></p></details>
-<footer><h3>🐵 MONKEY</h3><p>قطع غيار السيارات الجديدة والمستعملة</p><p>جميع الحقوق محفوظة © MONKEY</p></footer>
-<div class="modal hidden" id="cartModal"><div class="modal-box"><div class="modal-head"><h2>🛒 سلة المشتريات</h2><button class="close-btn" id="cartClose" type="button">×</button></div><div id="cartItems"></div><div class="total"><span>الإجمالي</span><span id="cartTotal">0 ج.س</span></div><h3 style="color:#ffae42">بيانات العميل</h3><div class="customer-form"><input id="customerName" type="text" placeholder="الاسم الكامل" autocomplete="name"><input id="customerPhone" type="tel" placeholder="رقم الجوال" autocomplete="tel"><input id="customerAddress" type="text" placeholder="العنوان أو المدينة" autocomplete="street-address"></div><button id="checkoutBtn" type="button">تأكيد الطلب عبر واتساب</button><p id="checkoutMessage"></p></div></div>
-<div class="modal hidden" id="imageModal"><div class="image-viewer"><button class="close-btn" id="imageModalClose" type="button" aria-label="إغلاق">×</button><img id="largeProductImage" src="" alt="صورة المنتج"><p id="imageModalCaption"></p></div></div><div id="toast" role="status" aria-live="polite"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./app.js"></script></body></html>
+*{box-sizing:border-box}
+body{margin:0;background:#111;color:#fff;font-family:Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+header{background:#1b1b1b;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid #ff8500}
+.logo{color:#ff8500;font-size:25px;font-weight:bold}
+.tagline{color:#bbb;font-size:12px;margin-top:4px}
+.header-actions{display:flex;align-items:center;gap:8px}
+.header-link,.cart-open{border:1px solid #ff8500;color:#ffae42;background:transparent;padding:8px 10px;border-radius:9px;text-decoration:none;font-size:12px}
+.cart-open{position:relative;color:#111;background:#ff8500;font-size:17px}
+#cartCount{position:absolute;top:-7px;left:-7px;background:#fff;color:#111;border-radius:50%;min-width:18px;height:18px;font-size:10px;display:grid;place-items:center;font-weight:bold}
+.hidden{display:none!important}
+.hero{text-align:center;padding:25px 12px;background:linear-gradient(140deg,#252525,#111)}
+.hero h1{color:#ff8500;font-size:26px}
+.hero p{color:#ccc;line-height:1.8}
+.search{width:92%;max-width:520px;padding:12px;border:1px solid #ff8500;border-radius:10px;background:#222;color:white}
+.section{padding:16px}
+.section h2{color:#ffae42;font-size:19px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.filter{padding:8px 14px;border:1px solid #ff8500;background:#222;color:#ffae42;border-radius:20px}
+.filter.active{background:#ff8500;color:#111;font-weight:bold}
+.car-filters{display:flex;gap:8px;margin:12px 0}
+.car-filters select{min-width:0;flex:1;padding:10px;border:1px solid #555;border-radius:9px;background:#222;color:white}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.product{min-width:0;background:#202020;border:1px solid #383838;border-radius:11px;overflow:hidden}
+.product-photo{display:block;width:100%;height:116px;padding:5px;border:0;background:#292929;cursor:zoom-in}
+.product-photo img{width:100%;height:100%;object-fit:contain}
+.product-body{padding:8px}
+.product h3{font-size:14px;margin:3px 0 5px;overflow-wrap:anywhere}
+.product p{color:#aaa;font-size:11px;line-height:1.5;min-height:24px;margin:3px 0}
+.product-meta{color:#999;font-size:10px;min-height:12px}
+.condition{display:inline-block;color:#ffae42;font-size:10px;margin:4px 0}
+.product-bottom{display:flex;flex-direction:column;gap:7px;margin-top:7px}
+.price{color:#ff8500;font-size:13px;font-weight:bold}
+.order-btn{width:100%;padding:8px;border:0;border-radius:7px;background:#ff8500;color:#111;font-size:12px;font-weight:bold}
+.image-count{display:block;color:#999;font-size:10px;margin-top:5px}
+.empty{grid-column:1/-1;padding:25px 10px;text-align:center;color:#bbb;border:1px dashed #555;border-radius:12px;line-height:1.8}
+.about,.bank-box{margin:16px;padding:14px;background:#202020;border:1px solid #ff8500;color:#ccc;line-height:1.8;border-radius:8px}
+.about summary{text-align:center;color:#ffae42;font-weight:bold;cursor:pointer}
+.about a{color:#ffae42;text-decoration:none;direction:ltr;display:inline-block}
+.bank-box h3{color:#ffae42;margin-top:0}
+.bank-line{padding:9px;margin:7px 0;background:#292929;border-radius:7px;overflow-wrap:anywhere}
+.bank-line strong{color:#ffae42}
+.copy-btn{padding:7px 12px;border:0;border-radius:7px;background:#ff8500;color:#111;font-weight:bold}
+.bank-note{font-size:11px;color:#aaa}
+footer{padding:18px;text-align:center;color:#aaa;background:#1b1b1b;margin-top:25px;font-size:12px;line-height:1.8}
+footer h3{color:#ff8500}
+.modal{position:fixed;inset:0;z-index:2000;background:#000c;display:flex;align-items:center;justify-content:center;padding:12px}
+.modal-box{width:100%;max-width:480px;max-height:90vh;overflow-y:auto;background:#1c1c1c;border:1px solid #ff8500;border-radius:14px;padding:15px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #444;padding-bottom:8px}
+.modal-head h2{color:#ffae42}
+.close-btn{background:transparent;color:white;border:0;font-size:25px}
+.cart-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #383838}
+.cart-thumb{width:55px;height:55px;object-fit:contain;background:#292929;border-radius:7px;cursor:zoom-in}
+.cart-info{flex:1;min-width:0}
+.cart-info b{font-size:12px}
+.cart-row small{display:block;color:#aaa;margin-top:4px;font-size:10px}
+.qty{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.qty button{border:1px solid #ff8500;background:#292929;color:#ffae42;border-radius:6px;padding:4px 7px;font-size:12px}
+.qty .remove{color:#ff7777;border-color:#a44}
+.total{display:flex;justify-content:space-between;padding:13px 0;color:#ffae42;font-size:17px;font-weight:bold}
+.customer-form input{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #555;border-radius:8px;background:#292929;color:white}
+#checkoutBtn{width:100%;padding:13px;margin-top:8px;border:0;border-radius:9px;background:#ff8500;color:#111;font-weight:bold}
+#checkoutBtn:disabled{opacity:.5}
+#checkoutMessage{color:#ffae42;font-size:12px;line-height:1.8;overflow-wrap:anywhere}
+#checkoutMessage a{color:#ffae42}
+.receipt-area{margin-top:12px;padding:12px;background:#292929;border-radius:8px}
+.receipt-area label{display:block;color:#ffae42;margin-bottom:8px}
+.receipt-area input{width:100%;color:#ccc}
+#transferPreview{display:block;max-width:100%;max-height:220px;margin-top:10px;border-radius:7px}
+#toast{display:none;position:fixed;bottom:18px;right:50%;transform:translateX(50%);z-index:5000;background:#ff8500;color:#111;padding:10px 16px;border-radius:9px;font-weight:bold}
+#imageModal{z-index:4000}
+.image-viewer{width:min(96vw,700px);background:#171717;border:1px solid #ff8500;border-radius:12px;padding:10px;text-align:center}
+.image-viewer img{max-width:100%;max-height:65vh;object-fit:contain}
+.image-viewer p{color:#ffae42;margin:8px}
+.gallery-controls{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:10px}
+.gallery-controls button{background:#ff8500;color:#111;border:0;border-radius:7px;padding:8px 15px;font-weight:bold}
+#imageCounter{color:#ccc;font-size:12px}
+@media(max-width:360px){.products{gap:7px}.product-photo{height:100px}.product-body{padding:7px}.logo{font-size:21px}.header-link{padding:7px}}
+</style>
+</head>
+
+<body>
+<header>
+<div>
+<div class="logo">🐵 MONKEY</div>
+<div class="tagline">متجر قطع غيار السيارات</div>
+</div>
+<div class="header-actions">
+<a class="header-link" href="#about">حول المتجر</a>
+<button class="cart-open" id="cartOpen" type="button" aria-label="سلة المشتريات">🛒<span id="cartCount" class="hidden">0</span></button>
+</div>
+</header>
+
+<section class="hero">
+<h1>مرحباً بك في MONKEY</h1>
+<p>قطع غيار السيارات الجديدة والمستعملة<br>الجودة والاختيار المناسب في مكان واحد</p>
+<input class="search" id="search" type="search" placeholder="ابحث عن قطعة الغيار أو السيارة...">
+</section>
+
+<section class="section">
+<h2>🛒 منتجاتنا</h2>
+<div class="filters">
+<button class="filter active" data-filter="all">الكل</button>
+<button class="filter" data-filter="new">قطع جديدة</button>
+<button class="filter" data-filter="used">مستعملة نظيفة</button>
+</div>
+<div class="car-filters">
+<select id="carMakeFilter"><option value="all">كل الشركات</option></select>
+<select id="carModelFilter"><option value="all">كل الموديلات</option></select>
+</div>
+<div class="products" id="productGrid">
+<div class="empty">جارٍ تحميل المنتجات...</div>
+</div>
+</section>
+
+<section class="bank-box hidden" id="bankPaymentBox">
+<h3>💳 الدفع عبر بنكك</h3>
+<div class="bank-line">الخدمة: <strong id="bankName">—</strong></div>
+<div class="bank-line">رقم الحساب: <strong id="bankAccountNumber">—</strong></div>
+<button class="copy-btn" id="copyBankAccount" type="button">نسخ رقم الحساب</button>
+<div class="bank-line">اسم صاحب الحساب: <strong id="bankAccountHolder">—</strong></div>
+<div class="bank-line">تعليمات التحويل:<p id="bankPaymentInstructions"></p></div>
+<p class="bank-note">بعد التحويل، أرسل صورة الإيصال إلى إدارة المتجر عبر واتساب. لا يعتبر الطلب مدفوعاً حتى تؤكد الإدارة استلام المبلغ.</p>
+</section>
+
+<details class="about" id="about">
+<summary>🐵 حول متجر MONKEY</summary>
+<p>متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة. نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.</p>
+<p><strong>إشراف:</strong><br>مهندس علي عبد المنعم أحمد إبراهيم</p>
+<p>📧 البريد الإلكتروني:<br><a href="mailto:ali.abdo0912189@gmail.com">ali.abdo0912189@gmail.com</a></p>
+<p>🇸🇩 واتساب السودان:<br><a href="https://wa.me/249912189332" target="_blank" rel="noopener">00249912189332</a></p>
+<p>🇸🇦 واتساب السعودية:<br><a href="https://wa.me/966551093268" target="_blank" rel="noopener">00966551093268</a></p>
+<p>📞 هاتف السعودية:<br><a href="tel:+966533040960">00966533040960</a></p>
+</details>
+
+<footer>
+<h3>🐵 MONKEY</h3>
+<p>قطع غيار السيارات الجديدة والمستعملة</p>
+<p>جميع الحقوق محفوظة © MONKEY</p>
+</footer>
+
+<div class="modal hidden" id="cartModal">
+<div class="modal-box">
+<div class="modal-head">
+<h2>🛒 سلة المشتريات</h2>
+<button class="close-btn" id="cartClose" type="button">×</button>
+</div>
+
+<div id="cartItems"></div>
+<div class="total"><span>الإجمالي</span><span id="cartTotal">0 ج.س</span></div>
+
+<h3 style="color:#ffae42">بيانات العميل</h3>
+<div class="customer-form">
+<input id="customerName" type="text" placeholder="الاسم الكامل" autocomplete="name">
+<input id="customerPhone" type="tel" placeholder="رقم الجوال" autocomplete="tel">
+<input id="customerAddress" type="text" placeholder="العنوان أو المدينة" autocomplete="street-address">
+</div>
+
+<div class="receipt-area">
+<label for="transferReceipt">صورة إيصال التحويل (اختياري)</label>
+<input id="transferReceipt" type="file" accept="image/*">
+<img id="transferPreview" class="hidden" alt="معاينة إيصال التحويل">
+<p class="bank-note">ستظهر معاينة الصورة هنا. هذه النسخة لا ترفع الإيصال إلى الخادم؛ أرسله يدوياً عبر واتساب.</p>
+</div>
+
+<button id="checkoutBtn" type="button">تأكيد الطلب عبر واتساب</button>
+<p id="checkoutMessage"></p>
+</div>
+</div>
+
+<div class="modal hidden" id="imageModal">
+<div class="image-viewer">
+<button class="close-btn" id="imageModalClose" type="button" aria-label="إغلاق">×</button>
+<img id="largeProductImage" src="" alt="صورة المنتج">
+<p id="imageModalCaption"></p>
+<div class="gallery-controls">
+<button id="imagePrev" type="button">السابق</button>
+<span id="imageCounter">1 / 1</span>
+<button id="imageNext" type="button">التالي</button>
+</div>
+</div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./app.js"></script>
+</body>
+</html>
