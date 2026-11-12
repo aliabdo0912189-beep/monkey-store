@@ -121,19 +121,24 @@ footer h3{color:#ff8500}
 <div class="empty">جارٍ تحميل المنتجات...</div>
 </div>
 </section>
+<details class="bank-box hidden" id="bankPaymentBox">
+  <summary>
+    <span class="bankak-heading">
+      <span class="bankak-logo">بنكك</span>
+      <span>الدفع عبر بنكك</span>
+    </span>
+    <span class="bank-toggle" aria-hidden="true"></span>
+  </summary>
 
-<section class="bank-box hidden" id="bankPaymentBox">
-<h3 class="bankak-heading">
-<span class="bankak-logo">بنكك</span>
-الدفع عبر بنكك
-</h3>
-<div class="bank-line">الخدمة: <strong id="bankName">—</strong></div>
-<div class="bank-line">رقم الحساب: <strong id="bankAccountNumber">—</strong></div>
-<button class="copy-btn" id="copyBankAccount" type="button">نسخ رقم الحساب</button>
-<div class="bank-line">اسم صاحب الحساب: <strong id="bankAccountHolder">—</strong></div>
-<div class="bank-line">تعليمات التحويل:<p id="bankPaymentInstructions"></p></div>
-<p class="bank-note">بعد التحويل، أرسل صورة الإيصال إلى إدارة المتجر عبر واتساب. لا يعتبر الطلب مدفوعاً حتى تؤكد الإدارة استلام المبلغ.</p>
-</section>
+  <div class="bank-content">
+    <div class="bank-line">الخدمة: <strong id="bankName">—</strong></div>
+    <div class="bank-line">رقم الحساب: <strong id="bankAccountNumber">—</strong></div>
+    <button class="copy-btn" id="copyBankAccount" type="button">نسخ رقم الحساب</button>
+    <div class="bank-line">اسم صاحب الحساب: <strong id="bankAccountHolder">—</strong></div>
+    <div class="bank-line">تعليمات التحويل:<p id="bankPaymentInstructions"></p></div>
+    <p class="bank-note">بعد التحويل، أرسل صورة الإيصال إلى إدارة المتجر عبر واتساب. لا يعتبر الطلب مدفوعاً حتى تؤكد الإدارة استلام المبلغ.</p>
+  </div>
+</details>
 
 <details class="about" id="about">
 <summary>🐵 حول متجر MONKEY</summary>
