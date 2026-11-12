@@ -45,16 +45,72 @@ header{background:#1b1b1b;padding:12px 16px;display:flex;align-items:center;just
 .order-btn{width:100%;padding:8px;border:0;border-radius:7px;background:#ff8500;color:#111;font-size:12px;font-weight:bold}
 .image-count{display:block;color:#999;font-size:10px;margin-top:5px}
 .empty{grid-column:1/-1;padding:25px 10px;text-align:center;color:#bbb;border:1px dashed #555;border-radius:12px;line-height:1.8}
+
 .about,.bank-box{margin:16px;padding:14px;background:#202020;border:1px solid #ff8500;color:#ccc;line-height:1.8;border-radius:8px}
 .about summary{text-align:center;color:#ffae42;font-weight:bold;cursor:pointer}
 .about a{color:#ffae42;text-decoration:none;direction:ltr;display:inline-block}
-.bank-box h3{color:#ffae42;margin-top:0}
-.bankak-heading{display:flex;align-items:center;gap:9px}
-.bankak-logo{display:inline-flex;align-items:center;justify-content:center;width:43px;height:27px;border-radius:6px;background:#168b45;color:white;font-size:12px;font-weight:bold}
-.bank-line{padding:9px;margin:7px 0;background:#292929;border-radius:7px;overflow-wrap:anywhere}
+
+.bank-box{
+  padding:0;
+  overflow:hidden;
+  background:#202020;
+  border:1px solid #ff8500;
+  border-radius:10px;
+}
+.bank-box>summary{
+  list-style:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 13px;
+  cursor:pointer;
+  color:#ffae42;
+  font-weight:bold;
+  font-size:13px;
+}
+.bank-box>summary::-webkit-details-marker{display:none}
+.bankak-heading{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+.bankak-logo{
+  display:block;
+  width:48px;
+  height:32px;
+  object-fit:contain;
+  background:#fff;
+  border-radius:6px;
+  padding:2px;
+}
+.bank-toggle::before{
+  content:"+";
+  display:grid;
+  place-items:center;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:#ff8500;
+  color:#111;
+  font-size:19px;
+}
+.bank-box[open] .bank-toggle::before{content:"−"}
+.bank-content{
+  padding:8px 12px 12px;
+  border-top:1px solid #383838;
+}
+.bank-line{
+  padding:9px;
+  margin:7px 0;
+  background:#292929;
+  border-radius:7px;
+  overflow-wrap:anywhere;
+}
 .bank-line strong{color:#ffae42}
 .copy-btn{padding:7px 12px;border:0;border-radius:7px;background:#ff8500;color:#111;font-weight:bold}
 .bank-note{font-size:11px;color:#aaa}
+
 footer{padding:18px;text-align:center;color:#aaa;background:#1b1b1b;margin-top:25px;font-size:12px;line-height:1.8}
 footer h3{color:#ff8500}
 .modal{position:fixed;inset:0;z-index:2000;background:#000c;display:flex;align-items:center;justify-content:center;padding:12px}
@@ -84,7 +140,13 @@ footer h3{color:#ff8500}
 .gallery-controls{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:10px}
 .gallery-controls button{background:#ff8500;color:#111;border:0;border-radius:7px;padding:8px 15px;font-weight:bold}
 #imageCounter{color:#ccc;font-size:12px}
-@media(max-width:360px){.products{gap:7px}.product-photo{height:100px}.product-body{padding:7px}.logo{font-size:21px}.header-link{padding:7px}}
+@media(max-width:360px){
+.products{gap:7px}
+.product-photo{height:100px}
+.product-body{padding:7px}
+.logo{font-size:21px}
+.header-link{padding:7px}
+}
 </style>
 </head>
 
@@ -121,10 +183,11 @@ footer h3{color:#ff8500}
 <div class="empty">جارٍ تحميل المنتجات...</div>
 </div>
 </section>
+
 <details class="bank-box hidden" id="bankPaymentBox">
   <summary>
     <span class="bankak-heading">
-      <span class="bankak-logo">بنكك</span>
+      <img class="bankak-logo" src="./bankak-logo.png" alt="شعار بنكك">
       <span>الدفع عبر بنكك</span>
     </span>
     <span class="bank-toggle" aria-hidden="true"></span>
@@ -194,6 +257,6 @@ footer h3{color:#ff8500}
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./app.js?v=20261112-6"></script>
+<script src="./app.js?v=20261112-7"></script>
 </body>
 </html>
