@@ -49,6 +49,8 @@ header{background:#1b1b1b;padding:12px 16px;display:flex;align-items:center;just
 .about summary{text-align:center;color:#ffae42;font-weight:bold;cursor:pointer}
 .about a{color:#ffae42;text-decoration:none;direction:ltr;display:inline-block}
 .bank-box h3{color:#ffae42;margin-top:0}
+.bankak-heading{display:flex;align-items:center;gap:9px}
+.bankak-logo{display:inline-flex;align-items:center;justify-content:center;width:43px;height:27px;border-radius:6px;background:#168b45;color:white;font-size:12px;font-weight:bold}
 .bank-line{padding:9px;margin:7px 0;background:#292929;border-radius:7px;overflow-wrap:anywhere}
 .bank-line strong{color:#ffae42}
 .copy-btn{padding:7px 12px;border:0;border-radius:7px;background:#ff8500;color:#111;font-weight:bold}
@@ -74,10 +76,6 @@ footer h3{color:#ff8500}
 #checkoutBtn:disabled{opacity:.5}
 #checkoutMessage{color:#ffae42;font-size:12px;line-height:1.8;overflow-wrap:anywhere}
 #checkoutMessage a{color:#ffae42}
-.receipt-area{margin-top:12px;padding:12px;background:#292929;border-radius:8px}
-.receipt-area label{display:block;color:#ffae42;margin-bottom:8px}
-.receipt-area input{width:100%;color:#ccc}
-#transferPreview{display:block;max-width:100%;max-height:220px;margin-top:10px;border-radius:7px}
 #toast{display:none;position:fixed;bottom:18px;right:50%;transform:translateX(50%);z-index:5000;background:#ff8500;color:#111;padding:10px 16px;border-radius:9px;font-weight:bold}
 #imageModal{z-index:4000}
 .image-viewer{width:min(96vw,700px);background:#171717;border:1px solid #ff8500;border-radius:12px;padding:10px;text-align:center}
@@ -125,7 +123,10 @@ footer h3{color:#ff8500}
 </section>
 
 <section class="bank-box hidden" id="bankPaymentBox">
-<h3>💳 الدفع عبر بنكك</h3>
+<h3 class="bankak-heading">
+<span class="bankak-logo">بنكك</span>
+الدفع عبر بنكك
+</h3>
 <div class="bank-line">الخدمة: <strong id="bankName">—</strong></div>
 <div class="bank-line">رقم الحساب: <strong id="bankAccountNumber">—</strong></div>
 <button class="copy-btn" id="copyBankAccount" type="button">نسخ رقم الحساب</button>
@@ -165,13 +166,6 @@ footer h3{color:#ff8500}
 <input id="customerName" type="text" placeholder="الاسم الكامل" autocomplete="name">
 <input id="customerPhone" type="tel" placeholder="رقم الجوال" autocomplete="tel">
 <input id="customerAddress" type="text" placeholder="العنوان أو المدينة" autocomplete="street-address">
-</div>
-
-<div class="receipt-area">
-<label for="transferReceipt">صورة إيصال التحويل (اختياري)</label>
-<input id="transferReceipt" type="file" accept="image/*">
-<img id="transferPreview" class="hidden" alt="معاينة إيصال التحويل">
-<p class="bank-note">ستظهر معاينة الصورة هنا. هذه النسخة لا ترفع الإيصال إلى الخادم؛ أرسله يدوياً عبر واتساب.</p>
 </div>
 
 <button id="checkoutBtn" type="button">تأكيد الطلب عبر واتساب</button>
