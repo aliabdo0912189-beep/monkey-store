@@ -1,14 +1,14 @@
 
-const CACHE_NAME = "monkey-store-v3";
+const CACHE_NAME = "monkey-store-v4";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
+  "./app.js",
   "./manifest.webmanifest",
   "./monkey-icon.png"
 ];
 
-// تثبيت النسخة الجديدة
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -17,7 +17,6 @@ self.addEventListener("install", event => {
   );
 });
 
-// تفعيل النسخة الجديدة وحذف النسخ القديمة
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys()
@@ -35,7 +34,6 @@ self.addEventListener("activate", event => {
   );
 });
 
-// جلب الملفات من الإنترنت وتحديث التخزين المؤقت
 self.addEventListener("fetch", event => {
   const request = event.request;
 
@@ -43,7 +41,6 @@ self.addEventListener("fetch", event => {
 
   const url = new URL(request.url);
 
-  // تجاهل المواقع الخارجية
   if (url.origin !== self.location.origin) return;
 
   event.respondWith(
@@ -61,15 +58,12 @@ self.addEventListener("fetch", event => {
         return response;
       })
       .catch(async () => {
-        // استخدام النسخة المخزنة عند انقطاع الإنترنت
         const cached = await caches.match(request);
 
         if (cached) return cached;
 
-        // فتح الصفحة الرئيسية عند انقطاع الإنترنت
         if (request.mode === "navigate") {
           const home = await caches.match("./index.html");
-
           if (home) return home;
         }
 
