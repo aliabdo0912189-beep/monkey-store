@@ -6,33 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#111111">
   <meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
-  <link rel="icon" type="image/png" href="./monkey-icon.png">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <title>MONKEY | متجر القرود</title>
+  <title>MONKEY | متجر قطع غيار السيارات</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       background: #111;
-      color: white;
+      color: #fff;
       font-family: Arial, sans-serif;
     }
 
+    button, input { font: inherit; }
+
     header {
       background: #1b1b1b;
-      padding: 15px 18px;
+      padding: 14px 18px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      justify-content: space-between;
       gap: 12px;
       border-bottom: 2px solid #ff8500;
     }
@@ -44,156 +37,134 @@
     }
 
     .tagline {
-      color: #ddd;
+      color: #bbb;
       font-size: 12px;
+      margin-top: 4px;
     }
 
-    .header-link {
-      color: #ffae42;
-      text-decoration: none;
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-link, .cart-open {
       border: 1px solid #ff8500;
-      padding: 9px 13px;
+      color: #ffae42;
+      background: transparent;
+      padding: 9px 12px;
       border-radius: 9px;
+      cursor: pointer;
+      text-decoration: none;
       font-size: 13px;
     }
 
-    .header-link:hover {
-      background: #ff8500;
+    .cart-open {
+      position: relative;
       color: #111;
+      background: #ff8500;
+      font-size: 18px;
+      padding: 8px 13px;
     }
+
+    #cartCount {
+      position: absolute;
+      top: -8px;
+      left: -7px;
+      background: #fff;
+      color: #111;
+      border-radius: 50%;
+      min-width: 19px;
+      height: 19px;
+      font-size: 11px;
+      display: grid;
+      place-items: center;
+      font-weight: bold;
+    }
+
+    .hidden { display: none !important; }
 
     .hero {
       text-align: center;
-      padding: 35px 15px;
-      background: linear-gradient(140deg,#242424,#111);
+      padding: 32px 15px;
+      background: linear-gradient(140deg, #252525, #111);
     }
 
     .hero h1 {
       color: #ff8500;
-      font-size: 30px;
+      font-size: 29px;
     }
 
     .hero p {
       color: #ccc;
-      line-height: 1.8;
+      line-height: 1.9;
     }
 
-    /* شريط البحث وقائمة السيارات */
-    .search-wrap {
-      width: 90%;
-      max-width: 500px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .search-wrap .search {
-      width: 100%;
-      max-width: none;
-      padding: 14px 14px 14px 55px;
+    .search {
+      width: 92%;
+      max-width: 520px;
+      padding: 14px;
       border: 1px solid #ff8500;
-      border-radius: 12px;
+      border-radius: 11px;
       background: #222;
       color: white;
-      font-size: 16px;
+      font-size: 15px;
+      outline: none;
     }
 
-    .car-filter-toggle {
-      position: absolute;
-      left: 7px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 38px;
-      height: 38px;
-      border: 0;
-      border-radius: 8px;
+    .section { padding: 20px; }
+
+    .section h2 { color: #ffae42; }
+
+    .filters {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .filter {
+      padding: 9px 17px;
+      border: 1px solid #ff8500;
+      background: #222;
+      color: #ffae42;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .filter.active {
       background: #ff8500;
       color: #111;
-      font-size: 23px;
-      cursor: pointer;
-    }
-
-    .car-filter-panel {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      left: 0;
-      z-index: 1000;
-      padding: 13px;
-      background: #181818;
-      border: 1px solid #ff8500;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px #000b;
-      text-align: right;
-    }
-
-    .car-filter-panel[hidden] {
-      display: none !important;
-    }
-
-    .car-filter-panel select,
-    .car-filter-panel button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    .car-filter-panel select {
-      border: 1px solid #ff8500;
-      background: #222;
-      color: white;
-    }
-
-    .car-filter-panel button {
-      border: 0;
-      background: #ff9d24;
-      color: #111;
       font-weight: bold;
-      cursor: pointer;
-    }
-
-    .section {
-      padding: 20px;
-    }
-
-    .section h2 {
-      color: #ffae42;
     }
 
     .products {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: stretch;
       gap: 12px;
     }
 
     .product {
       min-width: 0;
-      overflow: hidden;
       background: #202020;
       border: 1px solid #383838;
       border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .product-photo {
-      width: 100%;
-      max-width: 100%;
       overflow: hidden;
-      border-radius: 8px;
     }
 
-    .product-photo img {
-      max-width: 100%;
+    .product > img {
+      width: 100%;
+      height: 145px;
+      object-fit: contain;
+      background: #292929;
+      padding: 8px;
     }
+
+    .product-body { padding: 11px; }
 
     .product h3 {
       font-size: 15px;
+      margin: 5px 0;
       overflow-wrap: anywhere;
     }
 
@@ -201,33 +172,42 @@
       color: #aaa;
       font-size: 12px;
       line-height: 1.7;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-      max-width: 100%;
+      min-height: 30px;
     }
 
-    .product .placeholder {
-      height: 105px;
-      display: grid;
-      place-items: center;
-      background: #292929;
-      border-radius: 8px;
+    .condition {
+      display: inline-block;
+      color: #ffae42;
+      font-size: 11px;
+      margin: 5px 0;
+    }
+
+    .product-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .price {
       color: #ff8500;
-      font-size: 35px;
+      font-weight: bold;
     }
 
-    .product strong {
-      overflow-wrap: anywhere;
-      line-height: 1.8;
-    }
-
-    .product a {
-      overflow-wrap: anywhere;
+    .order-btn {
+      width: 100%;
+      padding: 10px;
+      border: 0;
+      border-radius: 8px;
+      background: #ff8500;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     .empty {
       grid-column: 1 / -1;
-      padding: 30px 12px;
+      padding: 28px 12px;
       text-align: center;
       color: #bbb;
       border: 1px dashed #555;
@@ -235,15 +215,23 @@
       line-height: 1.9;
     }
 
-    /* قسم حول المتجر القابل للفتح والإغلاق */
+    .shipping-note {
+      margin: 20px;
+      padding: 16px;
+      background: #202020;
+      border-right: 3px solid #ff8500;
+      color: #ccc;
+      line-height: 1.8;
+      border-radius: 8px;
+    }
+
     .about {
       margin: 20px;
-      padding: 22px;
+      padding: 20px;
       background: #202020;
       border: 1px solid #ff8500;
-      border-radius: 14px;
+      border-radius: 13px;
       line-height: 2;
-      scroll-margin-top: 20px;
     }
 
     .about summary {
@@ -251,35 +239,6 @@
       text-align: center;
       font-weight: bold;
       cursor: pointer;
-      list-style: none;
-    }
-
-    .about summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .about summary::after {
-      content: " ＋";
-    }
-
-    .about[open] summary {
-      margin-bottom: 14px;
-    }
-
-    .about[open] summary::after {
-      content: " −";
-    }
-
-    .about-intro {
-      color: #ccc;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .about p {
-      color: #ddd;
-      font-size: 14px;
-      overflow-wrap: anywhere;
     }
 
     .about a {
@@ -289,37 +248,166 @@
       display: inline-block;
     }
 
-    .about a:hover {
-      text-decoration: underline;
-    }
-
     footer {
       padding: 20px;
       text-align: center;
       color: #aaa;
       background: #1b1b1b;
-      margin-top: 35px;
+      margin-top: 30px;
       font-size: 13px;
       line-height: 2;
-      border-top: 1px solid #383838;
     }
 
-    footer h3 {
-      color: #ff8500;
+    footer h3 { color: #ff8500; }
+
+    /* نافذة السلة */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: #000c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #1c1c1c;
+      border: 1px solid #ff8500;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #444;
+      padding-bottom: 12px;
+    }
+
+    .modal-head h2 { color: #ffae42; }
+
+    .close-btn {
+      background: transparent;
+      color: white;
+      border: 0;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 0;
+      border-bottom: 1px solid #383838;
+    }
+
+    .cart-row small {
+      display: block;
+      color: #aaa;
+      margin-top: 5px;
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .qty button {
+      border: 1px solid #ff8500;
+      background: #292929;
+      color: #ffae42;
+      border-radius: 6px;
+      padding: 5px 9px;
+      cursor: pointer;
+    }
+
+    .qty .remove {
+      color: #ff7777;
+      border-color: #a44;
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      color: #ffae42;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .customer-form input {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      margin: 9px 0;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background: #292929;
+      color: white;
+      outline: none;
+    }
+
+    .customer-form input:focus {
+      border-color: #ff8500;
+    }
+
+    #checkoutBtn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 9px;
+      background: #ff8500;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #checkoutBtn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    #checkoutMessage {
+      color: #ffae42;
+      font-size: 13px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    #checkoutMessage a { color: #ffae42; }
+
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 50%;
+      transform: translateX(50%);
+      z-index: 3000;
+      background: #ff8500;
+      color: #111;
+      padding: 12px 20px;
+      border-radius: 9px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px #0008;
     }
 
     @media (max-width: 360px) {
-      .products {
-        gap: 8px;
-      }
-
-      .product {
-        padding: 8px;
-      }
-
-      .logo {
-        font-size: 23px;
-      }
+      .products { gap: 8px; }
+      .product-body { padding: 8px; }
+      .logo { font-size: 22px; }
+      .header-link { padding: 8px; }
     }
   </style>
 </head>
@@ -332,110 +420,120 @@
     <div class="tagline">متجر قطع غيار السيارات</div>
   </div>
 
-  <a class="header-link" href="#about">حول المتجر</a>
+  <div class="header-actions">
+    <a class="header-link" href="#about">حول المتجر</a>
+    <button class="cart-open" id="cartOpen" type="button" aria-label="سلة المشتريات">
+      🛒
+      <span id="cartCount" class="hidden">0</span>
+    </button>
+  </div>
 </header>
 
 <section class="hero">
   <h1>مرحباً بك في MONKEY</h1>
-
   <p>
     قطع غيار السيارات الجديدة والمستعملة<br>
     الجودة والاختيار المناسب في مكان واحد
   </p>
 
-  <div class="search-wrap">
-    <input
-      class="search"
-      id="search"
-      type="search"
-      placeholder="ابحث عن قطعة الغيار..."
-    >
-
-    <button
-      id="carFilterToggle"
-      class="car-filter-toggle"
-      type="button"
-      aria-label="اختيار شركة السيارة"
-      aria-expanded="false"
-    >▾</button>
-  </div>
+  <input
+    class="search"
+    id="search"
+    type="search"
+    placeholder="ابحث عن قطعة الغيار أو السيارة..."
+  >
 </section>
 
 <section class="section">
   <h2>🛒 منتجاتنا</h2>
 
-  <div class="products" id="products">
-    <div class="empty">
-      <div style="font-size:40px">🔧</div>
-      <strong>قريباً ستتوفر المنتجات</strong>
-      <br>
-      سيتم إضافة صور قطع الغيار والأسعار من لوحة المدير.
-    </div>
+  <div class="filters">
+    <button class="filter active" data-filter="all">الكل</button>
+    <button class="filter" data-filter="new">قطع جديدة</button>
+    <button class="filter" data-filter="used">مستعملة نظيفة</button>
+  </div>
+
+  <div class="products" id="productGrid">
+    <div class="empty">جارٍ تحميل المنتجات...</div>
   </div>
 </section>
+
+<div class="shipping-note">
+  🚚 لطلب قطع الغيار والاستفسار عن التوفر والشحن، أضف القطع إلى السلة وأرسل طلبك عبر واتساب.
+</div>
 
 <details class="about" id="about">
   <summary>🐵 حول متجر MONKEY</summary>
 
-  <p class="about-intro">
+  <p>
     متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة.
     نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.
   </p>
 
   <p>
-    <strong>صاحب المتجر:</strong><br>
-    مهندس علي عبد المنعم أحمد ابراهيم
+    <strong>إشراف:</strong><br>
+    مهندس علي عبد المنعم أحمد إبراهيم
   </p>
 
   <p>
-    📧 <strong>البريد الإلكتروني:</strong><br>
-    <a href="mailto:ali.abdo0912189@gmail.com">
-      ali.abdo0912189@gmail.com
-    </a>
+    📧 البريد الإلكتروني:<br>
+    <a href="mailto:ali.abdo0912189@gmail.com">ali.abdo0912189@gmail.com</a>
   </p>
 
   <p>
-    🇸🇩 <strong>واتساب السودان:</strong><br>
-    <a href="https://wa.me/249912189332" target="_blank">
-      00249912189332
-    </a>
+    🇸🇩 واتساب السودان:<br>
+    <a href="https://wa.me/249912189332" target="_blank" rel="noopener">00249912189332</a>
   </p>
 
   <p>
-    🇸🇦 <strong>واتساب السعودية:</strong><br>
-    <a href="https://wa.me/966551093268" target="_blank">
-      00966551093268
-    </a>
+    🇸🇦 واتساب السعودية:<br>
+    <a href="https://wa.me/966551093268" target="_blank" rel="noopener">00966551093268</a>
   </p>
 
   <p>
-    📞 <strong>هاتف السعودية:</strong><br>
-    <a href="tel:+966533040960">
-      00966533040960
-    </a>
+    📞 هاتف السعودية:<br>
+    <a href="tel:+966533040960">00966533040960</a>
   </p>
 </details>
 
 <footer>
   <h3>🐵 MONKEY</h3>
-  <p>متجر القرود لقطع غيار السيارات</p>
+  <p>قطع غيار السيارات الجديدة والمستعملة</p>
   <p>جميع الحقوق محفوظة © MONKEY</p>
 </footer>
 
+<!-- نافذة سلة المشتريات -->
+<div class="modal hidden" id="cartModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>🛒 سلة المشتريات</h2>
+      <button class="close-btn" id="cartClose" type="button" aria-label="إغلاق">×</button>
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="total">
+      <span>الإجمالي</span>
+      <span id="cartTotal">0 ج.س</span>
+    </div>
+
+    <h3 style="color:#ffae42">بيانات العميل</h3>
+
+    <div class="customer-form">
+      <input id="customerName" type="text" placeholder="الاسم الكامل" autocomplete="name">
+      <input id="customerPhone" type="tel" placeholder="رقم الجوال" autocomplete="tel">
+      <input id="customerAddress" type="text" placeholder="العنوان أو المدينة" autocomplete="street-address">
+    </div>
+
+    <button id="checkoutBtn" type="button">تأكيد الطلب عبر واتساب</button>
+    <p id="checkoutMessage"></p>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./app.js"></script>
-
-<script>
-  document.querySelector('.header-link').addEventListener('click', () => {
-    document.getElementById('about').open = true;
-  });
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js")
-        .catch(error => console.error("Service Worker:", error));
-    });
-  }
-</script>
 
 </body>
 </html>
