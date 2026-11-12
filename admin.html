@@ -6,140 +6,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
 <title>MONKEY | لوحة إدارة المتجر</title>
-
 <style>
 :root {
-  --bg:#111;
-  --panel:#1c1c1c;
-  --panel2:#252525;
-  --orange:#ff7900;
-  --text:#fff;
-  --muted:#aaa;
-  --border:#383838;
-  --red:#e74c3c;
-  --green:#27ae60;
+  --bg:#111;--panel:#1c1c1c;--panel2:#252525;
+  --orange:#ff7900;--text:#fff;--muted:#aaa;
+  --border:#383838;--red:#e74c3c;--green:#27ae60;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  padding:20px;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,sans-serif;
-}
+body{margin:0;padding:20px;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
 .container{max-width:1100px;margin:auto}
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:25px;
-}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:25px}
 .logo{font-size:28px;font-weight:bold;color:var(--orange)}
 .subtitle{color:var(--muted);font-size:13px;margin-top:5px}
 h2{font-size:20px;margin-top:0}
 h3{font-size:17px;color:var(--orange)}
-.panel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:20px;
-  margin-bottom:18px;
-}
-input,select,textarea{
-  width:100%;
-  background:#111;
-  color:white;
-  border:1px solid #444;
-  padding:12px;
-  border-radius:8px;
-  margin:7px 0 14px;
-  font-size:15px;
-}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px;margin-bottom:18px}
+input,select,textarea{width:100%;background:#111;color:white;border:1px solid #444;padding:12px;border-radius:8px;margin:7px 0 14px;font-size:15px}
 textarea{min-height:90px;resize:vertical}
 label{font-size:14px;color:#ddd}
-button{
-  border:0;
-  border-radius:8px;
-  padding:12px 18px;
-  font-size:14px;
-  font-weight:bold;
-  cursor:pointer;
-}
+button{border:0;border-radius:8px;padding:12px 18px;font-size:14px;font-weight:bold;cursor:pointer}
 .primary{background:var(--orange);color:#111}
 .secondary{background:#444;color:white}
 .danger{background:var(--red);color:white}
 .success{background:var(--green);color:white}
 button:disabled{opacity:.5;cursor:not-allowed}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:12px;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .hidden{display:none!important}
 .message{padding:12px;border-radius:8px;margin:10px 0;font-size:14px}
 .error{background:#572020;color:#ffdada}
 .info{background:#263b29;color:#d8ffdf}
-.product{
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px;
-  margin-bottom:12px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.product img{
-  width:85px;
-  height:85px;
-  object-fit:cover;
-  border-radius:8px;
-  background:#111;
-}
+.product{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.product img{width:85px;height:85px;object-fit:cover;border-radius:8px;background:#111}
 .product-info{flex:1;min-width:160px}
 .product-info strong{display:block;margin-bottom:7px}
 .product-info small{color:var(--muted);line-height:1.8}
 .actions{display:flex;gap:7px;flex-wrap:wrap}
-.section-title{
-  color:var(--orange);
-  border-bottom:1px solid var(--border);
-  padding-bottom:10px;
-  margin-bottom:18px;
-}
-.checkbox-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:10px 0 16px;
-}
+.section-title{color:var(--orange);border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:18px}
+.checkbox-row{display:flex;align-items:center;gap:10px;margin:10px 0 16px}
 .checkbox-row input{width:auto;margin:0;accent-color:var(--orange)}
-.preview{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin:10px 0;
-}
-.preview img{
-  width:85px;height:85px;object-fit:cover;
-  border-radius:8px;border:1px solid #555;
-}
+.preview{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.preview-item{position:relative;width:96px;height:96px}
+.preview-item img{width:96px;height:96px;object-fit:cover;border-radius:8px;border:1px solid #555;display:block}
+.preview-remove{position:absolute;top:-7px;left:-7px;width:26px;height:26px;padding:0;border-radius:50%;background:#e74c3c;color:#fff;border:2px solid #111;font-size:19px;line-height:22px;display:grid;place-items:center;z-index:2;cursor:pointer}
 .note{color:var(--muted);font-size:12px;line-height:1.8}
 hr{border:0;border-top:1px solid var(--border);margin:20px 0}
-@media(max-width:600px){
-  body{padding:12px}
-  .panel{padding:14px}
-  .product{align-items:flex-start}
-  .actions{width:100%}
-}
+@media(max-width:600px){body{padding:12px}.panel{padding:14px}.product{align-items:flex-start}.actions{width:100%}}
 </style>
 </head>
-
 <body>
 <div class="container">
-
 <header>
   <div>
     <div class="logo">🐵 MONKEY</div>
@@ -161,151 +76,70 @@ hr{border:0;border-top:1px solid var(--border);margin:20px 0}
 </section>
 
 <div id="adminContent" class="hidden">
+<section class="panel">
+<h2 class="section-title">المنتجات والمخزون</h2>
+<p class="note">عدد المنتجات المتاحة في المتجر: <strong id="productCount">0</strong></p>
+<h3 id="formTitle">إضافة منتج جديد</h3>
 
-  <section class="panel">
-    <h2 class="section-title">المنتجات والمخزون</h2>
-    <p class="note">عدد المنتجات المتاحة في المتجر: <strong id="productCount">0</strong></p>
+<form id="productForm">
+<input id="productId" type="hidden">
+<div class="grid">
+<div><label for="productName">اسم القطعة</label><input id="productName" required placeholder="مثال: صدام أمامي"></div>
+<div><label for="condition">حالة القطعة</label><select id="condition" required><option value="new">جديدة</option><option value="used">مستعملة نظيفة</option></select></div>
+<div>
+<label for="carMake">شركة السيارة</label>
+<input id="carMake" list="carMakes" placeholder="اختر أو اكتب الشركة">
+<datalist id="carMakes">
+<option value="تويوتا"><option value="هيونداي"><option value="كيا"><option value="نيسان"><option value="ميتسوبيشي"><option value="هوندا"><option value="مازدا"><option value="إيسوزو"><option value="سوزوكي"><option value="شيفروليه"><option value="مرسيدس"><option value="فولكس فاجن"><option value="شانجان"><option value="جيلي"><option value="شيري"><option value="هافال"><option value="جيتور"><option value="جاك"><option value="BYD"><option value="جريت وول"><option value="دايو"><option value="دايهاتسو"><option value="رينو"><option value="بيجو"><option value="فيات"><option value="سكودا">
+</datalist>
+</div>
+<div><label for="carModel">موديل السيارة</label><input id="carModel" placeholder="مثال: كورولا"></div>
+<div><label for="modelYears">سنوات الموديل</label><input id="modelYears" placeholder="مثال: 2010 - 2014"></div>
+<div><label for="costSar">سعر التكلفة بالريال السعودي</label><input id="costSar" type="number" min="0" step="0.01" placeholder="0"></div>
+<div><label for="exchangeRate">سعر الصرف المستخدم</label><input id="exchangeRate" type="number" min="0" step="0.01" placeholder="يؤخذ من الإعدادات"></div>
+<div><label for="profitPercent">نسبة الربح %</label><input id="profitPercent" type="number" min="0" step="0.01" placeholder="يؤخذ من الإعدادات"></div>
+<div><label for="priceSdg">السعر النهائي بالجنيه السوداني</label><input id="priceSdg" type="number" min="0" step="0.01" placeholder="0"></div>
+</div>
 
-    <h3 id="formTitle">إضافة منتج جديد</h3>
+<div class="checkbox-row"><input id="fixedPrice" type="checkbox"><label for="fixedPrice">تثبيت السعر يدوياً وعدم تغييره تلقائياً</label></div>
+<label for="description">وصف القطعة</label>
+<textarea id="description" placeholder="اكتب تفاصيل القطعة وحالتها..."></textarea>
+<label for="images">صور المنتج</label>
+<input id="images" type="file" accept="image/*" multiple>
+<div id="imagePreview" class="preview"></div>
+<p class="note">يمكنك إضافة أكثر من صورة للمنتج. اضغط × لحذف أي صورة قبل حفظ التعديلات.</p>
+<button id="saveProductBtn" class="primary" type="submit">حفظ المنتج</button>
+<button id="cancelEditBtn" class="secondary hidden" type="button">إلغاء التعديل</button>
+</form>
+</section>
 
-    <form id="productForm">
-      <input id="productId" type="hidden">
+<section class="panel">
+<h2 class="section-title">التحكم بالأسعار والأرباح</h2>
+<label for="defaultExchangeRate">سعر صرف الريال السعودي مقابل الجنيه السوداني</label>
+<input id="defaultExchangeRate" type="number" min="0" step="0.01">
+<label for="defaultProfitPercent">نسبة الربح الافتراضية %</label>
+<input id="defaultProfitPercent" type="number" min="0" step="0.01">
+<button id="savePricingBtn" class="primary" type="button">حفظ إعدادات الأسعار</button>
+<p class="note">تستخدم هذه القيم كإعدادات افتراضية للمنتجات الجديدة. الأسعار المثبتة يدوياً لا تتغير.</p>
+</section>
 
-      <div class="grid">
-        <div>
-          <label for="productName">اسم القطعة</label>
-          <input id="productName" required placeholder="مثال: صدام أمامي">
-        </div>
-        <div>
-          <label for="condition">حالة القطعة</label>
-          <select id="condition" required>
-            <option value="new">جديدة</option>
-            <option value="used">مستعملة نظيفة</option>
-          </select>
-        </div>
-        <div>
-          <label for="carMake">شركة السيارة</label>
-          <input id="carMake" list="carMakes" placeholder="اختر أو اكتب الشركة">
-          <datalist id="carMakes">
-            <option value="تويوتا">
-            <option value="هيونداي">
-            <option value="كيا">
-            <option value="نيسان">
-            <option value="ميتسوبيشي">
-            <option value="هوندا">
-            <option value="مازدا">
-            <option value="إيسوزو">
-            <option value="سوزوكي">
-            <option value="شيفروليه">
-            <option value="مرسيدس">
-            <option value="فولكس فاجن">
-            <option value="شانجان">
-            <option value="جيلي">
-            <option value="شيري">
-            <option value="هافال">
-            <option value="جيتور">
-            <option value="جاك">
-            <option value="BYD">
-            <option value="جريت وول">
-            <option value="دايو">
-            <option value="دايهاتسو">
-            <option value="رينو">
-            <option value="بيجو">
-            <option value="فيات">
-            <option value="سكودا">
-          </datalist>
-        </div>
-        <div>
-          <label for="carModel">موديل السيارة</label>
-          <input id="carModel" placeholder="مثال: كورولا">
-        </div>
-        <div>
-          <label for="modelYears">سنوات الموديل</label>
-          <input id="modelYears" placeholder="مثال: 2010 - 2014">
-        </div>
-        <div>
-          <label for="costSar">سعر التكلفة بالريال السعودي</label>
-          <input id="costSar" type="number" min="0" step="0.01" placeholder="0">
-        </div>
-        <div>
-          <label for="exchangeRate">سعر الصرف المستخدم</label>
-          <input id="exchangeRate" type="number" min="0" step="0.01" placeholder="يؤخذ من الإعدادات">
-        </div>
-        <div>
-          <label for="profitPercent">نسبة الربح %</label>
-          <input id="profitPercent" type="number" min="0" step="0.01" placeholder="يؤخذ من الإعدادات">
-        </div>
-        <div>
-          <label for="priceSdg">السعر النهائي بالجنيه السوداني</label>
-          <input id="priceSdg" type="number" min="0" step="0.01" placeholder="0">
-        </div>
-      </div>
+<section class="panel">
+<h2 class="section-title">إعدادات حساب بنكك</h2>
+<div class="message info">أدخل بيانات حساب بنكك الحقيقي بنفسك بعد التأكد منها. رقم الحساب التجريبي 1890245 ليس حساباً معتمداً لاستقبال الأموال.</div>
+<div class="checkbox-row"><input id="bankPaymentEnabled" type="checkbox"><label for="bankPaymentEnabled">تفعيل الدفع عبر بنكك في تطبيق العملاء</label></div>
+<label for="bankName">اسم البنك أو خدمة الدفع</label><input id="bankName" placeholder="مثال: بنك الخرطوم - بنكك">
+<label for="bankAccountNumber">رقم الحساب الحقيقي</label><input id="bankAccountNumber" placeholder="أدخل رقم الحساب الصحيح">
+<label for="bankAccountHolder">اسم صاحب الحساب</label><input id="bankAccountHolder" placeholder="اسم صاحب الحساب">
+<label for="bankPaymentInstructions">تعليمات التحويل للعميل</label><textarea id="bankPaymentInstructions" placeholder="اكتب تعليمات التحويل وإرسال الإيصال..."></textarea>
+<button id="saveBankBtn" class="primary" type="button">حفظ إعدادات بنكك</button>
+<p class="note">لن تظهر بيانات الدفع للعملاء إلا عند تفعيل الدفع وإدخال رقم حساب واسم صاحب حساب.</p>
+</section>
 
-      <div class="checkbox-row">
-        <input id="fixedPrice" type="checkbox">
-        <label for="fixedPrice">تثبيت السعر يدوياً وعدم تغييره تلقائياً</label>
-      </div>
-
-      <label for="description">وصف القطعة</label>
-      <textarea id="description" placeholder="اكتب تفاصيل القطعة وحالتها..."></textarea>
-
-      <label for="images">صور المنتج</label>
-      <input id="images" type="file" accept="image/*" multiple>
-      <div id="imagePreview" class="preview"></div>
-      <p class="note">يمكنك إضافة أكثر من صورة للمنتج. تأكد من إعداد صلاحيات رفع الملفات في مساحة التخزين product-images.</p>
-
-      <button id="saveProductBtn" class="primary" type="submit">حفظ المنتج</button>
-      <button id="cancelEditBtn" class="secondary hidden" type="button">إلغاء التعديل</button>
-    </form>
-  </section>
-
-  <section class="panel">
-    <h2 class="section-title">التحكم بالأسعار والأرباح</h2>
-
-    <label for="defaultExchangeRate">سعر صرف الريال السعودي مقابل الجنيه السوداني</label>
-    <input id="defaultExchangeRate" type="number" min="0" step="0.01">
-
-    <label for="defaultProfitPercent">نسبة الربح الافتراضية %</label>
-    <input id="defaultProfitPercent" type="number" min="0" step="0.01">
-
-    <button id="savePricingBtn" class="primary" type="button">حفظ إعدادات الأسعار</button>
-    <p class="note">تستخدم هذه القيم كإعدادات افتراضية للمنتجات الجديدة. الأسعار المثبتة يدوياً لا تتغير.</p>
-  </section>
-
-  <section class="panel">
-    <h2 class="section-title">إعدادات حساب بنكك</h2>
-
-    <div class="message info">
-      أدخل بيانات حساب بنكك الحقيقي بنفسك بعد التأكد منها. رقم الحساب التجريبي 1890245 ليس حساباً معتمداً لاستقبال الأموال.
-    </div>
-
-    <div class="checkbox-row">
-      <input id="bankPaymentEnabled" type="checkbox">
-      <label for="bankPaymentEnabled">تفعيل الدفع عبر بنكك في تطبيق العملاء</label>
-    </div>
-
-    <label for="bankName">اسم البنك أو خدمة الدفع</label>
-    <input id="bankName" placeholder="مثال: بنك الخرطوم - بنكك">
-
-    <label for="bankAccountNumber">رقم الحساب الحقيقي</label>
-    <input id="bankAccountNumber" placeholder="أدخل رقم الحساب الصحيح">
-
-    <label for="bankAccountHolder">اسم صاحب الحساب</label>
-    <input id="bankAccountHolder" placeholder="اسم صاحب الحساب">
-
-    <label for="bankPaymentInstructions">تعليمات التحويل للعميل</label>
-    <textarea id="bankPaymentInstructions" placeholder="اكتب تعليمات التحويل وإرسال الإيصال..."></textarea>
-
-    <button id="saveBankBtn" class="primary" type="button">حفظ إعدادات بنكك</button>
-    <p class="note">لن تظهر بيانات الدفع للعملاء إلا عند تفعيل الدفع وإدخال رقم حساب واسم صاحب حساب.</p>
-  </section>
-
-  <section class="panel">
-    <h2 class="section-title">المنتجات الحالية</h2>
-    <input id="productSearch" type="search" placeholder="ابحث عن منتج...">
-    <div id="productsList"></div>
-  </section>
-
+<section class="panel">
+<h2 class="section-title">المنتجات الحالية</h2>
+<input id="productSearch" type="search" placeholder="ابحث عن منتج...">
+<div id="productsList"></div>
+</section>
 </div>
 </div>
 
@@ -314,496 +148,240 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL = 'https://imuasdnaomubnlxcjvci.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_nvxMo7OEi917ycwbfBcf9w_I3NBsNDa';
-
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
-
+const db = createClient(SUPABASE_URL,SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 
-let products = [];
-let currentImages = [];
-let removedImages = [];
-let previewUrls = [];
+let products=[];
+let currentImages=[];
+let removedImages=[];
+let selectedFiles=[];
+let previewUrls=[];
 
-function showMessage(message, type='info') {
-  const box = $('message');
-  box.textContent = message;
-  box.className = 'message ' + type;
-  box.classList.remove('hidden');
-  window.scrollTo({top:0,behavior:'smooth'});
+function showMessage(message,type='info'){
+const box=$('message');box.textContent=message;box.className='message '+type;box.classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});
+}
+function clearMessage(){$('message').classList.add('hidden')}
+function numberValue(id){const value=Number($(id).value);return Number.isFinite(value)?value:0}
+
+async function isAdmin(){
+const {data,error}=await db.rpc('is_store_admin');
+if(error)throw error;
+return data===true;
+}
+async function checkSession(){
+const {data,error}=await db.auth.getSession();
+if(error)throw error;
+if(!data.session){showLogin();return}
+const allowed=await isAdmin();
+if(!allowed){await db.auth.signOut();showLogin();showMessage('هذا الحساب ليس لديه صلاحية إدارة المتجر.','error');return}
+showAdmin();
+}
+function showLogin(){$('loginPanel').classList.remove('hidden');$('adminContent').classList.add('hidden');$('logoutBtn').classList.add('hidden')}
+function showAdmin(){$('loginPanel').classList.add('hidden');$('adminContent').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');loadSettings();loadProducts()}
+
+$('loginBtn').addEventListener('click',async()=>{
+clearMessage();
+const email=$('email').value.trim(),password=$('password').value;
+if(!email||!password){showMessage('أدخل البريد الإلكتروني وكلمة المرور.','error');return}
+$('loginBtn').disabled=true;
+try{
+const {error}=await db.auth.signInWithPassword({email,password});
+if(error)throw error;
+const allowed=await isAdmin();
+if(!allowed){await db.auth.signOut();throw new Error('هذا الحساب غير مسجل كمدير للمتجر.')}
+showAdmin();showMessage('تم تسجيل الدخول بنجاح.','info');
+}catch(error){showMessage(error.message||'تعذر تسجيل الدخول.','error')}
+finally{$('loginBtn').disabled=false}
+});
+$('logoutBtn').addEventListener('click',async()=>{await db.auth.signOut();showLogin();showMessage('تم تسجيل الخروج.','info')});
+
+async function loadSettings(){
+const {data,error}=await db.from('app_settings').select('*').eq('id',1).single();
+if(error){showMessage('تعذر تحميل الإعدادات: '+error.message,'error');return}
+$('defaultExchangeRate').value=data.exchange_rate??'';
+$('defaultProfitPercent').value=data.profit_percent??'';
+$('bankName').value=data.bank_name??'';
+$('bankAccountNumber').value=data.bank_account_number??'';
+$('bankAccountHolder').value=data.bank_account_holder??'';
+$('bankPaymentInstructions').value=data.bank_payment_instructions??'';
+$('bankPaymentEnabled').checked=data.bank_payment_enabled===true;
 }
 
-function clearMessage() {
-  $('message').classList.add('hidden');
-}
-
-function numberValue(id) {
-  const value = Number($(id).value);
-  return Number.isFinite(value) ? value : 0;
-}
-
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, char => ({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  })[char]);
-}
-
-async function isAdmin() {
-  const {data,error} = await db.rpc('is_store_admin');
-  if (error) throw error;
-  return data === true;
-}
-
-async function checkSession() {
-  const {data,error} = await db.auth.getSession();
-  if (error) throw error;
-
-  if (!data.session) {
-    showLogin();
-    return;
-  }
-
-  const allowed = await isAdmin();
-
-  if (!allowed) {
-    await db.auth.signOut();
-    showLogin();
-    showMessage('هذا الحساب ليس لديه صلاحية إدارة المتجر.', 'error');
-    return;
-  }
-
-  showAdmin();
-}
-
-function showLogin() {
-  $('loginPanel').classList.remove('hidden');
-  $('adminContent').classList.add('hidden');
-  $('logoutBtn').classList.add('hidden');
-}
-
-function showAdmin() {
-  $('loginPanel').classList.add('hidden');
-  $('adminContent').classList.remove('hidden');
-  $('logoutBtn').classList.remove('hidden');
-  loadSettings();
-  loadProducts();
-}
-
-$('loginBtn').addEventListener('click', async () => {
-  clearMessage();
-  const email = $('email').value.trim();
-  const password = $('password').value;
-
-  if (!email || !password) {
-    showMessage('أدخل البريد الإلكتروني وكلمة المرور.', 'error');
-    return;
-  }
-
-  $('loginBtn').disabled = true;
-
-  try {
-    const {error} = await db.auth.signInWithPassword({email,password});
-    if (error) throw error;
-
-    const allowed = await isAdmin();
-
-    if (!allowed) {
-      await db.auth.signOut();
-      throw new Error('هذا الحساب غير مسجل كمدير للمتجر.');
-    }
-
-    showAdmin();
-    showMessage('تم تسجيل الدخول بنجاح.', 'info');
-
-  } catch(error) {
-    showMessage(error.message || 'تعذر تسجيل الدخول.', 'error');
-  } finally {
-    $('loginBtn').disabled = false;
-  }
+$('savePricingBtn').addEventListener('click',async()=>{
+const exchange_rate=numberValue('defaultExchangeRate');
+const profit_percent=numberValue('defaultProfitPercent');
+if(exchange_rate<=0){showMessage('أدخل سعر صرف صحيحاً أكبر من صفر.','error');return}
+if(profit_percent<0){showMessage('نسبة الربح غير صحيحة.','error');return}
+const {error}=await db.from('app_settings').update({exchange_rate,profit_percent}).eq('id',1);
+if(error){showMessage('تعذر حفظ الأسعار: '+error.message,'error');return}
+showMessage('تم حفظ إعدادات الأسعار بنجاح.','info');
 });
 
-$('logoutBtn').addEventListener('click', async () => {
-  await db.auth.signOut();
-  showLogin();
-  showMessage('تم تسجيل الخروج.', 'info');
+$('saveBankBtn').addEventListener('click',async()=>{
+const bank_name=$('bankName').value.trim();
+const bank_account_number=$('bankAccountNumber').value.trim();
+const bank_account_holder=$('bankAccountHolder').value.trim();
+const bank_payment_instructions=$('bankPaymentInstructions').value.trim();
+const bank_payment_enabled=$('bankPaymentEnabled').checked;
+if(bank_payment_enabled&&(!bank_name||!bank_account_number||!bank_account_holder)){showMessage('أدخل اسم البنك ورقم الحساب واسم صاحب الحساب قبل تفعيل الدفع.','error');return}
+if(bank_account_number==='1890245'){showMessage('هذا الرقم تجريبي ولا يمكن اعتماده كحساب حقيقي لاستقبال الأموال.','error');return}
+const {error}=await db.from('app_settings').update({bank_name,bank_account_number,bank_account_holder,bank_payment_instructions,bank_payment_enabled}).eq('id',1);
+if(error){showMessage('تعذر حفظ بيانات بنكك: '+error.message,'error');return}
+showMessage('تم حفظ إعدادات بنكك.','info');
 });
 
-async function loadSettings() {
-  const {data,error} = await db
-    .from('app_settings')
-    .select('*')
-    .eq('id',1)
-    .single();
+function clearPreviewUrls(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[]}
 
-  if (error) {
-    showMessage('تعذر تحميل الإعدادات: ' + error.message,'error');
-    return;
-  }
-
-  $('defaultExchangeRate').value = data.exchange_rate ?? '';
-  $('defaultProfitPercent').value = data.profit_percent ?? '';
-
-  $('bankName').value = data.bank_name ?? '';
-  $('bankAccountNumber').value = data.bank_account_number ?? '';
-  $('bankAccountHolder').value = data.bank_account_holder ?? '';
-  $('bankPaymentInstructions').value = data.bank_payment_instructions ?? '';
-  $('bankPaymentEnabled').checked = data.bank_payment_enabled === true;
+function addPreviewItem(url,alt,onRemove){
+const wrapper=document.createElement('div');wrapper.className='preview-item';
+const img=document.createElement('img');img.src=url;img.alt=alt;
+const remove=document.createElement('button');
+remove.type='button';remove.className='preview-remove';remove.textContent='×';remove.title='حذف الصورة';remove.setAttribute('aria-label','حذف الصورة');
+remove.addEventListener('click',onRemove);
+wrapper.append(img,remove);$('imagePreview').appendChild(wrapper);
 }
 
-$('savePricingBtn').addEventListener('click', async () => {
-  const exchange_rate = numberValue('defaultExchangeRate');
-  const profit_percent = numberValue('defaultProfitPercent');
+function renderImagePreview(){
+clearPreviewUrls();
+const box=$('imagePreview');box.innerHTML='';
+currentImages.forEach((url,index)=>{
+addPreviewItem(url,'صورة المنتج الحالية',()=>{
+removedImages.push(url);currentImages.splice(index,1);renderImagePreview();
+});
+});
+selectedFiles.forEach((file,index)=>{
+const url=URL.createObjectURL(file);previewUrls.push(url);
+addPreviewItem(url,'معاينة الصورة الجديدة',()=>{
+selectedFiles.splice(index,1);renderImagePreview();
+});
+});
+}
 
-  if (exchange_rate <= 0) {
-    showMessage('أدخل سعر صرف صحيحاً أكبر من صفر.','error');
-    return;
-  }
-
-  if (profit_percent < 0) {
-    showMessage('نسبة الربح غير صحيحة.','error');
-    return;
-  }
-
-  const {error} = await db
-    .from('app_settings')
-    .update({exchange_rate,profit_percent})
-    .eq('id',1);
-
-  if (error) {
-    showMessage('تعذر حفظ الأسعار: ' + error.message,'error');
-    return;
-  }
-
-  showMessage('تم حفظ إعدادات الأسعار بنجاح.','info');
+$('images').addEventListener('change',()=>{
+selectedFiles.push(...Array.from($('images').files||[]));
+$('images').value='';
+renderImagePreview();
 });
 
-$('saveBankBtn').addEventListener('click', async () => {
-  const bank_name = $('bankName').value.trim();
-  const bank_account_number = $('bankAccountNumber').value.trim();
-  const bank_account_holder = $('bankAccountHolder').value.trim();
-  const bank_payment_instructions = $('bankPaymentInstructions').value.trim();
-  const bank_payment_enabled = $('bankPaymentEnabled').checked;
-
-  if (bank_payment_enabled &&
-      (!bank_name || !bank_account_number || !bank_account_holder)) {
-    showMessage('أدخل اسم البنك ورقم الحساب واسم صاحب الحساب قبل تفعيل الدفع.','error');
-    return;
-  }
-
-  if (bank_account_number === '1890245') {
-    showMessage('هذا الرقم تجريبي ولا يمكن اعتماده كحساب حقيقي لاستقبال الأموال.','error');
-    return;
-  }
-
-  const {error} = await db
-    .from('app_settings')
-    .update({
-      bank_name,
-      bank_account_number,
-      bank_account_holder,
-      bank_payment_instructions,
-      bank_payment_enabled
-    })
-    .eq('id',1);
-
-  if (error) {
-    showMessage('تعذر حفظ بيانات بنكك: ' + error.message,'error');
-    return;
-  }
-
-  showMessage('تم حفظ إعدادات بنكك.','info');
-});
-
-function clearPreviewUrls() {
-  previewUrls.forEach(url => URL.revokeObjectURL(url));
-  previewUrls = [];
+async function uploadImages(files){
+const uploaded=[];
+for(const file of files){
+if(!file.type.startsWith('image/'))throw new Error('يوجد ملف ليس صورة.');
+const extension=file.name.split('.').pop().toLowerCase();
+const fileName=`${Date.now()}-${Math.random().toString(36).slice(2)}.${extension}`;
+const {error}=await db.storage.from('product-images').upload(fileName,file,{upsert:false,contentType:file.type});
+if(error)throw error;
+const {data}=db.storage.from('product-images').getPublicUrl(fileName);
+uploaded.push(data.publicUrl);
+}
+return uploaded;
 }
 
-function renderImagePreview() {
-  clearPreviewUrls();
-  const box = $('imagePreview');
-  box.innerHTML = '';
-
-  currentImages.forEach(url => {
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = 'صورة المنتج';
-    box.appendChild(img);
-  });
-
-  removedImages.forEach(url => {
-    const img = document.createElement('img');
-    img.src = url;
-    img.style.opacity = '.35';
-    img.title = 'صورة ستزال عند حفظ التعديل';
-    box.appendChild(img);
-  });
-
-  Array.from($('images').files || []).forEach(file => {
-    const url = URL.createObjectURL(file);
-    previewUrls.push(url);
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = 'معاينة الصورة الجديدة';
-    box.appendChild(img);
-  });
+function resetForm(){
+$('productForm').reset();$('productId').value='';
+$('formTitle').textContent='إضافة منتج جديد';
+$('saveProductBtn').textContent='حفظ المنتج';
+$('cancelEditBtn').classList.add('hidden');
+currentImages=[];removedImages=[];selectedFiles=[];
+$('images').value='';renderImagePreview();
 }
-
-$('images').addEventListener('change',renderImagePreview);
-
-async function uploadImages(files) {
-  const uploaded = [];
-
-  for (const file of files) {
-    if (!file.type.startsWith('image/')) {
-      throw new Error('يوجد ملف ليس صورة.');
-    }
-
-    const extension = file.name.split('.').pop().toLowerCase();
-    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${extension}`;
-    const path = fileName;
-
-    const {error} = await db.storage
-      .from('product-images')
-      .upload(path,file,{upsert:false,contentType:file.type});
-
-    if (error) throw error;
-
-    const {data} = db.storage
-      .from('product-images')
-      .getPublicUrl(path);
-
-    uploaded.push(data.publicUrl);
-  }
-
-  return uploaded;
-}
-
-function resetForm() {
-  $('productForm').reset();
-  $('productId').value = '';
-  $('formTitle').textContent = 'إضافة منتج جديد';
-  $('saveProductBtn').textContent = 'حفظ المنتج';
-  $('cancelEditBtn').classList.add('hidden');
-  currentImages = [];
-  removedImages = [];
-  $('images').value = '';
-  renderImagePreview();
-}
-
 $('cancelEditBtn').addEventListener('click',resetForm);
 
-$('productForm').addEventListener('submit',async event => {
-  event.preventDefault();
-  clearMessage();
-
-  const name = $('productName').value.trim();
-  if (!name) {
-    showMessage('أدخل اسم القطعة.','error');
-    return;
-  }
-
-  const cost_sar = numberValue('costSar');
-  const exchange_rate = numberValue('exchangeRate') || numberValue('defaultExchangeRate');
-  const profit_percent = numberValue('profitPercent') || numberValue('defaultProfitPercent');
-  const fixed_price = $('fixedPrice').checked;
-
-  let price_sdg = numberValue('priceSdg');
-
-  if (!fixed_price) {
-    if (cost_sar <= 0 || exchange_rate <= 0) {
-      showMessage('أدخل سعر التكلفة وسعر الصرف لحساب السعر تلقائياً، أو فعّل تثبيت السعر.','error');
-      return;
-    }
-    price_sdg = cost_sar * exchange_rate * (1 + profit_percent / 100);
-  }
-
-  if (price_sdg <= 0) {
-    showMessage('أدخل سعراً صحيحاً للمنتج.','error');
-    return;
-  }
-
-  $('saveProductBtn').disabled = true;
-
-  try {
-    const newImages = await uploadImages(Array.from($('images').files || []));
-    const image_urls = [...currentImages.filter(url => !removedImages.includes(url)),...newImages];
-
-    const productData = {
-      name,
-      description:$('description').value.trim(),
-      condition:$('condition').value,
-      cost_sar,
-      exchange_rate,
-      profit_percent,
-      price_sdg,
-      fixed_price,
-      image_urls,
-      available:true,
-      car_make:$('carMake').value.trim(),
-      car_model:$('carModel').value.trim(),
-      model_years:$('modelYears').value.trim()
-    };
-
-    const id = $('productId').value;
-
-    let result;
-
-    if (id) {
-      result = await db.from('products').update(productData).eq('id',id);
-    } else {
-      result = await db.from('products').insert(productData);
-    }
-
-    if (result.error) throw result.error;
-
-    showMessage(id ? 'تم تحديث المنتج بنجاح.' : 'تمت إضافة المنتج بنجاح.','info');
-    resetForm();
-    await loadProducts();
-
-  } catch(error) {
-    showMessage('تعذر حفظ المنتج: ' + (error.message || 'خطأ غير معروف'),'error');
-  } finally {
-    $('saveProductBtn').disabled = false;
-  }
+$('productForm').addEventListener('submit',async event=>{
+event.preventDefault();clearMessage();
+const name=$('productName').value.trim();
+if(!name){showMessage('أدخل اسم القطعة.','error');return}
+const cost_sar=numberValue('costSar');
+const exchange_rate=numberValue('exchangeRate')||numberValue('defaultExchangeRate');
+const profit_percent=numberValue('profitPercent')||numberValue('defaultProfitPercent');
+const fixed_price=$('fixedPrice').checked;
+let price_sdg=numberValue('priceSdg');
+if(!fixed_price){
+if(cost_sar<=0||exchange_rate<=0){showMessage('أدخل سعر التكلفة وسعر الصرف لحساب السعر تلقائياً، أو فعّل تثبيت السعر.','error');return}
+price_sdg=cost_sar*exchange_rate*(1+profit_percent/100);
+}
+if(price_sdg<=0){showMessage('أدخل سعراً صحيحاً للمنتج.','error');return}
+$('saveProductBtn').disabled=true;
+try{
+const newImages=await uploadImages(selectedFiles);
+const image_urls=[...currentImages,...newImages];
+const productData={
+name,description:$('description').value.trim(),condition:$('condition').value,
+cost_sar,exchange_rate,profit_percent,price_sdg,fixed_price,image_urls,
+available:true,car_make:$('carMake').value.trim(),car_model:$('carModel').value.trim(),model_years:$('modelYears').value.trim()
+};
+const id=$('productId').value;
+let result;
+if(id){result=await db.from('products').update(productData).eq('id',id)}
+else{result=await db.from('products').insert(productData)}
+if(result.error)throw result.error;
+showMessage(id?'تم تحديث المنتج بنجاح.':'تمت إضافة المنتج بنجاح.','info');
+resetForm();await loadProducts();
+}catch(error){showMessage('تعذر حفظ المنتج: '+(error.message||'خطأ غير معروف'),'error')}
+finally{$('saveProductBtn').disabled=false}
 });
 
-async function loadProducts() {
-  const {data,error} = await db
-    .from('products')
-    .select('*')
-    .order('created_at',{ascending:false});
-
-  if (error) {
-    showMessage('تعذر تحميل المنتجات: ' + error.message,'error');
-    return;
-  }
-
-  products = data || [];
-  $('productCount').textContent = products.filter(p => p.available).length;
-  renderProducts();
+async function loadProducts(){
+const {data,error}=await db.from('products').select('*').order('created_at',{ascending:false});
+if(error){showMessage('تعذر تحميل المنتجات: '+error.message,'error');return}
+products=data||[];
+$('productCount').textContent=products.filter(p=>p.available).length;
+renderProducts();
 }
 
-function renderProducts() {
-  const search = $('productSearch').value.trim().toLowerCase();
-
-  const filtered = products.filter(p => {
-    const content = [
-      p.name,p.description,p.car_make,p.car_model,p.model_years
-    ].join(' ').toLowerCase();
-
-    return content.includes(search);
-  });
-
-  const box = $('productsList');
-  box.innerHTML = '';
-
-  if (!filtered.length) {
-    box.textContent = 'لا توجد منتجات مطابقة.';
-    return;
-  }
-
-  filtered.forEach(product => {
-    const item = document.createElement('div');
-    item.className = 'product';
-
-    const image = document.createElement('img');
-    image.src = product.image_urls?.[0] || '';
-    image.alt = product.name || 'صورة المنتج';
-
-    const info = document.createElement('div');
-    info.className = 'product-info';
-
-    const name = document.createElement('strong');
-    name.textContent = product.name || '';
-
-    const details = document.createElement('small');
-    details.textContent =
-      `السعر: ${Number(product.price_sdg || 0).toLocaleString('en-US')} ج.س | ` +
-      `${product.condition === 'new' ? 'جديد' : 'مستعمل'} | ` +
-      `${product.available ? 'متاح' : 'غير متاح'}`;
-
-    info.append(name,details);
-
-    const actions = document.createElement('div');
-    actions.className = 'actions';
-
-    const edit = document.createElement('button');
-    edit.className = 'secondary';
-    edit.textContent = 'تعديل';
-    edit.type = 'button';
-    edit.addEventListener('click',() => editProduct(product));
-
-    const toggle = document.createElement('button');
-    toggle.className = product.available ? 'danger' : 'success';
-    toggle.textContent = product.available ? 'إخفاء المنتج' : 'إظهار المنتج';
-    toggle.type = 'button';
-    toggle.addEventListener('click',() => toggleProduct(product));
-
-    actions.append(edit,toggle);
-    item.append(image,info,actions);
-    box.appendChild(item);
-  });
+function renderProducts(){
+const search=$('productSearch').value.trim().toLowerCase();
+const filtered=products.filter(p=>[p.name,p.description,p.car_make,p.car_model,p.model_years].join(' ').toLowerCase().includes(search));
+const box=$('productsList');box.innerHTML='';
+if(!filtered.length){box.textContent='لا توجد منتجات مطابقة.';return}
+filtered.forEach(product=>{
+const item=document.createElement('div');item.className='product';
+const image=document.createElement('img');image.src=product.image_urls?.[0]||'';image.alt=product.name||'صورة المنتج';
+const info=document.createElement('div');info.className='product-info';
+const name=document.createElement('strong');name.textContent=product.name||'';
+const details=document.createElement('small');
+details.textContent=`السعر: ${Number(product.price_sdg||0).toLocaleString('en-US')} ج.س | ${product.condition==='new'?'جديد':'مستعمل'} | ${product.available?'متاح':'غير متاح'}`;
+info.append(name,details);
+const actions=document.createElement('div');actions.className='actions';
+const edit=document.createElement('button');edit.className='secondary';edit.textContent='تعديل';edit.type='button';edit.addEventListener('click',()=>editProduct(product));
+const toggle=document.createElement('button');toggle.className=product.available?'danger':'success';toggle.textContent=product.available?'إخفاء المنتج':'إظهار المنتج';toggle.type='button';toggle.addEventListener('click',()=>toggleProduct(product));
+actions.append(edit,toggle);item.append(image,info,actions);box.appendChild(item);
+});
 }
 
-function editProduct(product) {
-  $('productId').value = product.id;
-  $('productName').value = product.name || '';
-  $('condition').value = product.condition || 'new';
-  $('carMake').value = product.car_make || '';
-  $('carModel').value = product.car_model || '';
-  $('modelYears').value = product.model_years || '';
-  $('costSar').value = product.cost_sar ?? '';
-  $('exchangeRate').value = product.exchange_rate ?? '';
-  $('profitPercent').value = product.profit_percent ?? '';
-  $('priceSdg').value = product.price_sdg ?? '';
-  $('fixedPrice').checked = product.fixed_price === true;
-  $('description').value = product.description || '';
-
-  currentImages = [...(product.image_urls || [])];
-  removedImages = [];
-  $('images').value = '';
-
-  $('formTitle').textContent = 'تعديل المنتج';
-  $('saveProductBtn').textContent = 'حفظ التعديلات';
-  $('cancelEditBtn').classList.remove('hidden');
-
-  renderImagePreview();
-  $('productForm').scrollIntoView({behavior:'smooth'});
+function editProduct(product){
+$('productId').value=product.id;
+$('productName').value=product.name||'';
+$('condition').value=product.condition||'new';
+$('carMake').value=product.car_make||'';
+$('carModel').value=product.car_model||'';
+$('modelYears').value=product.model_years||'';
+$('costSar').value=product.cost_sar??'';
+$('exchangeRate').value=product.exchange_rate??'';
+$('profitPercent').value=product.profit_percent??'';
+$('priceSdg').value=product.price_sdg??'';
+$('fixedPrice').checked=product.fixed_price===true;
+$('description').value=product.description||'';
+currentImages=[...(product.image_urls||[])];
+removedImages=[];selectedFiles=[];
+$('images').value='';
+$('formTitle').textContent='تعديل المنتج';
+$('saveProductBtn').textContent='حفظ التعديلات';
+$('cancelEditBtn').classList.remove('hidden');
+renderImagePreview();
+$('productForm').scrollIntoView({behavior:'smooth'});
 }
 
-async function toggleProduct(product) {
-  const action = product.available ? 'إخفاء' : 'إظهار';
-
-  if (!confirm(`هل تريد ${action} هذا المنتج؟`)) return;
-
-  const {error} = await db
-    .from('products')
-    .update({available:!product.available})
-    .eq('id',product.id);
-
-  if (error) {
-    showMessage('تعذر تحديث حالة المنتج: ' + error.message,'error');
-    return;
-  }
-
-  showMessage(`تم ${action} المنتج بنجاح.`,'info');
-  await loadProducts();
+async function toggleProduct(product){
+const action=product.available?'إخفاء':'إظهار';
+if(!confirm(`هل تريد ${action} هذا المنتج؟`))return;
+const {error}=await db.from('products').update({available:!product.available}).eq('id',product.id);
+if(error){showMessage('تعذر تحديث حالة المنتج: '+error.message,'error');return}
+showMessage(`تم ${action} المنتج بنجاح.`,'info');await loadProducts();
 }
-
 $('productSearch').addEventListener('input',renderProducts);
-
-db.auth.onAuthStateChange((_event,session) => {
-  if (!session) showLogin();
-});
-
-checkSession().catch(error => {
-  showLogin();
-  showMessage('تعذر فتح لوحة الإدارة: ' + error.message,'error');
-});
+db.auth.onAuthStateChange((_event,session)=>{if(!session)showLogin()});
+checkSession().catch(error=>{showLogin();showMessage('تعذر فتح لوحة الإدارة: '+error.message,'error')});
 </script>
 </body>
 </html>
