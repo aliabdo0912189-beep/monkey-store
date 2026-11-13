@@ -1,10 +1,10 @@
-
-const CACHE_NAME = "monkey-store-v7";
+const CACHE_NAME = "monkey-store-v8";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./app.js",
+  "./app.js?v=20261113-8",
   "./admin.html",
   "./manifest.webmanifest",
   "./monkey-logo.png",
