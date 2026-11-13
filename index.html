@@ -453,6 +453,62 @@ font-weight:bold
   transform: scale(0.98);
 }
 
+.part-request-form {
+  width: 90%;
+  max-width: 480px;
+  margin: 16px auto 24px;
+  padding: 18px;
+  background: #1b1b1b;
+  color: white;
+  border: 1px solid #ff8500;
+  border-radius: 12px;
+}
+
+.part-request-form h3 {
+  color: #ff8500;
+  text-align: center;
+}
+
+.part-request-form label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: bold;
+}
+
+.part-request-form input,
+.part-request-form select,
+.part-request-form textarea {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  color: white;
+  background: #292929;
+  border: 1px solid #555;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.send-part-request,
+.cancel-part-request {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.send-part-request {
+  background: #ff8500;
+  color: #111;
+}
+
+.cancel-part-request {
+  background: #333;
+  color: white;
+}
+
 </style>
 </head>
 
@@ -504,12 +560,41 @@ font-weight:bold
 </div>
 </section>
 
-<a class="request-part-btn"
-   href="https://wa.me/249912189332?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B7%D9%84%D8%A8%20%D9%82%D8%B7%D8%B9%D8%A9%20%D8%BA%D9%8A%D8%B1%20%D9%85%D8%AA%D9%88%D9%81%D8%B1%D8%A9%20%D9%81%D9%8A%20%D9%85%D8%AA%D8%AC%D8%B1%20MONKEY.%0A%D8%A7%D8%B3%D9%85%20%D8%A7%D9%84%D9%82%D8%B7%D8%B9%D8%A9%3A%0A%D9%86%D9%88%D8%B9%20%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A9%3A%0A%D8%A7%D9%84%D9%85%D9%88%D8%AF%D9%8A%D9%84%3A%0A%D8%B3%D9%86%D8%A9%20%D8%A7%D9%84%D8%B5%D9%86%D8%B9%3A%0A%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84%20%D8%A5%D8%B6%D8%A7%D9%81%D9%8A%D8%A9%3A"
-   target="_blank"
-   rel="noopener">
-   📲 اطلب قطعة غير متوفرة
-</a>
+
+<button class="request-part-btn" id="openPartRequest" type="button">
+  📲 اطلب قطعة غير متوفرة
+</button>
+
+<form class="part-request-form hidden" id="partRequestForm">
+  <h3>طلب قطعة غير متوفرة</h3>
+
+  <label>اسم القطعة المطلوبة</label>
+  <input id="requestPartName" type="text" placeholder="مثال: صدام أمامي" required>
+
+  <label>نوع السيارة / الشركة</label>
+  <input id="requestCarMake" type="text" placeholder="مثال: تويوتا أو شيفروليه" required>
+
+  <label>موديل السيارة</label>
+  <input id="requestCarModel" type="text" placeholder="مثال: كورولا أو سبارك" required>
+
+  <label>سنة الصنع</label>
+  <input id="requestCarYear" type="number" min="1950" max="2100" placeholder="2020" required>
+
+  <label>حالة القطعة المطلوبة</label>
+  <select id="requestPartCondition" required>
+    <option value="">اختر حالة القطعة</option>
+    <option value="جديدة">جديدة</option>
+    <option value="مستعملة">مستعملة</option>
+    <option value="لا يهم، حسب المتوفر">لا يهم</option>
+  </select>
+
+  <label>تفاصيل إضافية (اختياري)</label>
+  <textarea id="requestPartDetails" rows="3" placeholder="أي معلومات إضافية"></textarea>
+
+  <button class="send-part-request" type="submit">إرسال الطلب عبر واتساب</button>
+  <button class="cancel-part-request" id="closePartRequest" type="button">إلغاء</button>
+</form>
+
 
 <details class="bank-box hidden" id="bankPaymentBox">
 <summary>
@@ -592,6 +677,52 @@ MONKEY
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./app.js?v=20261112-7"></script>
+
+<script>
+(function () {
+  const openButton = document.getElementById("openPartRequest");
+  const form = document.getElementById("partRequestForm");
+  const closeButton = document.getElementById("closePartRequest");
+
+  if (!openButton || !form || !closeButton) return;
+
+  openButton.addEventListener("click", function () {
+    form.classList.remove("hidden");
+    form.scrollIntoView({ behavior: "smooth" });
+  });
+
+  closeButton.addEventListener("click", function () {
+    form.classList.add("hidden");
+  });
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (!form.reportValidity()) return;
+
+    const partName = document.getElementById("requestPartName").value.trim();
+    const carMake = document.getElementById("requestCarMake").value.trim();
+    const carModel = document.getElementById("requestCarModel").value.trim();
+    const carYear = document.getElementById("requestCarYear").value.trim();
+    const condition = document.getElementById("requestPartCondition").value;
+    const details = document.getElementById("requestPartDetails").value.trim();
+
+    const message =
+      "السلام عليكم، أريد طلب قطعة غير متوفرة في متجر MONKEY." +
+      "\nاسم القطعة: " + partName +
+      "\nنوع السيارة: " + carMake +
+      "\nالموديل: " + carModel +
+      "\nسنة الصنع: " + carYear +
+      "\nحالة القطعة: " + condition +
+      "\nتفاصيل إضافية: " + (details || "لا توجد");
+
+    const url = "https://wa.me/249912189332?text=" +
+      encodeURIComponent(message);
+
+    window.open(url, "_blank");
+  });
+})();
+</script>
 
 </body>
 </html>
