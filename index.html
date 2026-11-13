@@ -642,7 +642,58 @@ body{padding-bottom:85px}
   .bottom-nav button{font-size:11px}
   .bank-account{font-size:19px}
 }
- </style>
+ /* إصلاح شعار ورأس MONKEY */
+header.main-header{
+  display:block;
+  width:100%;
+  padding:8px 14px;
+  background:#191919;
+  border-bottom:2px solid #ff8500;
+}
+
+.header-content{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  width:100%;
+}
+
+header.main-header .logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#ff8500;
+  font-size:22px;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+header.main-header .logo img{
+  width:42px;
+  height:42px;
+  max-width:42px;
+  max-height:42px;
+  object-fit:contain;
+  display:block;
+}
+
+.header-tagline{
+  color:#bbb;
+  font-size:12px;
+  text-align:left;
+}
+
+/* ضبط زر التواصل */
+.whatsapp-payment{
+  display:block;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+  text-align:center;
+  margin:12px auto;
+}
+</style>
 </head>
 
 <body>
