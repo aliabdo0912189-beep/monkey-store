@@ -1,728 +1,703 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#111111">
 <meta name="description" content="MONKEY متجر قطع غيار السيارات الجديدة والمستعملة">
 <title>MONKEY | متجر قطع غيار السيارات</title>
 
-<link rel="icon" type="image/png" href="./monkey-logo.png?v=20261113">
-<link rel="apple-touch-icon" href="./monkey-logo.png?v=20261113">
-<link rel="manifest" href="./manifest.webmanifest?v=20261113">
-
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#111;color:#fff;font-family:Arial,sans-serif}
-button,input,select,textarea{font:inherit}
-
+body{
+ margin:0;
+ padding-bottom:85px;
+ background:#111;
+ color:#fff;
+ font-family:Arial,sans-serif
+}
+button,input,select{font:inherit}
 header{
-background:#1b1b1b;
-padding:12px 16px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-border-bottom:2px solid #ff8500
+ background:#1b1b1b;
+ padding:12px 16px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ border-bottom:2px solid #ff8500
 }
-
-.logo{
-display:flex;
-align-items:center;
-gap:8px;
-color:#ff8500;
-font-size:25px;
-font-weight:bold
-}
-
-.monkey-logo{
-width:42px;
-height:42px;
-object-fit:contain;
-display:block;
-border-radius:8px
-}
-
-.footer-monkey-logo{
-width:34px;
-height:34px;
-object-fit:contain;
-vertical-align:middle;
-margin-left:5px
-}
-
+.logo{color:#ff8500;font-size:25px;font-weight:bold}
 .tagline{color:#bbb;font-size:12px;margin-top:4px}
 .header-actions{display:flex;align-items:center;gap:8px}
 .header-link,.cart-open{
-border:1px solid #ff8500;
-color:#ffae42;
-background:transparent;
-padding:8px 10px;
-border-radius:9px;
-text-decoration:none;
-font-size:12px
+ border:1px solid #ff8500;
+ color:#ffae42;
+ background:transparent;
+ padding:8px 10px;
+ border-radius:9px;
+ text-decoration:none;
+ font-size:12px
 }
 .cart-open{
-position:relative;
-color:#111;
-background:#ff8500;
-font-size:17px
+ position:relative;
+ color:#111;
+ background:#ff8500;
+ font-size:17px
 }
 #cartCount{
-position:absolute;
-top:-7px;
-left:-7px;
-background:#fff;
-color:#111;
-border-radius:50%;
-min-width:18px;
-height:18px;
-font-size:10px;
-display:grid;
-place-items:center;
-font-weight:bold
+ position:absolute;
+ top:-7px;
+ left:-7px;
+ background:#fff;
+ color:#111;
+ border-radius:50%;
+ min-width:18px;
+ height:18px;
+ font-size:10px;
+ display:grid;
+ place-items:center;
+ font-weight:bold
 }
 .hidden{display:none!important}
 .hero{
-text-align:center;
-padding:25px 12px;
-background:linear-gradient(140deg,#252525,#111)
+ text-align:center;
+ padding:25px 12px;
+ background:linear-gradient(140deg,#252525,#111)
 }
 .hero h1{color:#ff8500;font-size:26px}
 .hero p{color:#ccc;line-height:1.8}
 .search{
-width:92%;
-max-width:520px;
-padding:12px;
-border:1px solid #ff8500;
-border-radius:10px;
-background:#222;
-color:white
+ width:92%;
+ max-width:520px;
+ padding:12px;
+ border:1px solid #ff8500;
+ border-radius:10px;
+ background:#222;
+ color:white
 }
 .section{padding:16px}
 .section h2{color:#ffae42;font-size:19px}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.filter{
-padding:8px 14px;
-border:1px solid #ff8500;
-background:#222;
-color:#ffae42;
-border-radius:20px
+.filters{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+ margin:12px 0
 }
-.filter.active{background:#ff8500;color:#111;font-weight:bold}
-.car-filters{display:flex;gap:8px;margin:12px 0}
+.filter{
+ padding:8px 14px;
+ border:1px solid #ff8500;
+ background:#222;
+ color:#ffae42;
+ border-radius:20px
+}
+.filter.active{
+ background:#ff8500;
+ color:#111;
+ font-weight:bold
+}
+.car-filters{
+ display:flex;
+ gap:8px;
+ margin:12px 0
+}
 .car-filters select{
-min-width:0;
-flex:1;
-padding:10px;
-border:1px solid #555;
-border-radius:9px;
-background:#222;
-color:white
+ min-width:0;
+ flex:1;
+ padding:10px;
+ border:1px solid #555;
+ border-radius:9px;
+ background:#222;
+ color:white
 }
 .products{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:9px
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px
 }
 .product{
-min-width:0;
-background:#202020;
-border:1px solid #383838;
-border-radius:11px;
-overflow:hidden
+ min-width:0;
+ background:#202020;
+ border:1px solid #383838;
+ border-radius:11px;
+ overflow:hidden
 }
 .product-photo{
-display:block;
-width:100%;
-height:116px;
-padding:5px;
-border:0;
-background:#292929;
-cursor:zoom-in
+ display:block;
+ width:100%;
+ height:116px;
+ padding:5px;
+ border:0;
+ background:#292929;
+ cursor:zoom-in
 }
-.product-photo img{width:100%;height:100%;object-fit:contain}
+.product-photo img{
+ width:100%;
+ height:100%;
+ object-fit:contain
+}
 .product-body{padding:8px}
 .product h3{
-font-size:14px;
-margin:3px 0 5px;
-overflow-wrap:anywhere
+ font-size:14px;
+ margin:3px 0 5px;
+ overflow-wrap:anywhere
 }
 .product p{
-color:#aaa;
-font-size:11px;
-line-height:1.5;
-min-height:24px;
-margin:3px 0
+ color:#aaa;
+ font-size:11px;
+ line-height:1.5;
+ min-height:24px;
+ margin:3px 0
 }
-.product-meta{color:#999;font-size:10px;min-height:12px}
-.condition{display:inline-block;color:#ffae42;font-size:10px;margin:4px 0}
-.product-bottom{display:flex;flex-direction:column;gap:7px;margin-top:7px}
-.price{color:#ff8500;font-size:13px;font-weight:bold}
+.product-meta{color:#999;font-size:10px}
+.condition{
+ display:inline-block;
+ color:#ffae42;
+ font-size:10px;
+ margin:4px 0
+}
+.product-bottom{
+ display:flex;
+ flex-direction:column;
+ gap:7px;
+ margin-top:7px
+}
+.price{
+ color:#ff8500;
+ font-size:13px;
+ font-weight:bold
+}
 .order-btn{
-width:100%;
-padding:8px;
-border:0;
-border-radius:7px;
-background:#ff8500;
-color:#111;
-font-size:12px;
-font-weight:bold
+ width:100%;
+ padding:8px;
+ border:0;
+ border-radius:7px;
+ background:#ff8500;
+ color:#111;
+ font-size:12px;
+ font-weight:bold
 }
-.image-count{display:block;color:#999;font-size:10px;margin-top:5px}
+.image-count{
+ display:block;
+ color:#999;
+ font-size:10px;
+ margin-top:5px
+}
 .empty{
-grid-column:1/-1;
-padding:25px 10px;
-text-align:center;
-color:#bbb;
-border:1px dashed #555;
-border-radius:12px;
-line-height:1.8
+ grid-column:1/-1;
+ padding:25px 10px;
+ text-align:center;
+ color:#bbb;
+ border:1px dashed #555;
+ border-radius:12px;
+ line-height:1.8
 }
-
-.about,.bank-box{
-margin:16px;
-padding:14px;
-background:#202020;
-border:1px solid #ff8500;
-color:#ccc;
-line-height:1.8;
-border-radius:8px
+.shipping-note,.about{
+ margin:16px;
+ padding:14px;
+ background:#202020;
+ border-right:3px solid #ff8500;
+ color:#ccc;
+ line-height:1.8;
+ border-radius:8px
 }
-.about summary{text-align:center;color:#ffae42;font-weight:bold;cursor:pointer}
+.about{border:1px solid #ff8500}
+.about summary{
+ text-align:center;
+ color:#ffae42;
+ font-weight:bold;
+ cursor:pointer
+}
 .about a{
-color:#ffae42;
-text-decoration:none;
-direction:ltr;
-display:inline-block
+ color:#ffae42;
+ text-decoration:none;
+ direction:ltr;
+ display:inline-block
 }
-
-.bank-box{
-padding:0;
-overflow:hidden;
-background:#202020;
-border:1px solid #ff8500;
-border-radius:10px
-}
-.bank-box>summary{
-list-style:none;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-padding:10px 13px;
-cursor:pointer;
-color:#ffae42;
-font-weight:bold;
-font-size:13px
-}
-.bank-box>summary::-webkit-details-marker{display:none}
-.bankak-heading{display:flex;align-items:center;gap:9px}
-.bankak-logo{
-display:block;
-width:48px;
-height:32px;
-object-fit:contain;
-background:#fff;
-border-radius:6px;
-padding:2px
-}
-.bank-toggle::before{
-content:"+";
-display:grid;
-place-items:center;
-width:24px;
-height:24px;
-border-radius:50%;
-background:#ff8500;
-color:#111;
-font-size:19px
-}
-.bank-box[open] .bank-toggle::before{content:"−"}
-.bank-content{
-padding:8px 12px 12px;
-border-top:1px solid #383838
-}
-.bank-line{
-padding:9px;
-margin:7px 0;
-background:#292929;
-border-radius:7px;
-overflow-wrap:anywhere
-}
-.bank-line strong{color:#ffae42}
-.copy-btn{
-padding:7px 12px;
-border:0;
-border-radius:7px;
-background:#ff8500;
-color:#111;
-font-weight:bold
-}
-.bank-note{font-size:11px;color:#aaa}
-
 footer{
-padding:18px;
-text-align:center;
-color:#aaa;
-background:#1b1b1b;
-margin-top:25px;
-font-size:12px;
-line-height:1.8
+ padding:18px;
+ text-align:center;
+ color:#aaa;
+ background:#1b1b1b;
+ margin-top:25px;
+ font-size:12px;
+ line-height:1.8
 }
 footer h3{color:#ff8500}
+</style>
+</head>
+<body>
 
+<style>
 .modal{
-position:fixed;
-inset:0;
-z-index:2000;
-background:#000c;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:12px
+ position:fixed;
+ inset:0;
+ z-index:2000;
+ background:#000c;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:12px
 }
 .modal-box{
-width:100%;
-max-width:480px;
-max-height:90vh;
-overflow-y:auto;
-background:#1c1c1c;
-border:1px solid #ff8500;
-border-radius:14px;
-padding:15px
+ width:100%;
+ max-width:480px;
+ max-height:90vh;
+ overflow-y:auto;
+ background:#1c1c1c;
+ border:1px solid #ff8500;
+ border-radius:14px;
+ padding:15px
 }
 .modal-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #444;
-padding-bottom:8px
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ border-bottom:1px solid #444;
+ padding-bottom:8px
 }
 .modal-head h2{color:#ffae42}
-.close-btn{background:transparent;color:white;border:0;font-size:25px}
+.close-btn{
+ background:transparent;
+ color:white;
+ border:0;
+ font-size:25px
+}
 .cart-row{
-display:flex;
-align-items:center;
-gap:8px;
-padding:10px 0;
-border-bottom:1px solid #383838
+ display:flex;
+ align-items:center;
+ gap:8px;
+ padding:10px 0;
+ border-bottom:1px solid #383838
 }
 .cart-thumb{
-width:55px;
-height:55px;
-object-fit:contain;
-background:#292929;
-border-radius:7px;
-cursor:zoom-in
+ width:55px;
+ height:55px;
+ object-fit:contain;
+ background:#292929;
+ border-radius:7px;
+ cursor:zoom-in
 }
 .cart-info{flex:1;min-width:0}
 .cart-info b{font-size:12px}
 .cart-row small{
-display:block;
-color:#aaa;
-margin-top:4px;
-font-size:10px
+ display:block;
+ color:#aaa;
+ margin-top:4px;
+ font-size:10px
 }
-.qty{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.qty{
+ display:flex;
+ align-items:center;
+ gap:5px;
+ flex-wrap:wrap
+}
 .qty button{
-border:1px solid #ff8500;
-background:#292929;
-color:#ffae42;
-border-radius:6px;
-padding:4px 7px;
-font-size:12px
+ border:1px solid #ff8500;
+ background:#292929;
+ color:#ffae42;
+ border-radius:6px;
+ padding:4px 7px;
+ font-size:12px
 }
 .qty .remove{color:#ff7777;border-color:#a44}
 .total{
-display:flex;
-justify-content:space-between;
-padding:13px 0;
-color:#ffae42;
-font-size:17px;
-font-weight:bold
+ display:flex;
+ justify-content:space-between;
+ padding:13px 0;
+ color:#ffae42;
+ font-size:17px;
+ font-weight:bold
 }
 .customer-form input{
-display:block;
-width:100%;
-padding:12px;
-margin:8px 0;
-border:1px solid #555;
-border-radius:8px;
-background:#292929;
-color:white
+ display:block;
+ width:100%;
+ padding:12px;
+ margin:8px 0;
+ border:1px solid #555;
+ border-radius:8px;
+ background:#292929;
+ color:white
 }
 #checkoutBtn{
-width:100%;
-padding:13px;
-margin-top:8px;
-border:0;
-border-radius:9px;
-background:#ff8500;
-color:#111;
-font-weight:bold
+ width:100%;
+ padding:13px;
+ margin-top:8px;
+ border:0;
+ border-radius:9px;
+ background:#ff8500;
+ color:#111;
+ font-weight:bold
 }
 #checkoutBtn:disabled{opacity:.5}
 #checkoutMessage{
-color:#ffae42;
-font-size:12px;
-line-height:1.8;
-overflow-wrap:anywhere
+ color:#ffae42;
+ font-size:12px;
+ line-height:1.8;
+ overflow-wrap:anywhere
 }
 #checkoutMessage a{color:#ffae42}
 #toast{
-display:none;
-position:fixed;
-bottom:18px;
-right:50%;
-transform:translateX(50%);
-z-index:5000;
-background:#ff8500;
-color:#111;
-padding:10px 16px;
-border-radius:9px;
-font-weight:bold
+ display:none;
+ position:fixed;
+ bottom:90px;
+ right:50%;
+ transform:translateX(50%);
+ z-index:3000;
+ background:#ff8500;
+ color:#111;
+ padding:10px 16px;
+ border-radius:9px;
+ font-weight:bold
 }
 #imageModal{z-index:4000}
 .image-viewer{
-width:min(96vw,700px);
-background:#171717;
-border:1px solid #ff8500;
-border-radius:12px;
-padding:10px;
-text-align:center
+ width:min(96vw,700px);
+ background:#171717;
+ border:1px solid #ff8500;
+ border-radius:12px;
+ padding:10px;
+ text-align:center
 }
 .image-viewer img{
-max-width:100%;
-max-height:65vh;
-object-fit:contain
+ max-width:100%;
+ max-height:72vh;
+ object-fit:contain
 }
 .image-viewer p{color:#ffae42;margin:8px}
-.gallery-controls{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:18px;
-margin-top:10px
+.image-viewer .close-btn{float:left}
+.details-content{line-height:1.8;color:#ddd}
+.details-content img{
+ width:100%;
+ max-height:230px;
+ object-fit:contain;
+ background:#292929;
+ border-radius:9px;
+ margin-bottom:8px
 }
-.gallery-controls button{
-background:#ff8500;
-color:#111;
-border:0;
-border-radius:7px;
-padding:8px 15px;
-font-weight:bold
+.details-content h3{color:#ffae42}
+.details-actions{
+ display:flex;
+ gap:8px;
+ margin-top:12px
 }
-#imageCounter{color:#ccc;font-size:12px}
-
+.details-actions button{
+ flex:1;
+ padding:10px;
+ border:0;
+ border-radius:8px;
+ background:#ff8500;
+ color:#111;
+ font-weight:bold
+}
+.similar-products{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:8px;
+ margin-top:10px
+}
+.similar-item{
+ background:#292929;
+ border:1px solid #444;
+ border-radius:8px;
+ padding:8px;
+ font-size:12px
+}
+#bankPaymentBox{
+ margin:16px;
+ padding:14px;
+ background:#202020;
+ border:1px solid #ff8500;
+ border-radius:10px;
+ color:#ddd;
+ line-height:1.9
+}
+#bankPaymentBox summary{
+ color:#ffae42;
+ font-weight:bold;
+ cursor:pointer
+}
+.bank-value{
+ color:#ffae42;
+ overflow-wrap:anywhere
+}
+.bank-whatsapp{
+ display:block;
+ text-align:center;
+ background:#ff8500;
+ color:#111;
+ text-decoration:none;
+ padding:10px;
+ border-radius:8px;
+ margin-top:10px;
+ font-weight:bold
+}
+.bottom-nav{
+ position:fixed;
+ bottom:0;
+ right:0;
+ left:0;
+ z-index:1500;
+ display:flex;
+ justify-content:space-around;
+ align-items:center;
+ gap:3px;
+ padding:8px 5px calc(8px + env(safe-area-inset-bottom));
+ background:#191919;
+ border-top:1px solid #ff8500
+}
+.bottom-nav button{
+ position:relative;
+ flex:1;
+ border:0;
+ background:transparent;
+ color:#ccc;
+ padding:7px 2px;
+ font-size:11px;
+ cursor:pointer
+}
+.bottom-nav button span{display:block;font-size:18px;margin-bottom:3px}
+.bottom-nav button.active{color:#ff8500}
+.bottom-nav .nav-count{
+ position:absolute;
+ top:0;
+ right:calc(50% - 20px);
+ min-width:16px;
+ height:16px;
+ padding:0 4px;
+ border-radius:20px;
+ background:#ff8500;
+ color:#111;
+ font-size:10px;
+ line-height:16px
+}
+body.modal-open .bottom-nav{display:none}
 @media(max-width:360px){
-.products{gap:7px}
-.product-photo{height:100px}
-.product-body{padding:7px}
-.logo{font-size:21px}
-.monkey-logo{width:36px;height:36px}
-.header-link{padding:7px}
+ .products{gap:7px}
+ .product-photo{height:100px}
+ .product-body{padding:7px}
+ .logo{font-size:21px}
+ .header-link{padding:7px}
 }
-  
-.request-part-btn {
-  display: block;
-  width: 90%;
-  max-width: 420px;
-  margin: 20px auto;
-  padding: 14px;
-  background: #ff8500;
-  color: #111;
-  text-align: center;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 2px solid #111;
-  box-sizing: border-box;
-  transition: 0.2s;
-}
-
-.request-part-btn:hover {
-  background: #111;
-  color: #ff8500;
-  border-color: #ff8500;
-}
-
-.request-part-btn:active {
-  transform: scale(0.98);
-}
-
-.part-request-form {
-  width: 90%;
-  max-width: 480px;
-  margin: 16px auto 24px;
-  padding: 18px;
-  background: #1b1b1b;
-  color: white;
-  border: 1px solid #ff8500;
-  border-radius: 12px;
-}
-
-.part-request-form h3 {
-  color: #ff8500;
-  text-align: center;
-}
-
-.part-request-form label {
-  display: block;
-  margin: 12px 0 6px;
-  font-weight: bold;
-}
-
-.part-request-form input,
-.part-request-form select,
-.part-request-form textarea {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  color: white;
-  background: #292929;
-  border: 1px solid #555;
-  border-radius: 8px;
-  font: inherit;
-}
-
-.send-part-request,
-.cancel-part-request {
-  display: block;
-  width: 100%;
-  margin-top: 12px;
-  padding: 13px;
-  border: 0;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.send-part-request {
-  background: #ff8500;
-  color: #111;
-}
-
-.cancel-part-request {
-  background: #333;
-  color: white;
-}
-
 </style>
-</head>
-
-<body>
 
 <header>
-<div>
-<div class="logo">
-<img class="monkey-logo" src="./monkey-logo.png" alt="شعار MONKEY">
-<span>MONKEY</span>
-</div>
-<div class="tagline">متجر قطع غيار السيارات</div>
-</div>
-
-<div class="header-actions">
-<a class="header-link" href="#about">حول المتجر</a>
-<button class="cart-open" id="cartOpen" type="button" aria-label="سلة المشتريات">
-🛒<span id="cartCount" class="hidden">0</span>
-</button>
-</div>
+ <div>
+  <div class="logo">🐵 MONKEY</div>
+  <div class="tagline">متجر قطع غيار السيارات</div>
+ </div>
+ <div class="header-actions">
+  <a class="header-link" href="#about">حول المتجر</a>
+  <button class="cart-open" id="cartOpen" type="button" aria-label="سلة المشتريات">
+   🛒
+   <span id="cartCount" class="hidden">0</span>
+  </button>
+ </div>
 </header>
 
 <section class="hero">
-<h1>مرحباً بك في MONKEY</h1>
-<p>قطع غيار السيارات الجديدة والمستعملة<br>الجودة والاختيار المناسب في مكان واحد</p>
-<input class="search" id="search" type="search" placeholder="ابحث عن قطعة الغيار أو السيارة...">
+ <h1>مرحباً بك في MONKEY</h1>
+ <p>
+  قطع غيار السيارات الجديدة والمستعملة<br>
+  الجودة والاختيار المناسب في مكان واحد
+ </p>
+ <input
+  class="search"
+  id="search"
+  type="search"
+  placeholder="ابحث عن قطعة الغيار أو السيارة..."
+ >
 </section>
 
 <section class="section">
-<h2>🛒 منتجاتنا</h2>
+ <h2>🛒 منتجاتنا</h2>
 
-<div class="filters">
-<button class="filter active" data-filter="all">الكل</button>
-<button class="filter" data-filter="new">قطع جديدة</button>
-<button class="filter" data-filter="used">مستعملة نظيفة</button>
-</div>
+ <div class="filters">
+  <button class="filter active" data-filter="all">الكل</button>
+  <button class="filter" data-filter="new">قطع جديدة</button>
+  <button class="filter" data-filter="used">مستعملة نظيفة</button>
+ </div>
 
-<div class="car-filters">
-<select id="carMakeFilter">
-<option value="all">كل الشركات</option>
-</select>
-<select id="carModelFilter">
-<option value="all">كل الموديلات</option>
-</select>
-</div>
-
-<div class="products" id="productGrid">
-<div class="empty">جارٍ تحميل المنتجات...</div>
-</div>
-</section>
-
-
-<button class="request-part-btn" id="openPartRequest" type="button">
-  📲 اطلب قطعة غير متوفرة
-</button>
-
-<form class="part-request-form hidden" id="partRequestForm">
-  <h3>طلب قطعة غير متوفرة</h3>
-
-  <label>اسم القطعة المطلوبة</label>
-  <input id="requestPartName" type="text" placeholder="مثال: صدام أمامي" required>
-
-  <label>نوع السيارة / الشركة</label>
-  <input id="requestCarMake" type="text" placeholder="مثال: تويوتا أو شيفروليه" required>
-
-  <label>موديل السيارة</label>
-  <input id="requestCarModel" type="text" placeholder="مثال: كورولا أو سبارك" required>
-
-  <label>سنة الصنع</label>
-  <input id="requestCarYear" type="number" min="1950" max="2100" placeholder="2020" required>
-
-  <label>حالة القطعة المطلوبة</label>
-  <select id="requestPartCondition" required>
-    <option value="">اختر حالة القطعة</option>
-    <option value="جديدة">جديدة</option>
-    <option value="مستعملة">مستعملة</option>
-    <option value="لا يهم، حسب المتوفر">لا يهم</option>
+ <div class="car-filters">
+  <select id="carMakeFilter">
+   <option value="all">كل الشركات</option>
   </select>
 
-  <label>تفاصيل إضافية (اختياري)</label>
-  <textarea id="requestPartDetails" rows="3" placeholder="أي معلومات إضافية"></textarea>
+  <select id="carModelFilter">
+   <option value="all">كل الموديلات</option>
+  </select>
+ </div>
 
-  <button class="send-part-request" type="submit">إرسال الطلب عبر واتساب</button>
-  <button class="cancel-part-request" id="closePartRequest" type="button">إلغاء</button>
-</form>
+ <div class="products" id="productGrid">
+  <div class="empty">جارٍ تحميل المنتجات...</div>
+ </div>
+</section>
 
-
-<details class="bank-box hidden" id="bankPaymentBox">
-<summary>
-<span class="bankak-heading">
-<img class="bankak-logo" src="./bankak-logo.png" alt="شعار بنكك">
-<span>الدفع عبر بنكك</span>
-</span>
-<span class="bank-toggle" aria-hidden="true"></span>
-</summary>
-
-<div class="bank-content">
-<div class="bank-line">الخدمة: <strong id="bankName">—</strong></div>
-<div class="bank-line">رقم الحساب: <strong id="bankAccountNumber">—</strong></div>
-<button class="copy-btn" id="copyBankAccount" type="button">نسخ رقم الحساب</button>
-<div class="bank-line">اسم صاحب الحساب: <strong id="bankAccountHolder">—</strong></div>
-<div class="bank-line">تعليمات التحويل:<p id="bankPaymentInstructions"></p></div>
-<p class="bank-note">بعد التحويل، أرسل صورة الإيصال إلى إدارة المتجر عبر واتساب. لا يعتبر الطلب مدفوعاً حتى تؤكد الإدارة استلام المبلغ.</p>
+<div class="shipping-note">
+ 🚚 لطلب قطع الغيار والاستفسار عن التوفر والشحن،
+ أضف القطع إلى السلة وأرسل طلبك عبر واتساب.
 </div>
+
+<details id="bankPaymentBox">
+ <summary>💳 الدفع عبر بنكك</summary>
+ <div id="bankPaymentContent">
+  <p>يمكنك الدفع عبر بنكك بعد تأكيد طلبك.</p>
+  <p>ستظهر بيانات التحويل عند توفرها من إدارة المتجر.</p>
+ </div>
+ <p>
+  بعد التحويل، يرجى إرسال صورة إشعار الدفع عبر واتساب
+  حتى نتمكن من مراجعة عملية الدفع.
+ </p>
+ <a
+  class="bank-whatsapp"
+  href="https://wa.me/249912189332?text=مرحباً%20متجر%20MONKEY،%20أرغب%20في%20إرسال%20إشعار%20التحويل"
+  target="_blank"
+  rel="noopener"
+ >
+  إرسال إشعار التحويل عبر واتساب
+ </a>
 </details>
 
 <details class="about" id="about">
-<summary>حول متجر MONKEY</summary>
-<p>متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة. نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.</p>
-<p><strong>إشراف:</strong><br>مهندس علي عبد المنعم أحمد إبراهيم</p>
-<p>📧 البريد الإلكتروني:<br><a href="mailto:ali.abdo0912189@gmail.com">ali.abdo0912189@gmail.com</a></p>
-<p>🇸🇩 واتساب السودان:<br><a href="https://wa.me/249912189332" target="_blank" rel="noopener">00249912189332</a></p>
-<p>🇸🇦 واتساب السعودية:<br><a href="https://wa.me/966551093268" target="_blank" rel="noopener">00966551093268</a></p>
-<p>📞 هاتف السعودية:<br><a href="tel:+966533040960">00966533040960</a></p>
+ <summary>🐵 حول متجر MONKEY</summary>
+ <p>
+  متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة.
+  نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.
+ </p>
+ <p>
+  <strong>إشراف:</strong><br>
+  مهندس علي عبد المنعم أحمد إبراهيم
+ </p>
+ <p>
+  📧 البريد الإلكتروني:<br>
+  <a href="mailto:ali.abdo0912189@gmail.com">
+   ali.abdo0912189@gmail.com
+  </a>
+ </p>
+ <p>
+  🇸🇩 واتساب السودان:<br>
+  <a href="https://wa.me/249912189332" target="_blank" rel="noopener">
+   00249912189332
+  </a>
+ </p>
+ <p>
+  🇸🇦 واتساب السعودية:<br>
+  <a href="https://wa.me/966551093268" target="_blank" rel="noopener">
+   00966551093268
+  </a>
+ </p>
+ <p>
+  📞 هاتف السعودية:<br>
+  <a href="tel:+966533040960">00966533040960</a>
+ </p>
 </details>
-
 <footer>
-<h3>
-<img class="footer-monkey-logo" src="./monkey-logo.png" alt="شعار MONKEY">
-MONKEY
-</h3>
-<p>قطع غيار السيارات الجديدة والمستعملة</p>
-<p>جميع الحقوق محفوظة © MONKEY</p>
+ <h3>🐵 MONKEY</h3>
+ <p>قطع غيار السيارات الجديدة والمستعملة</p>
+ <p>جميع الحقوق محفوظة © MONKEY</p>
 </footer>
 
+<!-- نافذة تفاصيل المنتج -->
+<div class="modal hidden" id="detailsModal">
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2>تفاصيل المنتج</h2>
+   <button class="close-btn" id="detailsClose" type="button">×</button>
+  </div>
+  <div id="detailsContent" class="details-content"></div>
+ </div>
+</div>
+
+<!-- نافذة سلة المشتريات -->
 <div class="modal hidden" id="cartModal">
-<div class="modal-box">
-<div class="modal-head">
-<h2>🛒 سلة المشتريات</h2>
-<button class="close-btn" id="cartClose" type="button">×</button>
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2>🛒 سلة المشتريات</h2>
+   <button class="close-btn" id="cartClose" type="button">×</button>
+  </div>
+
+  <div id="cartItems"></div>
+
+  <div class="total">
+   <span>الإجمالي</span>
+   <span id="cartTotal">0 ج.س</span>
+  </div>
+
+  <h3 style="color:#ffae42">بيانات العميل</h3>
+
+  <div class="customer-form">
+   <input
+    id="customerName"
+    type="text"
+    placeholder="الاسم الكامل"
+    autocomplete="name"
+   >
+
+   <input
+    id="customerPhone"
+    type="tel"
+    placeholder="رقم الجوال"
+    autocomplete="tel"
+   >
+
+   <input
+    id="customerAddress"
+    type="text"
+    placeholder="العنوان أو المدينة"
+    autocomplete="street-address"
+   >
+  </div>
+
+  <button id="checkoutBtn" type="button">
+   تأكيد الطلب عبر واتساب
+  </button>
+
+  <p id="checkoutMessage"></p>
+ </div>
 </div>
 
-<div id="cartItems"></div>
-<div class="total">
-<span>الإجمالي</span>
-<span id="cartTotal">0 ج.س</span>
-</div>
-
-<h3 style="color:#ffae42">بيانات العميل</h3>
-
-<div class="customer-form">
-<input id="customerName" type="text" placeholder="الاسم الكامل" autocomplete="name">
-<input id="customerPhone" type="tel" placeholder="رقم الجوال" autocomplete="tel">
-<input id="customerAddress" type="text" placeholder="العنوان أو المدينة" autocomplete="street-address">
-</div>
-
-<button id="checkoutBtn" type="button">تأكيد الطلب عبر واتساب</button>
-<p id="checkoutMessage"></p>
-</div>
-</div>
-
+<!-- نافذة عرض الصور -->
 <div class="modal hidden" id="imageModal">
-<div class="image-viewer">
-<button class="close-btn" id="imageModalClose" type="button" aria-label="إغلاق">×</button>
-<img id="largeProductImage" src="" alt="صورة المنتج">
-<p id="imageModalCaption"></p>
-<div class="gallery-controls">
-<button id="imagePrev" type="button">السابق</button>
-<span id="imageCounter">1 / 1</span>
-<button id="imageNext" type="button">التالي</button>
-</div>
-</div>
+ <div class="image-viewer">
+  <button
+   class="close-btn"
+   id="imageModalClose"
+   type="button"
+   aria-label="إغلاق"
+  >×</button>
+
+  <img id="largeProductImage" src="" alt="صورة المنتج">
+  <p id="imageModalCaption"></p>
+ </div>
 </div>
 
+<!-- إشعار صغير -->
 <div id="toast" role="status" aria-live="polite"></div>
 
+<!-- شريط التنقل السفلي -->
+<nav class="bottom-nav" id="bottomNav">
+ <button type="button" data-nav="home" class="active">
+  <span>⌂</span>
+  الرئيسية
+ </button>
+
+ <button type="button" data-nav="cart">
+  <span>🛒</span>
+  السلة
+  <b id="bottomCartCount" class="nav-count hidden">0</b>
+ </button>
+
+ <button type="button" data-nav="bank">
+  <span>💳</span>
+  بنكك
+ </button>
+
+ <button type="button" data-nav="contact">
+  <span>☏</span>
+  تواصل معنا
+ </button>
+</nav>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./app.js?v=20261112-7"></script>
-
-<script>
-(function () {
-  const openButton = document.getElementById("openPartRequest");
-  const form = document.getElementById("partRequestForm");
-  const closeButton = document.getElementById("closePartRequest");
-
-  if (!openButton || !form || !closeButton) return;
-
-  openButton.addEventListener("click", function () {
-    form.classList.remove("hidden");
-    form.scrollIntoView({ behavior: "smooth" });
-  });
-
-  closeButton.addEventListener("click", function () {
-    form.classList.add("hidden");
-  });
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    if (!form.reportValidity()) return;
-
-    const partName = document.getElementById("requestPartName").value.trim();
-    const carMake = document.getElementById("requestCarMake").value.trim();
-    const carModel = document.getElementById("requestCarModel").value.trim();
-    const carYear = document.getElementById("requestCarYear").value.trim();
-    const condition = document.getElementById("requestPartCondition").value;
-    const details = document.getElementById("requestPartDetails").value.trim();
-
-    const message =
-      "السلام عليكم، أريد طلب قطعة غير متوفرة في متجر MONKEY." +
-      "\nاسم القطعة: " + partName +
-      "\nنوع السيارة: " + carMake +
-      "\nالموديل: " + carModel +
-      "\nسنة الصنع: " + carYear +
-      "\nحالة القطعة: " + condition +
-      "\nتفاصيل إضافية: " + (details || "لا توجد");
-
-    const url = "https://wa.me/249912189332?text=" +
-      encodeURIComponent(message);
-
-    window.open(url, "_blank");
-  });
-})();
-</script>
-
+<script src="./app.js?v=20261113-8"></script>
 </body>
 </html>
