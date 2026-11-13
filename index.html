@@ -9,63 +9,44 @@
 
 <style>
 *{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
 body{
  margin:0;
- padding-bottom:85px;
+ padding-bottom:90px;
  background:#111;
  color:#fff;
  font-family:Arial,sans-serif
 }
+
 button,input,select{font:inherit}
-header{
- background:#1b1b1b;
+
+.hidden{display:none!important}
+
+header.main-header{
+ position:sticky;
+ top:0;
+ z-index:1200;
+ background:#191919;
  padding:12px 16px;
  display:flex;
  align-items:center;
- justify-content:space-between;
- gap:10px;
  border-bottom:2px solid #ff8500
 }
+
 .logo{color:#ff8500;font-size:25px;font-weight:bold}
 .tagline{color:#bbb;font-size:12px;margin-top:4px}
-.header-actions{display:flex;align-items:center;gap:8px}
-.header-link,.cart-open{
- border:1px solid #ff8500;
- color:#ffae42;
- background:transparent;
- padding:8px 10px;
- border-radius:9px;
- text-decoration:none;
- font-size:12px
-}
-.cart-open{
- position:relative;
- color:#111;
- background:#ff8500;
- font-size:17px
-}
-#cartCount{
- position:absolute;
- top:-7px;
- left:-7px;
- background:#fff;
- color:#111;
- border-radius:50%;
- min-width:18px;
- height:18px;
- font-size:10px;
- display:grid;
- place-items:center;
- font-weight:bold
-}
-.hidden{display:none!important}
+
 .hero{
  text-align:center;
  padding:25px 12px;
  background:linear-gradient(140deg,#252525,#111)
 }
+
 .hero h1{color:#ff8500;font-size:26px}
 .hero p{color:#ccc;line-height:1.8}
+
 .search{
  width:92%;
  max-width:520px;
@@ -75,14 +56,31 @@ header{
  background:#222;
  color:white
 }
+
+.request-part-btn{
+ display:block;
+ width:92%;
+ max-width:520px;
+ margin:12px auto 0;
+ padding:12px;
+ border:1px solid #ff8500;
+ border-radius:10px;
+ background:#ff8500;
+ color:#111;
+ font-weight:bold;
+ cursor:pointer
+}
+
 .section{padding:16px}
 .section h2{color:#ffae42;font-size:19px}
+
 .filters{
  display:flex;
  gap:8px;
  flex-wrap:wrap;
  margin:12px 0
 }
+
 .filter{
  padding:8px 14px;
  border:1px solid #ff8500;
@@ -90,16 +88,19 @@ header{
  color:#ffae42;
  border-radius:20px
 }
+
 .filter.active{
  background:#ff8500;
  color:#111;
  font-weight:bold
 }
+
 .car-filters{
  display:flex;
  gap:8px;
  margin:12px 0
 }
+
 .car-filters select{
  min-width:0;
  flex:1;
@@ -109,11 +110,13 @@ header{
  background:#222;
  color:white
 }
+
 .products{
  display:grid;
  grid-template-columns:repeat(2,minmax(0,1fr));
  gap:9px
 }
+
 .product{
  min-width:0;
  background:#202020;
@@ -121,6 +124,7 @@ header{
  border-radius:11px;
  overflow:hidden
 }
+
 .product-photo{
  display:block;
  width:100%;
@@ -130,17 +134,21 @@ header{
  background:#292929;
  cursor:zoom-in
 }
+
 .product-photo img{
  width:100%;
  height:100%;
  object-fit:contain
 }
+
 .product-body{padding:8px}
+
 .product h3{
  font-size:14px;
  margin:3px 0 5px;
  overflow-wrap:anywhere
 }
+
 .product p{
  color:#aaa;
  font-size:11px;
@@ -148,40 +156,72 @@ header{
  min-height:24px;
  margin:3px 0
 }
+
 .product-meta{color:#999;font-size:10px}
+
 .condition{
  display:inline-block;
  color:#ffae42;
  font-size:10px;
  margin:4px 0
 }
+
 .product-bottom{
  display:flex;
  flex-direction:column;
  gap:7px;
  margin-top:7px
 }
+
 .price{
  color:#ff8500;
  font-size:13px;
  font-weight:bold
 }
-.order-btn{
+
+.product-actions{
+ display:flex;
+ gap:6px
+}
+
+.product-actions button{
+ flex:1;
+ min-width:0;
+ padding:8px 4px;
+ border:0;
+ border-radius:7px;
+ font-size:11px;
+ font-weight:bold
+}
+
+.details-btn{
+ background:#333;
+ color:#ffae42;
+ border:1px solid #ff8500!important
+}
+
+.order-btn,.buy-btn{
+ background:#ff8500;
+ color:#111
+}
+
+.buy-btn{
  width:100%;
  padding:8px;
  border:0;
  border-radius:7px;
- background:#ff8500;
- color:#111;
  font-size:12px;
  font-weight:bold
 }
+
 .image-count{
  display:block;
  color:#999;
  font-size:10px;
- margin-top:5px
+ margin-top:5px;
+ text-align:center
 }
+
 .empty{
  grid-column:1/-1;
  padding:25px 10px;
@@ -191,28 +231,41 @@ header{
  border-radius:12px;
  line-height:1.8
 }
-.shipping-note,.about{
+
+.about{
  margin:16px;
  padding:14px;
  background:#202020;
- border-right:3px solid #ff8500;
+ border:1px solid #ff8500;
  color:#ccc;
  line-height:1.8;
  border-radius:8px
 }
-.about{border:1px solid #ff8500}
-.about summary{
- text-align:center;
+
+.about h2{
  color:#ffae42;
- font-weight:bold;
- cursor:pointer
+ font-size:18px;
+ margin-top:0
 }
+
 .about a{
  color:#ffae42;
  text-decoration:none;
  direction:ltr;
  display:inline-block
 }
+
+.contact-button{
+ display:block;
+ text-align:center;
+ padding:11px;
+ margin-top:12px;
+ border-radius:8px;
+ background:#ff8500;
+ color:#111!important;
+ font-weight:bold
+}
+
 footer{
  padding:18px;
  text-align:center;
@@ -222,482 +275,735 @@ footer{
  font-size:12px;
  line-height:1.8
 }
-footer h3{color:#ff8500}
-</style>
-</head>
-<body>
 
-<style>
+footer h3{color:#ff8500}
+ /* النوافذ المنبثقة */
 .modal{
- position:fixed;
- inset:0;
- z-index:2000;
- background:#000c;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:12px
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(0,0,0,.82);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
 }
-.modal-box{
- width:100%;
- max-width:480px;
- max-height:90vh;
- overflow-y:auto;
- background:#1c1c1c;
- border:1px solid #ff8500;
- border-radius:14px;
- padding:15px
+.modal.show{display:flex}
+.modal-content{
+  width:100%;
+  max-width:650px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:#171717;
+  color:#fff;
+  border:1px solid #333;
+  border-radius:16px;
+  padding:20px;
+  position:relative;
 }
-.modal-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- border-bottom:1px solid #444;
- padding-bottom:8px
+.modal-close{
+  position:absolute;
+  top:10px;
+  left:12px;
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
+  background:#292929;
+  color:#fff;
+  font-size:23px;
+  cursor:pointer;
 }
-.modal-head h2{color:#ffae42}
-.close-btn{
- background:transparent;
- color:white;
- border:0;
- font-size:25px
+.modal-title{
+  color:#ff8500;
+  font-size:21px;
+  margin:0 0 18px;
 }
-.cart-row{
- display:flex;
- align-items:center;
- gap:8px;
- padding:10px 0;
- border-bottom:1px solid #383838
+.modal-content input,
+.modal-content textarea,
+.modal-content select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  background:#242424;
+  border:1px solid #444;
+  border-radius:9px;
+  color:#fff;
+  font-family:inherit;
 }
-.cart-thumb{
- width:55px;
- height:55px;
- object-fit:contain;
- background:#292929;
- border-radius:7px;
- cursor:zoom-in
+.modal-content textarea{
+  min-height:90px;
+  resize:vertical;
 }
-.cart-info{flex:1;min-width:0}
-.cart-info b{font-size:12px}
-.cart-row small{
- display:block;
- color:#aaa;
- margin-top:4px;
- font-size:10px
+.modal-content button{
+  font-family:inherit;
 }
-.qty{
- display:flex;
- align-items:center;
- gap:5px;
- flex-wrap:wrap
+.primary-btn{
+  width:100%;
+  padding:13px;
+  background:#ff8500;
+  color:#111;
+  border:0;
+  border-radius:9px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
 }
-.qty button{
- border:1px solid #ff8500;
- background:#292929;
- color:#ffae42;
- border-radius:6px;
- padding:4px 7px;
- font-size:12px
+.secondary-btn{
+  padding:11px 16px;
+  background:#292929;
+  color:#fff;
+  border:1px solid #555;
+  border-radius:9px;
+  cursor:pointer;
 }
-.qty .remove{color:#ff7777;border-color:#a44}
-.total{
- display:flex;
- justify-content:space-between;
- padding:13px 0;
- color:#ffae42;
- font-size:17px;
- font-weight:bold
+
+/* تفاصيل المنتج */
+.details-gallery{
+  position:relative;
+  width:100%;
+  margin-bottom:15px;
 }
-.customer-form input{
- display:block;
- width:100%;
- padding:12px;
- margin:8px 0;
- border:1px solid #555;
- border-radius:8px;
- background:#292929;
- color:white
+.details-gallery img{
+  width:100%;
+  max-height:330px;
+  object-fit:contain;
+  background:#101010;
+  border-radius:12px;
+  cursor:zoom-in;
 }
-#checkoutBtn{
- width:100%;
- padding:13px;
- margin-top:8px;
- border:0;
- border-radius:9px;
- background:#ff8500;
- color:#111;
- font-weight:bold
+.gallery-dots{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  padding:10px 0;
 }
-#checkoutBtn:disabled{opacity:.5}
-#checkoutMessage{
- color:#ffae42;
- font-size:12px;
- line-height:1.8;
- overflow-wrap:anywhere
+.gallery-dot{
+  width:8px;
+  height:8px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:#666;
+  cursor:pointer;
 }
-#checkoutMessage a{color:#ffae42}
-#toast{
- display:none;
- position:fixed;
- bottom:90px;
- right:50%;
- transform:translateX(50%);
- z-index:3000;
- background:#ff8500;
- color:#111;
- padding:10px 16px;
- border-radius:9px;
- font-weight:bold
+.gallery-dot.active{background:#ff8500}
+.gallery-arrow{
+  position:absolute;
+  top:45%;
+  width:34px;
+  height:34px;
+  border:0;
+  border-radius:50%;
+  background:rgba(0,0,0,.75);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
 }
-#imageModal{z-index:4000}
-.image-viewer{
- width:min(96vw,700px);
- background:#171717;
- border:1px solid #ff8500;
- border-radius:12px;
- padding:10px;
- text-align:center
+.gallery-arrow.prev{right:8px}
+.gallery-arrow.next{left:8px}
+.details-info h2{
+  color:#ff8500;
+  margin:8px 0;
 }
-.image-viewer img{
- max-width:100%;
- max-height:72vh;
- object-fit:contain
+.details-price{
+  color:#ff8500;
+  font-size:22px;
+  font-weight:bold;
+  margin:12px 0;
 }
-.image-viewer p{color:#ffae42;margin:8px}
-.image-viewer .close-btn{float:left}
-.details-content{line-height:1.8;color:#ddd}
-.details-content img{
- width:100%;
- max-height:230px;
- object-fit:contain;
- background:#292929;
- border-radius:9px;
- margin-bottom:8px
+.details-description{
+  color:#ddd;
+  line-height:1.9;
+  white-space:pre-wrap;
 }
-.details-content h3{color:#ffae42}
+.details-meta{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin:15px 0;
+}
+.details-meta div{
+  padding:10px;
+  background:#242424;
+  border-radius:8px;
+  font-size:13px;
+}
 .details-actions{
- display:flex;
- gap:8px;
- margin-top:12px
+  display:flex;
+  gap:9px;
 }
-.details-actions button{
- flex:1;
- padding:10px;
- border:0;
- border-radius:8px;
- background:#ff8500;
- color:#111;
- font-weight:bold
+.details-actions button{flex:1}
+
+/* عارض الصور */
+.image-viewer{
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  background:rgba(0,0,0,.96);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  touch-action:none;
 }
-.similar-products{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:8px;
- margin-top:10px
+.image-viewer.show{display:flex}
+.image-viewer img{
+  max-width:95%;
+  max-height:85vh;
+  object-fit:contain;
+  transform-origin:center;
+  user-select:none;
 }
-.similar-item{
- background:#292929;
- border:1px solid #444;
- border-radius:8px;
- padding:8px;
- font-size:12px
+.image-viewer .viewer-close{
+  position:absolute;
+  top:18px;
+  left:18px;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:#292929;
+  color:#fff;
+  font-size:25px;
 }
-#bankPaymentBox{
- margin:16px;
- padding:14px;
- background:#202020;
- border:1px solid #ff8500;
- border-radius:10px;
- color:#ddd;
- line-height:1.9
+.image-counter{
+  position:absolute;
+  bottom:25px;
+  color:#fff;
+  background:#222;
+  padding:7px 14px;
+  border-radius:20px;
 }
-#bankPaymentBox summary{
- color:#ffae42;
- font-weight:bold;
- cursor:pointer
+
+/* بنكك */
+.bank-box{
+  background:#171717;
+  border:1px solid #333;
+  border-radius:13px;
+  padding:17px;
+  margin:15px 0;
 }
-.bank-value{
- color:#ffae42;
- overflow-wrap:anywhere
+.bank-box h3{color:#ff8500;margin-top:0}
+.bank-account{
+  direction:ltr;
+  text-align:center;
+  font-size:23px;
+  letter-spacing:2px;
+  font-weight:bold;
+  padding:15px;
+  margin:12px 0;
+  background:#242424;
+  border-radius:9px;
+  user-select:all;
 }
-.bank-whatsapp{
- display:block;
- text-align:center;
- background:#ff8500;
- color:#111;
- text-decoration:none;
- padding:10px;
- border-radius:8px;
- margin-top:10px;
- font-weight:bold
+.bank-note{
+  color:#ccc;
+  line-height:1.8;
+  font-size:14px;
 }
+.whatsapp-payment{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#ff8500;
+  color:#111;
+  font-weight:bold;
+  border-radius:9px;
+  padding:13px;
+  margin-top:13px;
+}
+
+/* طلب قطعة غير متوفرة */
+.request-part-btn{
+  display:block;
+  width:100%;
+  margin:12px 0 18px;
+  padding:13px;
+  border:1px solid #ff8500;
+  border-radius:10px;
+  background:#191919;
+  color:#ff8500;
+  font-weight:bold;
+  cursor:pointer;
+}
+.request-part-btn:hover{
+  background:#ff8500;
+  color:#111;
+}
+.request-hint{
+  color:#bbb;
+  font-size:13px;
+  line-height:1.7;
+  margin:5px 0 12px;
+}
+
+/* السلة */
+.cart-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #333;
+}
+.cart-row img{
+  width:65px;
+  height:65px;
+  object-fit:cover;
+  border-radius:8px;
+  background:#292929;
+}
+.cart-row-info{flex:1;min-width:0}
+.cart-row-info h4{margin:0 0 6px}
+.cart-row-price{color:#ff8500;font-weight:bold}
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:8px;
+}
+.qty-controls button{
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:6px;
+  background:#ff8500;
+  color:#111;
+  font-weight:bold;
+}
+.cart-total{
+  display:flex;
+  justify-content:space-between;
+  padding:16px 0;
+  font-size:19px;
+  font-weight:bold;
+}
+.cart-total strong{color:#ff8500}
+
+/* التنقل السفلي */
 .bottom-nav{
- position:fixed;
- bottom:0;
- right:0;
- left:0;
- z-index:1500;
- display:flex;
- justify-content:space-around;
- align-items:center;
- gap:3px;
- padding:8px 5px calc(8px + env(safe-area-inset-bottom));
- background:#191919;
- border-top:1px solid #ff8500
+  position:fixed;
+  right:0;
+  left:0;
+  bottom:0;
+  z-index:900;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:#111;
+  border-top:1px solid #333;
+  padding:8px 5px calc(8px + env(safe-area-inset-bottom));
 }
 .bottom-nav button{
- position:relative;
- flex:1;
- border:0;
- background:transparent;
- color:#ccc;
- padding:7px 2px;
- font-size:11px;
- cursor:pointer
+  flex:1;
+  border:0;
+  background:transparent;
+  color:#bbb;
+  font-family:inherit;
+  font-size:12px;
+  padding:5px 2px;
+  cursor:pointer;
 }
-.bottom-nav button span{display:block;font-size:18px;margin-bottom:3px}
 .bottom-nav button.active{color:#ff8500}
-.bottom-nav .nav-count{
- position:absolute;
- top:0;
- right:calc(50% - 20px);
- min-width:16px;
- height:16px;
- padding:0 4px;
- border-radius:20px;
- background:#ff8500;
- color:#111;
- font-size:10px;
- line-height:16px
+.bottom-nav button span{
+  display:block;
+  font-size:19px;
+  margin-bottom:3px;
 }
 body.modal-open .bottom-nav{display:none}
-@media(max-width:360px){
- .products{gap:7px}
- .product-photo{height:100px}
- .product-body{padding:7px}
- .logo{font-size:21px}
- .header-link{padding:7px}
-}
-</style>
+body{padding-bottom:85px}
 
-<header>
- <div>
-  <div class="logo">🐵 MONKEY</div>
-  <div class="tagline">متجر قطع غيار السيارات</div>
- </div>
- <div class="header-actions">
-  <a class="header-link" href="#about">حول المتجر</a>
-  <button class="cart-open" id="cartOpen" type="button" aria-label="سلة المشتريات">
-   🛒
-   <span id="cartCount" class="hidden">0</span>
-  </button>
- </div>
+/* إشعارات */
+#toast{
+  position:fixed;
+  bottom:95px;
+  right:50%;
+  transform:translateX(50%);
+  z-index:1500;
+  background:#ff8500;
+  color:#111;
+  padding:11px 18px;
+  border-radius:9px;
+  font-weight:bold;
+  display:none;
+  max-width:90%;
+  text-align:center;
+}
+
+/* الشاشات الصغيرة */
+@media(max-width:600px){
+  .modal{padding:8px}
+  .modal-content{
+    max-height:92vh;
+    padding:16px;
+  }
+  .details-meta{grid-template-columns:1fr 1fr}
+  .details-actions{flex-direction:column}
+  .bottom-nav button{font-size:11px}
+  .bank-account{font-size:19px}
+}
+ </style>
+</head>
+
+<body>
+
+<!-- رأس التطبيق -->
+<header class="main-header">
+  <div class="header-content">
+    <a href="#home" class="logo">
+      <img src="./monkey-logo.png" alt="MONKEY">
+      <span>MONKEY</span>
+    </a>
+    <div class="header-tagline">قطع غيار السيارات</div>
+  </div>
 </header>
 
-<section class="hero">
- <h1>مرحباً بك في MONKEY</h1>
- <p>
-  قطع غيار السيارات الجديدة والمستعملة<br>
-  الجودة والاختيار المناسب في مكان واحد
- </p>
- <input
-  class="search"
-  id="search"
-  type="search"
-  placeholder="ابحث عن قطعة الغيار أو السيارة..."
- >
+<!-- الصفحة الرئيسية -->
+<main id="home">
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>مرحباً بك في MONKEY</h1>
+      <p>ابحث عن قطع غيار سيارتك بسهولة</p>
+
+      <div class="search-box">
+        <input
+          type="search"
+          id="search"
+          placeholder="ابحث باسم القطعة أو السيارة..."
+          autocomplete="off"
+        >
+      </div>
+
+      <button
+        type="button"
+        class="request-part-btn"
+        id="requestPartOpen"
+      >
+        <span>＋</span>
+        لم تجد القطعة التي تبحث عنها؟ اطلبها هنا
+      </button>
+    </div>
+  </section>
+
+  <!-- فلاتر المنتجات -->
+  <section class="products-section">
+    <div class="section-heading">
+      <h2>قطع الغيار المتوفرة</h2>
+      <p>اختر القطعة المناسبة لسيارتك</p>
+    </div>
+
+    <div class="filters">
+      <select id="carMakeFilter" class="filter">
+        <option value="">جميع شركات السيارات</option>
+      </select>
+
+      <select id="carModelFilter" class="filter">
+        <option value="">جميع الموديلات</option>
+      </select>
+
+      <select id="conditionFilter" class="filter">
+        <option value="">جميع الحالات</option>
+        <option value="جديد">جديد</option>
+        <option value="مستعمل">مستعمل</option>
+      </select>
+    </div>
+
+    <div id="productGrid" class="product-grid">
+      <div class="loading-message">جاري تحميل المنتجات...</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- الدفع عبر بنكك -->
+<section class="bank-section" id="bank">
+  <div class="section-heading">
+    <h2>الدفع عبر بنكك</h2>
+    <p>يمكنك الدفع عن طريق تطبيق بنكك</p>
+  </div>
+
+  <div class="bank-box" id="bankPaymentBox">
+
+    <h3 id="bankName">بنكك</h3>
+
+    <p class="bank-note">
+      اسم صاحب الحساب
+    </p>
+
+    <div id="bankAccountHolder" class="bank-account">
+      سيتم عرض البيانات عند توفرها
+    </div>
+
+    <p class="bank-note">
+      رقم الحساب
+    </p>
+
+    <div id="bankAccountNumber" class="bank-account">
+      غير متوفر حالياً
+    </div>
+
+    <button
+      type="button"
+      class="primary-btn"
+      id="copyBankAccount"
+    >
+      نسخ رقم الحساب
+    </button>
+
+    <p
+      class="bank-note"
+      id="bankPaymentInstructions"
+    >
+      يرجى التأكد من بيانات الحساب قبل التحويل.
+    </p>
+
+    <div class="bank-note">
+      بعد إتمام التحويل، يرجى إرسال صورة إشعار التحويل عبر واتساب
+      حتى نتمكن من مراجعة طلبك.
+    </div>
+
+    <a
+      class="whatsapp-payment"
+      id="bankWhatsApp"
+      href="https://wa.me/249912189332?text=السلام%20عليكم%20قمت%20بالتحويل%20عبر%20بنكك"
+      target="_blank"
+      rel="noopener"
+    >
+      إرسال إشعار التحويل عبر واتساب
+    </a>
+
+  </div>
 </section>
 
-<section class="section">
- <h2>🛒 منتجاتنا</h2>
+<!-- حول التطبيق -->
+<section class="about" id="about">
+  <div class="section-heading">
+    <h2>حول التطبيق</h2>
+    <p>MONKEY لقطع غيار السيارات</p>
+  </div>
 
- <div class="filters">
-  <button class="filter active" data-filter="all">الكل</button>
-  <button class="filter" data-filter="new">قطع جديدة</button>
-  <button class="filter" data-filter="used">مستعملة نظيفة</button>
- </div>
+  <div class="about-content">
+    <h3>إشراف وتطوير</h3>
+    <p>المهندس علي عبد المنعم أحمد إبراهيم</p>
 
- <div class="car-filters">
-  <select id="carMakeFilter">
-   <option value="all">كل الشركات</option>
-  </select>
+    <div class="contact-list">
 
-  <select id="carModelFilter">
-   <option value="all">كل الموديلات</option>
-  </select>
- </div>
+      <p>
+        <strong>واتساب السودان:</strong>
+        <span dir="ltr">+249 912 189 332</span>
+      </p>
 
- <div class="products" id="productGrid">
-  <div class="empty">جارٍ تحميل المنتجات...</div>
- </div>
+      <p>
+        <strong>جوال السعودية:</strong>
+        <span dir="ltr">+966 55 109 3268</span>
+      </p>
+
+      <p>
+        <strong>رقم إضافي:</strong>
+        <span dir="ltr">+966 53 304 0960</span>
+      </p>
+
+      <p>
+        <strong>البريد الإلكتروني:</strong>
+        <span dir="ltr">ali.abdo0912189@gmail.com</span>
+      </p>
+
+    </div>
+
+    <a
+      class="whatsapp-payment"
+      href="https://wa.me/249912189332"
+      target="_blank"
+      rel="noopener"
+    >
+      تواصل معنا عبر واتساب
+    </a>
+  </div>
 </section>
 
-<div class="shipping-note">
- 🚚 لطلب قطع الغيار والاستفسار عن التوفر والشحن،
- أضف القطع إلى السلة وأرسل طلبك عبر واتساب.
-</div>
-
-<details id="bankPaymentBox">
- <summary>💳 الدفع عبر بنكك</summary>
- <div id="bankPaymentContent">
-  <p>يمكنك الدفع عبر بنكك بعد تأكيد طلبك.</p>
-  <p>ستظهر بيانات التحويل عند توفرها من إدارة المتجر.</p>
- </div>
- <p>
-  بعد التحويل، يرجى إرسال صورة إشعار الدفع عبر واتساب
-  حتى نتمكن من مراجعة عملية الدفع.
- </p>
- <a
-  class="bank-whatsapp"
-  href="https://wa.me/249912189332?text=مرحباً%20متجر%20MONKEY،%20أرغب%20في%20إرسال%20إشعار%20التحويل"
-  target="_blank"
-  rel="noopener"
- >
-  إرسال إشعار التحويل عبر واتساب
- </a>
-</details>
-
-<details class="about" id="about">
- <summary>🐵 حول متجر MONKEY</summary>
- <p>
-  متجر MONKEY متخصص في قطع غيار السيارات الجديدة والمستعملة.
-  نسعى لتوفير القطع المناسبة وتسهيل عملية الطلب والتواصل مع العملاء.
- </p>
- <p>
-  <strong>إشراف:</strong><br>
-  مهندس علي عبد المنعم أحمد إبراهيم
- </p>
- <p>
-  📧 البريد الإلكتروني:<br>
-  <a href="mailto:ali.abdo0912189@gmail.com">
-   ali.abdo0912189@gmail.com
-  </a>
- </p>
- <p>
-  🇸🇩 واتساب السودان:<br>
-  <a href="https://wa.me/249912189332" target="_blank" rel="noopener">
-   00249912189332
-  </a>
- </p>
- <p>
-  🇸🇦 واتساب السعودية:<br>
-  <a href="https://wa.me/966551093268" target="_blank" rel="noopener">
-   00966551093268
-  </a>
- </p>
- <p>
-  📞 هاتف السعودية:<br>
-  <a href="tel:+966533040960">00966533040960</a>
- </p>
-</details>
 <footer>
- <h3>🐵 MONKEY</h3>
- <p>قطع غيار السيارات الجديدة والمستعملة</p>
- <p>جميع الحقوق محفوظة © MONKEY</p>
+  <h3>MONKEY</h3>
+  <p>قطع غيار السيارات</p>
+  <p>جميع الحقوق محفوظة</p>
 </footer>
+<!-- نافذة طلب قطعة غير متوفرة -->
+<div class="modal" id="requestPartModal">
+  <div class="modal-content">
+    <button type="button" class="modal-close" id="requestPartClose">×</button>
+
+    <h2 class="modal-title">طلب قطعة غير متوفرة</h2>
+
+    <p class="request-hint">
+      اكتب بيانات سيارتك والقطعة المطلوبة وسنتواصل معك.
+    </p>
+
+    <form id="requestPartForm">
+
+      <label for="requestCarMake">شركة السيارة</label>
+      <input
+        type="text"
+        id="requestCarMake"
+        placeholder="مثال: Toyota"
+        required
+      >
+
+      <label for="requestCarModel">موديل السيارة</label>
+      <input
+        type="text"
+        id="requestCarModel"
+        placeholder="مثال: Corolla"
+        required
+      >
+
+      <label for="requestModelYear">سنة الصنع</label>
+      <input
+        type="number"
+        id="requestModelYear"
+        placeholder="مثال: 2015"
+        min="1950"
+        max="2035"
+        required
+      >
+
+      <label for="requestPartName">اسم القطعة المطلوبة</label>
+      <textarea
+        id="requestPartName"
+        placeholder="اكتب اسم القطعة أو وصفها..."
+        required
+      ></textarea>
+
+      <label for="requestCustomerName">اسمك (اختياري)</label>
+      <input
+        type="text"
+        id="requestCustomerName"
+        placeholder="الاسم"
+      >
+
+      <label for="requestCustomerPhone">رقم الهاتف (اختياري)</label>
+      <input
+        type="tel"
+        id="requestCustomerPhone"
+        placeholder="رقم التواصل"
+      >
+
+      <p class="request-hint">
+        إذا كانت لديك صورة للقطعة، أرسلها بنفسك داخل محادثة واتساب بعد فتحها.
+      </p>
+
+      <button type="submit" class="primary-btn">
+        إرسال الطلب عبر واتساب
+      </button>
+
+    </form>
+  </div>
+</div>
 
 <!-- نافذة تفاصيل المنتج -->
-<div class="modal hidden" id="detailsModal">
- <div class="modal-box">
-  <div class="modal-head">
-   <h2>تفاصيل المنتج</h2>
-   <button class="close-btn" id="detailsClose" type="button">×</button>
+<div class="modal" id="detailsModal">
+  <div class="modal-content">
+    <button type="button" class="modal-close" id="detailsClose">×</button>
+
+    <div id="detailsContent"></div>
   </div>
-  <div id="detailsContent" class="details-content"></div>
- </div>
 </div>
 
-<!-- نافذة سلة المشتريات -->
-<div class="modal hidden" id="cartModal">
- <div class="modal-box">
-  <div class="modal-head">
-   <h2>🛒 سلة المشتريات</h2>
-   <button class="close-btn" id="cartClose" type="button">×</button>
+<!-- نافذة السلة -->
+<div class="modal" id="cartModal">
+  <div class="modal-content">
+    <button type="button" class="modal-close" id="cartClose">×</button>
+
+    <h2 class="modal-title">سلة المشتريات</h2>
+
+    <div id="cartItems">
+      <p>السلة فارغة حالياً</p>
+    </div>
+
+    <div class="cart-total">
+      <span>الإجمالي</span>
+      <strong id="cartTotal">0 جنيه</strong>
+    </div>
+
+    <h3 class="modal-title">بيانات التوصيل</h3>
+
+    <input
+      type="text"
+      id="customerName"
+      placeholder="الاسم الكامل"
+      required
+    >
+
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="رقم الهاتف"
+      required
+    >
+
+    <textarea
+      id="customerAddress"
+      placeholder="عنوان التوصيل بالتفصيل"
+      required
+    ></textarea>
+
+    <textarea
+      id="orderNotes"
+      placeholder="ملاحظات إضافية (اختياري)"
+    ></textarea>
+
+    <button type="button" class="primary-btn" id="checkoutBtn">
+      تأكيد الطلب عبر واتساب
+    </button>
   </div>
-
-  <div id="cartItems"></div>
-
-  <div class="total">
-   <span>الإجمالي</span>
-   <span id="cartTotal">0 ج.س</span>
-  </div>
-
-  <h3 style="color:#ffae42">بيانات العميل</h3>
-
-  <div class="customer-form">
-   <input
-    id="customerName"
-    type="text"
-    placeholder="الاسم الكامل"
-    autocomplete="name"
-   >
-
-   <input
-    id="customerPhone"
-    type="tel"
-    placeholder="رقم الجوال"
-    autocomplete="tel"
-   >
-
-   <input
-    id="customerAddress"
-    type="text"
-    placeholder="العنوان أو المدينة"
-    autocomplete="street-address"
-   >
-  </div>
-
-  <button id="checkoutBtn" type="button">
-   تأكيد الطلب عبر واتساب
-  </button>
-
-  <p id="checkoutMessage"></p>
- </div>
 </div>
 
-<!-- نافذة عرض الصور -->
-<div class="modal hidden" id="imageModal">
- <div class="image-viewer">
-  <button
-   class="close-btn"
-   id="imageModalClose"
-   type="button"
-   aria-label="إغلاق"
-  >×</button>
+<!-- عارض الصور المكبرة -->
+<div class="image-viewer" id="imageModal">
+  <button type="button" class="viewer-close" id="imageModalClose">×</button>
 
-  <img id="largeProductImage" src="" alt="صورة المنتج">
-  <p id="imageModalCaption"></p>
- </div>
+  <button type="button" class="gallery-arrow prev" id="imagePrev">‹</button>
+
+  <img id="imageModalImg" src="" alt="صورة المنتج">
+
+  <button type="button" class="gallery-arrow next" id="imageNext">›</button>
+
+  <div class="image-counter" id="imageCounter"></div>
 </div>
 
-<!-- إشعار صغير -->
-<div id="toast" role="status" aria-live="polite"></div>
+<!-- رسالة التنبيه -->
+<div id="toast"></div>
 
 <!-- شريط التنقل السفلي -->
 <nav class="bottom-nav" id="bottomNav">
- <button type="button" data-nav="home" class="active">
-  <span>⌂</span>
-  الرئيسية
- </button>
 
- <button type="button" data-nav="cart">
-  <span>🛒</span>
-  السلة
-  <b id="bottomCartCount" class="nav-count hidden">0</b>
- </button>
+  <button type="button" class="active" data-nav="home">
+    <span>⌂</span>
+    الرئيسية
+  </button>
 
- <button type="button" data-nav="bank">
-  <span>💳</span>
-  بنكك
- </button>
+  <button type="button" data-nav="cart">
+    <span>🛒</span>
+    السلة
+    <small id="cartBadge"></small>
+  </button>
 
- <button type="button" data-nav="contact">
-  <span>☏</span>
-  تواصل معنا
- </button>
+  <button type="button" data-nav="bank">
+    <span>▣</span>
+    بنكك
+  </button>
+
+  <button type="button" data-nav="contact">
+    <span>ⓘ</span>
+    حول التطبيق
+  </button>
+
 </nav>
 
+<!-- مكتبة Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./app.js?v=20261113-8"></script>
+
+<!-- ملف تشغيل التطبيق -->
+<script src="./app.js?v=20261114-1"></script>
+
 </body>
 </html>
