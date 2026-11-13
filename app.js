@@ -63,7 +63,7 @@ function imageList(p) {
 }
 
 function imageOf(p) {
-  return imageList(p)[0] || "./monkey-icon.png";
+  return imageList(p)[0] || "./monkey-logo.png";
 }
 
 function makeOrderId() {
@@ -75,6 +75,25 @@ function makeOrderId() {
     const r = Math.random() * 16 | 0;
     return (c === "x" ? r : (r & 3 | 8)).toString(16);
   });
+}
+
+// ==========================================
+// إدارة ظهور الشريط عند فتح النوافذ
+// ==========================================
+
+function syncModalBodyClass() {
+  const modalIds = [
+    "cartModal",
+    "imageModal",
+    "detailsModal"
+  ];
+
+  const isOpen = modalIds.some(id => {
+    const modal = $(id);
+    return modal && !modal.classList.contains("hidden");
+  });
+
+  document.body.classList.toggle("modal-open", isOpen);
 }
 
 // ==========================================
@@ -266,7 +285,7 @@ function openGallery(images, name, startIndex = 0) {
   galleryImages = (images || []).filter(Boolean);
 
   if (!galleryImages.length) {
-    galleryImages = ["./monkey-icon.png"];
+    galleryImages = ["./monkey-logo.png"];
   }
 
   galleryName = name || "صورة المنتج";
@@ -279,6 +298,7 @@ function openGallery(images, name, startIndex = 0) {
   showGalleryImage();
 
   $("imageModal").classList.remove("hidden");
+  syncModalBodyClass();
 }
 
 function openImage(src, name) {
@@ -287,6 +307,7 @@ function openImage(src, name) {
 
 function closeImage() {
   $("imageModal")?.classList.add("hidden");
+  syncModalBodyClass();
 }
 
 function previousImage() {
@@ -305,6 +326,147 @@ function nextImage() {
     (galleryIndex + 1) % galleryImages.length;
 
   showGalleryImage();
+}
+
+// ==========================================
+// تفاصيل المنتج والمنتجات المشابهة
+// ==========================================
+
+function openProductDetails(id) {
+  const p = products.find(x => String(x.id) === String(id));
+
+  if (!p) return;
+
+  const imgs = imageList(p);
+  const firstImage = imageOf(p);
+
+  const related = products
+    .filter(x =>
+      String(x.id) !== String(p.id) &&
+      (
+        (p.car_make && x.car_make === p.car_make) ||
+        (p.car_model && x.car_model === p.car_model)
+      )
+    )
+    .slice(0, 4);
+
+  const modal = $("detailsModal");
+  const content = $("detailsContent");
+
+  if (!modal || !content) {
+    toast("نافذة تفاصيل المنتج غير موجودة في الصفحة");
+    return;
+  }
+
+  content.innerHTML = `
+    <img
+      class="details-main-image"
+      id="detailsMainImage"
+      src="${safe(firstImage)}"
+      alt="${safe(p.name)}"
+      onerror="this.onerror=null;this.src='./monkey-logo.png'"
+    >
+
+    ${imgs.length > 1
+      ? `<p class="image-count">اضغط الصورة لمشاهدة جميع الصور (${imgs.length})</p>`
+      : ""
+    }
+
+    <h3 class="details-title" id="detailsName">
+      ${safe(p.name)}
+    </h3>
+
+    <div class="details-price">
+      ${money(p.price_sdg)}
+    </div>
+
+    <p class="details-description">
+      ${safe(p.description || "لا يوجد وصف إضافي لهذا المنتج حالياً.")}
+    </p>
+
+    <div class="details-meta">
+      <div>الشركة: ${safe(p.car_make || "غير محدد")}</div>
+      <div>الموديل: ${safe(p.car_model || "غير محدد")}</div>
+      <div>سنوات الصنع: ${safe(p.model_years || "غير محددة")}</div>
+      <div>الحالة: ${p.condition === "used" ? "مستعمل نظيف" : "جديد"}</div>
+      <div>التوفر: ${p.available ? "متوفر" : "غير متوفر"}</div>
+    </div>
+
+    <div class="details-actions">
+      <button
+        class="details-btn"
+        type="button"
+        id="detailsAddBtn"
+      >
+        أضف للسلة
+      </button>
+
+      <button
+        class="buy-btn"
+        type="button"
+        id="detailsBuyBtn"
+      >
+        شراء
+      </button>
+    </div>
+
+    ${
+      related.length
+        ? `
+          <h3 class="similar-title">
+            منتجات أخرى قد تعجبك
+          </h3>
+
+          <div class="similar-grid">
+            ${related.map(x => `
+              <button
+                class="similar-card"
+                type="button"
+                data-related="${safe(x.id)}"
+              >
+                <img
+                  src="${safe(imageOf(x))}"
+                  alt="${safe(x.name)}"
+                  loading="lazy"
+                  onerror="this.onerror=null;this.src='./monkey-logo.png'"
+                >
+
+                <b>${safe(x.name)}</b>
+                <span>${money(x.price_sdg)}</span>
+              </button>
+            `).join("")}
+          </div>
+        `
+        : ""
+    }
+  `;
+
+  $("detailsMainImage").onclick = () => {
+    openGallery(imgs.length ? imgs : [firstImage], p.name);
+  };
+
+  $("detailsAddBtn").onclick = () => {
+    addToCart(p.id);
+  };
+
+  $("detailsBuyBtn").onclick = () => {
+    addToCart(p.id);
+    modal.classList.add("hidden");
+    syncModalBodyClass();
+    openCart();
+  };
+
+  document.querySelectorAll("[data-related]").forEach(btn => {
+    btn.onclick = () => openProductDetails(btn.dataset.related);
+  });
+
+  modal.classList.remove("hidden");
+  syncModalBodyClass();
+}
+
+function closeProductDetails() {
+  $("detailsModal")?.classList.add("hidden");
+  syncModalBodyClass();
 }
 
 // ==========================================
@@ -332,7 +494,7 @@ function render() {
                 src="${safe(firstImage)}"
                 alt="${safe(p.name)}"
                 loading="lazy"
-                onerror="this.onerror=null;this.src='./monkey-icon.png'"
+                onerror="this.onerror=null;this.src='./monkey-logo.png'"
               >
             </button>
 
@@ -353,15 +515,39 @@ function render() {
               </span>
 
               <div class="product-bottom">
-                <span class="price">${money(p.price_sdg)}</span>
+
+                <span class="price">
+                  ${money(p.price_sdg)}
+                </span>
+
+                <div class="product-actions">
+
+                  <button
+                    class="details-btn"
+                    type="button"
+                    data-details="${safe(p.id)}"
+                  >
+                    التفاصيل
+                  </button>
+
+                  <button
+                    class="order-btn"
+                    type="button"
+                    data-add="${safe(p.id)}"
+                  >
+                    أضف للسلة
+                  </button>
+
+                </div>
 
                 <button
-                  class="order-btn"
+                  class="buy-btn"
                   type="button"
-                  data-add="${safe(p.id)}"
+                  data-buy="${safe(p.id)}"
                 >
-                  أضف للسلة
+                  شراء
                 </button>
+
               </div>
 
               ${
@@ -380,9 +566,20 @@ function render() {
     b.onclick = () => addToCart(b.dataset.add);
   });
 
+  document.querySelectorAll("[data-buy]").forEach(b => {
+    b.onclick = () => {
+      addToCart(b.dataset.buy);
+      openCart();
+    };
+  });
+
+  document.querySelectorAll("[data-details]").forEach(b => {
+    b.onclick = () => openProductDetails(b.dataset.details);
+  });
+
   document.querySelectorAll("[data-gallery]").forEach(b => {
     b.onclick = () => {
-      const p = products.find(x => x.id === b.dataset.gallery);
+      const p = products.find(x => String(x.id) === b.dataset.gallery);
       if (p) openGallery(imageList(p), p.name);
     };
   });
@@ -427,7 +624,7 @@ async function loadProducts() {
 // ==========================================
 
 function addToCart(id) {
-  const p = products.find(x => x.id === id);
+  const p = products.find(x => String(x.id) === String(id));
 
   if (!p) return;
 
@@ -440,14 +637,25 @@ function addToCart(id) {
 function updateCartBadge() {
   const n = [...cart.values()].reduce((a, b) => a + b, 0);
 
-  $("cartCount").textContent = n;
-  $("cartCount").classList.toggle("hidden", n === 0);
+  const headerCount = $("cartCount");
+
+  if (headerCount) {
+    headerCount.textContent = n;
+    headerCount.classList.toggle("hidden", n === 0);
+  }
+
+  const bottomCount = $("bottomCartCount");
+
+  if (bottomCount) {
+    bottomCount.textContent = n;
+    bottomCount.classList.toggle("hidden", n === 0);
+  }
 }
 
 function getCartRows() {
   return [...cart.entries()]
     .map(([id, quantity]) => ({
-      product: products.find(p => p.id === id),
+      product: products.find(p => String(p.id) === String(id)),
       quantity
     }))
     .filter(x => x.product);
@@ -473,7 +681,7 @@ function renderCart() {
             src="${safe(imageOf(product))}"
             alt="${safe(product.name)}"
             data-cart-image="${safe(product.id)}"
-            onerror="this.onerror=null;this.src='./monkey-icon.png'"
+            onerror="this.onerror=null;this.src='./monkey-logo.png'"
           >
 
           <div class="cart-info">
@@ -512,7 +720,7 @@ function renderCart() {
 
   document.querySelectorAll("[data-cart-image]").forEach(b => {
     b.onclick = () => {
-      const p = products.find(x => x.id === b.dataset.cartImage);
+      const p = products.find(x => String(x.id) === b.dataset.cartImage);
 
       if (p) openGallery(imageList(p), p.name);
     };
@@ -538,10 +746,12 @@ function changeQty(id, d) {
 function openCart() {
   renderCart();
   $("cartModal").classList.remove("hidden");
+  syncModalBodyClass();
 }
 
 function closeCart() {
   $("cartModal").classList.add("hidden");
+  syncModalBodyClass();
 }
 
 function showCheckoutMessage(message) {
@@ -585,7 +795,6 @@ async function checkout() {
   const total = calculateTotal(rows);
   const orderId = makeOrderId();
 
-  // فتح نافذة واتساب قبل الانتظار حتى لا يمنعها المتصفح
   const whatsappWindow = window.open("about:blank", "_blank");
 
   checkoutRunning = true;
@@ -693,6 +902,53 @@ async function checkout() {
 }
 
 // ==========================================
+// شريط التنقل السفلي
+// ==========================================
+
+function setupBottomNavigation() {
+  document.querySelectorAll("[data-nav]").forEach(button => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.nav;
+
+      if (target === "home") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+
+      if (target === "cart") {
+        openCart();
+      }
+
+      if (target === "bank") {
+        const bank = $("bankPaymentBox");
+
+        if (!bank || bank.classList.contains("hidden")) {
+          toast("خدمة بنكك غير متاحة حالياً");
+          return;
+        }
+
+        bank.open = true;
+
+        bank.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+
+      if (target === "contact") {
+        window.open(
+          "https://wa.me/" + WHATSAPP_SUDAN,
+          "_blank",
+          "noopener"
+        );
+      }
+    });
+  });
+}
+
+// ==========================================
 // ربط الأزرار والحقول
 // ==========================================
 
@@ -740,8 +996,22 @@ $("imageModal")?.addEventListener("click", e => {
   }
 });
 
+$("detailsClose")?.addEventListener(
+  "click",
+  closeProductDetails
+);
+
+$("detailsModal")?.addEventListener("click", e => {
+  if (e.target.id === "detailsModal") {
+    closeProductDetails();
+  }
+});
+
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeImage();
+  if (e.key === "Escape") {
+    closeImage();
+    closeProductDetails();
+  }
 
   if (!$("imageModal")?.classList.contains("hidden")) {
     if (e.key === "ArrowRight") previousImage();
@@ -761,6 +1031,8 @@ $("carModelFilter")?.addEventListener("change", e => {
   selectedModel = e.target.value;
   render();
 });
+
+setupBottomNavigation();
 
 // ==========================================
 // تشغيل المتجر
