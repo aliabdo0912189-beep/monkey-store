@@ -15,7 +15,17 @@ const supabase = window.supabase.createClient(
 const $ = (id) => document.getElementById(id);
 
 let products = [];
-let cart = JSON.parse(localStorage.getItem("monkey_cart") || "[]");
+let cart = [];
+
+try {
+  const savedCart = JSON.parse(localStorage.getItem("monkey_cart") || "[]");
+  cart = Array.isArray(savedCart) ? savedCart : [];
+} catch (error) {
+  console.warn("Saved cart could not be read.", error);
+  cart = [];
+}
+
+let selectedCondition = "all";
 
 let galleryImages = [];
 let galleryIndex = 0;
