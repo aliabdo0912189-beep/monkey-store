@@ -7,10 +7,9 @@ const SUPABASE_URL = "https://imuasdnaomubnlxcjvci.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_nvxMo7OEi917ycwbfBcf9w_I3NBsNDa";
 const WHATSAPP_SUDAN = "249912189332";
 
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+const supabase = window.supabase?.createClient
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  : null;
 
 const $ = (id) => document.getElementById(id);
 
