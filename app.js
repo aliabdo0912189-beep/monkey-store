@@ -1299,7 +1299,8 @@ async function loadProducts() {
   }
 
   try {
-    const { data, error } = await supabase
+   if (!supabase) throw new Error("مكتبة الاتصال بقاعدة البيانات لم تُحمّل.");
+     const { data, error } = await supabase
       .from("products")
       .select("*")
       .eq("available", true)
