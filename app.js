@@ -1,6 +1,7 @@
+
 /* =========================================
    MONKEY STORE - APP.JS
-   الجزء 1: الاتصال والإعدادات والمنتجات
+   الجزء 1: الاتصال والإعدادات والفلاتر
 ========================================= */
 
 const SUPABASE_URL = "https://imuasdnaomubnlxcjvci.supabase.co";
@@ -8,28 +9,32 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_nvxMo7OEi917ycwbfBcf9w_I3NBsNDa
 const WHATSAPP_SUDAN = "249912189332";
 
 const supabase = window.supabase?.createClient
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  ? window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    )
   : null;
 
 const $ = (id) => document.getElementById(id);
 
 let products = [];
 let cart = [];
+let selectedCondition = "all";
 
 try {
-  const savedCart = JSON.parse(localStorage.getItem("monkey_cart") || "[]");
+  const savedCart = JSON.parse(
+    localStorage.getItem("monkey_cart") || "[]"
+  );
+
   cart = Array.isArray(savedCart) ? savedCart : [];
 } catch (error) {
   console.warn("Saved cart could not be read.", error);
   cart = [];
 }
 
-let selectedCondition = "all";
-
 let galleryImages = [];
 let galleryIndex = 0;
 let galleryName = "";
-
 let currentDetailsProduct = null;
 
 /* =========================================
@@ -91,7 +96,13 @@ function makeOrderId() {
 }
 
 function saveCart() {
-  localStorage.setItem("monkey_cart", JSON.stringify(cart));
+  try {
+    localStorage.setItem("monkey_cart", JSON.stringify(cart));
+  } catch (error) {
+    console.error("Cart saving error:", error);
+    toast("تعذر حفظ السلة على الجهاز");
+  }
+
   updateCartBadge();
 }
 
@@ -105,6 +116,7 @@ function syncModalBodyClass() {
 
   const opened = modalIds.some((id) => {
     const element = $(id);
+
     return element && (
       element.classList.contains("show") ||
       getComputedStyle(element).display !== "none"
@@ -120,6 +132,10 @@ function syncModalBodyClass() {
 
 async function loadBankSettings() {
   try {
+    if (!supabase) {
+      throw new Error("مكتبة الاتصال بقاعدة البيانات لم تُحمّل.");
+    }
+
     const { data, error } = await supabase
       .from("app_settings")
       .select("*")
@@ -127,7 +143,6 @@ async function loadBankSettings() {
       .maybeSingle();
 
     if (error) throw error;
-
     if (!data) return;
 
     if ($("bankName")) {
@@ -140,7 +155,9 @@ async function loadBankSettings() {
     }
 
     if ($("bankAccountNumber")) {
-      const account = String(data.bank_account_number || "").trim();
+      const account = String(
+        data.bank_account_number || ""
+      ).trim();
 
       $("bankAccountNumber").textContent =
         account === "1890245" || !account
@@ -155,8 +172,8 @@ async function loadBankSettings() {
     }
 
     const enabled = data.bank_payment_enabled !== false;
-
     const bankBox = $("bankPaymentBox");
+
     if (bankBox) {
       bankBox.style.display = enabled ? "" : "none";
     }
@@ -237,7 +254,6 @@ function shownProducts() {
   const search = $("search")?.value?.trim().toLowerCase() || "";
   const make = $("carMakeFilter")?.value || "";
   const model = $("carModelFilter")?.value || "";
-  const condition = $("conditionFilter")?.value || "";
 
   return products.filter((p) => {
     const searchable = [
@@ -248,14 +264,24 @@ function shownProducts() {
       p.model_years
     ].join(" ").toLowerCase();
 
+    const matchesCondition =
+      selectedCondition === "all" ||
+      !selectedCondition ||
+      p.condition === selectedCondition;
+
     return (
       (!search || searchable.includes(search)) &&
       (!make || p.car_make === make) &&
       (!model || p.car_model === model) &&
-      (!condition || p.condition === condition)
+      matchesCondition
     );
   });
 }
+
+/* =========================================
+   MONKEY STORE - APP.JS
+   الجزء 2: معرض الصور والمنتجات والتفاصيل
+========================================= */
 
 /* =========================================
    معرض صور المنتجات
@@ -284,7 +310,10 @@ function showGalleryImage(index) {
 }
 
 function openGallery(images, name, index = 0) {
-  galleryImages = images?.length ? images : ["./monkey-logo.png"];
+  galleryImages = images?.length
+    ? images
+    : ["./monkey-logo.png"];
+
   galleryName = name || "صورة المنتج";
 
   const modal = $("imageModal");
@@ -309,6 +338,7 @@ function closeImage() {
   modal.style.display = "none";
 
   const image = $("imageModalImg");
+
   if (image) {
     image.src = "";
     image.style.transform = "scale(1)";
@@ -406,6 +436,7 @@ function render() {
           <button
             type="button"
             data-add="${safe(p.id)}"
+            ${p.available ? "" : "disabled"}
           >
             أضف للسلة
           </button>
@@ -413,6 +444,7 @@ function render() {
           <button
             type="button"
             data-buy="${safe(p.id)}"
+            ${p.available ? "" : "disabled"}
           >
             شراء
           </button>
@@ -422,12 +454,15 @@ function render() {
     </article>
   `).join("");
 }
+
 /* =========================================
    تفاصيل المنتج
 ========================================= */
 
 function openProductDetails(id) {
-  const product = products.find((p) => String(p.id) === String(id));
+  const product = products.find(
+    (p) => String(p.id) === String(id)
+  );
 
   if (!product) {
     toast("تعذر العثور على المنتج");
@@ -609,8 +644,15 @@ function closeDetails() {
   modal.classList.remove("show");
   modal.style.display = "none";
 
+  currentDetailsProduct = null;
+
   syncModalBodyClass();
 }
+
+/* =========================================
+   MONKEY STORE - APP.JS
+   الجزء 3: السلة والطلبات وواتساب
+========================================= */
 
 /* =========================================
    السلة
@@ -930,6 +972,7 @@ function setupCartActions() {
 
   });
 }
+
 /* =========================================
    إتمام الطلب وحفظه في قاعدة البيانات
 ========================================= */
@@ -937,6 +980,11 @@ function setupCartActions() {
 async function checkout() {
   if (!cart.length) {
     toast("السلة فارغة");
+    return;
+  }
+
+  if (!supabase) {
+    toast("تعذر الاتصال بقاعدة البيانات");
     return;
   }
 
@@ -1030,10 +1078,10 @@ async function checkout() {
     saveCart();
     renderCart();
 
-    $("customerName").value = "";
-    $("customerPhone").value = "";
-    $("customerAddress").value = "";
-    $("orderNotes").value = "";
+    if ($("customerName")) $("customerName").value = "";
+    if ($("customerPhone")) $("customerPhone").value = "";
+    if ($("customerAddress")) $("customerAddress").value = "";
+    if ($("orderNotes")) $("orderNotes").value = "";
 
     closeCart();
 
@@ -1133,6 +1181,11 @@ function setupRequestPart() {
 }
 
 /* =========================================
+   MONKEY STORE - APP.JS
+   الجزء 4: التنقل والفلاتر وتشغيل التطبيق
+========================================= */
+
+/* =========================================
    التنقل السفلي
 ========================================= */
 
@@ -1162,7 +1215,7 @@ function setupBottomNavigation() {
     }
 
     if (destination === "bank") {
-      $("bank")?.scrollIntoView({
+      $("bankPaymentBox")?.scrollIntoView({
         behavior: "smooth",
         block: "start"
       });
@@ -1199,7 +1252,11 @@ function setupModalActions() {
     checkout
   );
 
-  ["cartModal", "detailsModal", "requestPartModal"].forEach((id) => {
+  [
+    "cartModal",
+    "detailsModal",
+    "requestPartModal"
+  ].forEach((id) => {
     const modal = $(id);
 
     modal?.addEventListener("click", (event) => {
@@ -1277,10 +1334,7 @@ function setupImageZoom() {
   viewer.addEventListener("touchend", () => {
     if (!viewer.classList.contains("show")) {
       currentScale = 1;
-    }
-
-    if (image.style.transform === "scale(1)") {
-      currentScale = 1;
+      image.style.transform = "scale(1)";
     }
 
     startDistance = 0;
@@ -1299,8 +1353,11 @@ async function loadProducts() {
   }
 
   try {
-   if (!supabase) throw new Error("مكتبة الاتصال بقاعدة البيانات لم تُحمّل.");
-     const { data, error } = await supabase
+    if (!supabase) {
+      throw new Error("مكتبة الاتصال بقاعدة البيانات لم تُحمّل.");
+    }
+
+    const { data, error } = await supabase
       .from("products")
       .select("*")
       .eq("available", true)
@@ -1308,10 +1365,11 @@ async function loadProducts() {
 
     if (error) throw error;
 
-    products = data || [];
+    products = Array.isArray(data) ? data : [];
 
     makeFilters();
     render();
+    renderCart();
 
   } catch (error) {
     console.error("Products loading error:", error);
@@ -1327,7 +1385,7 @@ async function loadProducts() {
 }
 
 /* =========================================
-   تشغيل التطبيق
+   فلاتر البحث والسيارات والحالة
 ========================================= */
 
 function setupFilters() {
@@ -1339,29 +1397,82 @@ function setupFilters() {
   });
 
   $("carModelFilter")?.addEventListener("change", render);
-  $("conditionFilter")?.addEventListener("change", render);
+
+  $("conditionFilter")?.addEventListener("change", () => {
+    selectedCondition =
+      $("conditionFilter").value || "all";
+
+    render();
+  });
+
+  document.querySelectorAll(".filter[data-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const condition = button.dataset.filter || "all";
+
+      selectedCondition = condition;
+
+      document.querySelectorAll(".filter[data-filter]").forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+
+      const conditionSelect = $("conditionFilter");
+
+      if (conditionSelect) {
+        conditionSelect.value =
+          condition === "all" ? "" : condition;
+      }
+
+      render();
+    });
+  });
 }
 
+/* =========================================
+   تشغيل التطبيق بأمان
+========================================= */
+
 async function initMonkeyApp() {
-  setupFilters();
-  setupProductActions();
-  setupCartActions();
-  setupRequestPart();
-  setupBottomNavigation();
-  setupModalActions();
-  setupImageZoom();
+  const setupFunctions = [
+    setupFilters,
+    setupProductActions,
+    setupCartActions,
+    setupRequestPart,
+    setupBottomNavigation,
+    setupModalActions,
+    setupImageZoom
+  ];
 
-  updateCartBadge();
-  renderCart();
+  setupFunctions.forEach((setup) => {
+    try {
+      setup();
+    } catch (error) {
+      console.error(`Setup error (${setup.name}):`, error);
+    }
+  });
 
-  await Promise.all([
+  try {
+    updateCartBadge();
+    renderCart();
+  } catch (error) {
+    console.error("Cart initialization error:", error);
+  }
+
+  await Promise.allSettled([
     loadProducts(),
     loadBankSettings()
   ]);
 }
 
+/* =========================================
+   بدء تشغيل التطبيق
+========================================= */
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initMonkeyApp);
+  document.addEventListener(
+    "DOMContentLoaded",
+    initMonkeyApp,
+    { once: true }
+  );
 } else {
   initMonkeyApp();
 }
