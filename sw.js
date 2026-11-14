@@ -1,58 +1,91 @@
-const CACHE_NAME = "monkey-store-v8";
+
+const CACHE_NAME = "monkey-store-v9";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./app.js",
-  "./app.js?v=20261113-8",
+  "./app.js?v=20261114-2",
   "./admin.html",
   "./manifest.webmanifest",
   "./monkey-logo.png",
   "./bankak-logo.png"
 ];
 
-self.addEventListener("install", event => {
+// تثبيت النسخة الجديدة
+self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(FILES_TO_CACHE))
+      .then((cache) => cache.addAll(FILES_TO_CACHE))
       .then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener("activate", event => {
+// حذف النسخ القديمة
+self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then(keys =>
-        Promise.all(
-          keys
-            .filter(key =>
-              key.startsWith("monkey-store-") &&
-              key !== CACHE_NAME
-            )
-            .map(key => caches.delete(key))
-        )
-      )
+      .then((keys) => Promise.all(
+        keys
+          .filter((key) =>
+            key.startsWith("monkey-store-") &&
+            key !== CACHE_NAME
+          )
+          .map((key) => caches.delete(key))
+      ))
       .then(() => self.clients.claim())
   );
 });
 
-self.addEventListener("fetch", event => {
-  if (event.request.method !== "GET") return;
+// تحديث صفحات التطبيق وملف JavaScript من الشبكة أولاً
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
 
-  const url = new URL(event.request.url);
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
 
   if (url.origin !== self.location.origin) return;
 
+  const isPage = request.mode === "navigate";
+  const isAppScript = url.pathname.endsWith("/app.js");
+
+  if (isPage || isAppScript) {
+    event.respondWith(
+      fetch(new Request(request, { cache: "no-store" }))
+        .then((response) => {
+          if (response && response.ok) {
+            const copy = response.clone();
+
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, copy);
+            });
+          }
+
+          return response;
+        })
+        .catch(async () => {
+          const cache = await caches.open(CACHE_NAME);
+
+          return (
+            await cache.match(request, { ignoreSearch: true })
+          ) || await cache.match("./index.html");
+        })
+    );
+
+    return;
+  }
+
+  // الملفات الثابتة: استخدام النسخة المحفوظة أولاً
   event.respondWith(
-    caches.match(event.request).then(cached => {
+    caches.match(request).then((cached) => {
       if (cached) return cached;
 
-      return fetch(event.request).then(response => {
+      return fetch(request).then((response) => {
         if (response && response.ok) {
           const copy = response.clone();
 
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, copy);
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, copy);
           });
         }
 
