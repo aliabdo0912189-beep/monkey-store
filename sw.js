@@ -1,10 +1,10 @@
 
-const CACHE_NAME = "monkey-store-v9";
+const CACHE_NAME = "monkey-store-v10";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./app.js?v=20261114-2",
+  "./app.js?v=20261114-3",
   "./admin.html",
   "./manifest.webmanifest",
   "./monkey-logo.png",
@@ -36,7 +36,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// تحديث صفحات التطبيق وملف JavaScript من الشبكة أولاً
+// تحديث الصفحات وملف JavaScript من الشبكة أولاً
 self.addEventListener("fetch", (event) => {
   const request = event.request;
 
@@ -75,7 +75,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // الملفات الثابتة: استخدام النسخة المحفوظة أولاً
+  // الملفات الثابتة: النسخة المحفوظة أولاً
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
